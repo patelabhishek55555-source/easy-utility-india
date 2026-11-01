@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://easyutilityindia.vercel.app/sitemap-index.xml
+Sitemap: https://easy-utility-india.vercel.app/sitemap-index.xml

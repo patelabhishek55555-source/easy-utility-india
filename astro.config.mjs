@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://easyutilityindia.vercel.app',
+  site: 'https://easy-utility-india.vercel.app',
   output: 'static',
   trailingSlash: 'never',
   integrations: [

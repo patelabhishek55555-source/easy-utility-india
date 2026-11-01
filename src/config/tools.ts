@@ -14,6 +14,8 @@ export interface Tool {
   features: string[];
   specs: { label: string; value: string }[];
   instructions: { step: number; title: string; text: string }[];
+  limitations: { title: string; text: string }[];
+  realisticExample: { scenario: string; input: string; output: string; tip: string };
   faqs: { question: string; answer: string }[];
   relatedSlugs: string[];
 }
@@ -53,11 +55,21 @@ export const tools: Tool[] = [
       { step: 3, title: 'Configure Page Layout', text: 'Choose your desired paper size (A4 is standard in India), orientation, and margin spacing.' },
       { step: 4, title: 'Compile and Download', text: 'Click "Generate & Download PDF" to instantly create and save your document.' }
     ],
+    realisticExample: {
+      scenario: 'Combining Class 10th and 12th marksheets with front and back photos of an Aadhaar card for college counseling portal registration.',
+      input: '4 high-resolution smartphone JPG photos (approx 3.5 MB each).',
+      output: 'Single organized 4-page A4 PDF document (approx 2.2 MB total) ready for portal upload.',
+      tip: 'Select "Small Margin (5 mm)" and "Portrait" orientation for official academic document submissions.'
+    },
+    limitations: [
+      { title: 'Browser RAM Limits', text: 'Compiling dozens of very large raw camera photos (e.g. >20MB each) simultaneously may stress mobile browser memory. If converting 30+ pages on a mobile phone, consider resizing or compressing them first.' },
+      { title: 'Password Protection', text: 'This tool generates standard unencrypted PDFs. If your portal mandates a password-protected PDF, apply an encryption utility afterwards.' }
+    ],
     faqs: [
-      { question: 'Is it safe to convert Aadhaar or PAN card photos with this tool?', answer: 'Yes, completely safe. Unlike other websites that transfer your photos to unknown cloud servers, Easy Utility India compiles the PDF entirely inside your web browser. Your private ID cards never touch any external server.' },
-      { question: 'Can I add more photos after uploading the first batch?', answer: 'Yes! Simply click "+ Add More Photos" above the image list to include additional pages at any point before compiling.' },
-      { question: 'Is there any restriction on the number of pages?', answer: 'There is no artificial limit. You can compile dozens of images into a single PDF as long as your device has sufficient browser memory.' },
-      { question: 'Does this converter add any watermark or brand logo?', answer: 'No. All generated PDFs are 100% clean, professional, and free of any watermarks or advertising stamps.' }
+      { question: 'Is it safe to convert Aadhaar or PAN card photos with this tool?', answer: 'Yes. Unlike cloud converters that upload your scans to external servers, Easy Utility India processes and compiles the PDF entirely inside your web browser. Your private ID cards never leave your phone or computer.' },
+      { question: 'Can I add more photos after uploading the first batch?', answer: 'Yes. Click the "+ Add More Photos" button above the image list to include additional pages before compiling the final PDF.' },
+      { question: 'Is there a limit on how many images I can convert?', answer: 'There is no artificial software limit. However, your device browser memory determines how many raw high-resolution images can be processed at once.' },
+      { question: 'Does this converter add any watermark or brand logo?', answer: 'No. All generated PDFs are clean, professional, and free of any branding, stamps, or watermarks.' }
     ],
     relatedSlugs: ['merge-pdf', 'split-pdf', 'image-compressor', 'image-resizer']
   },
@@ -78,7 +90,7 @@ export const tools: Tool[] = [
     seoDescription: 'Combine multiple PDF files into one clean document online for free. Fast, secure, browser-side PDF merging for marksheets, resumes, and official applications.',
     specs: [
       { label: 'Supported Files', value: 'Standard PDF documents' },
-      { label: 'Processing Speed', value: 'Under 2 seconds for multi-page files' },
+      { label: 'Processing Speed', value: 'Typically 1-3 seconds (depends on device & file size)' },
       { label: 'Reordering', value: 'Interactive Up/Down sequence buttons' },
       { label: 'Privacy Standard', value: 'Browser Sandbox (Zero cloud storage)' },
     ],
@@ -86,19 +98,29 @@ export const tools: Tool[] = [
       'Merge multiple PDF files into one clean, continuous document',
       'Real-time page count inspection for each uploaded file',
       'Simple Up/Down controls to arrange documents in the exact desired order',
-      'Fast client-side assembly using pdf-lib with zero data exposure',
-      'Retains 100% original document visual resolution, vectors, and embedded fonts'
+      'Client-side assembly using pdf-lib in browser memory',
+      'Preserves original PDF vectors, embedded fonts, and page streams without server re-encoding'
     ],
     instructions: [
       { step: 1, title: 'Upload PDF Files', text: 'Select two or more PDF files from your phone or computer, or drag them into the upload box.' },
       { step: 2, title: 'Verify Sequence and Pages', text: 'Inspect total page counts and use the arrows to position files in the correct sequence.' },
       { step: 3, title: 'Merge Document', text: 'Click "Merge & Download PDF" to assemble the combined file and trigger an instant download.' }
     ],
+    realisticExample: {
+      scenario: 'Consolidating semester-by-semester university grade sheets and an internship completion certificate into a single consolidated PDF for a corporate job application.',
+      input: '5 separate single-page PDF marksheets + 1 certificate PDF.',
+      output: 'One unified 6-page PDF document preserving all original vector text and signatures.',
+      tip: 'Verify the page order in the list before clicking merge so that semester marksheets appear in chronological order.'
+    },
+    limitations: [
+      { title: 'Encrypted PDFs', text: 'Password-protected or encrypted PDF files cannot be merged directly. You must unlock them using your PDF reader before assembling them here.' },
+      { title: 'Interactive Form Fields', text: 'If merging complex dynamic XFA forms (such as certain government e-forms), fillable field interactivity may be flattened into static printable pages.' }
+    ],
     faqs: [
-      { question: 'Are my confidential documents uploaded to the internet?', answer: 'No. Easy Utility India processes all PDF operations directly in your browser memory. Your files are never transmitted across the network.' },
-      { question: 'Can I merge password-protected PDF files?', answer: 'For security reasons, password-protected PDFs must be unlocked prior to merging, as encrypted streams cannot be assembled without the user password.' },
-      { question: 'Does merging compress or reduce text clarity?', answer: 'No. All text vectors, vector shapes, signatures, and scanned images retain their exact original quality without compression artifacts.' },
-      { question: 'Can I merge marksheets for college counseling portals?', answer: 'Yes! This is the most common use case. You can combine 10th, 12th, graduation marksheets, and transfer certificates into a single organized PDF.' }
+      { question: 'Are my confidential documents uploaded to the internet?', answer: 'No. All PDF merging operations execute directly in your web browser memory using JavaScript. Your files are never transmitted to any external server.' },
+      { question: 'Can I merge password-protected PDF files?', answer: 'No. Encrypted PDFs must be unlocked before merging, as encrypted data streams cannot be parsed without the secret key.' },
+      { question: 'Does merging compress or reduce text clarity?', answer: 'No. The underlying page streams, vector text, shapes, and scanned images are copied directly without rasterization, preserving original visual clarity.' },
+      { question: 'Can I merge marksheets for college counseling portals?', answer: 'Yes. Combining 10th, 12th, graduation marksheets, and transfer certificates into a single organized PDF is the most common use case.' }
     ],
     relatedSlugs: ['split-pdf', 'image-to-pdf', 'pdf-preview']
   },
@@ -135,9 +157,19 @@ export const tools: Tool[] = [
       { step: 2, title: 'Specify Page Numbers', text: 'Type your required page numbers or ranges separated by commas (e.g., 1-2, 5).' },
       { step: 3, title: 'Extract and Save', text: 'Click "Extract & Download PDF" to generate and save your new tailored PDF.' }
     ],
+    realisticExample: {
+      scenario: 'Extracting only the candidate admit card (page 1) from an 8-page government examination notification booklet.',
+      input: '8-page combined recruitment PDF (contains guidelines, exam schedule, syllabus, and admit card on page 1).',
+      output: 'A clean 1-page standalone admit card PDF ready to print or carry to the exam center.',
+      tip: 'Click the "Page 1 Only" preset button to instantly isolate the first page with zero typing.'
+    },
+    limitations: [
+      { title: 'Password Protection', text: 'Encrypted or password-locked PDF files must be decrypted prior to splitting.' },
+      { title: 'Portfolio / Embedded Attachments', text: 'If a PDF contains embedded file attachments or audio/video portfolios, only standard visual pages are extracted into the output PDF.' }
+    ],
     faqs: [
       { question: 'How do I specify multiple separate page ranges?', answer: 'Use commas between ranges or single page numbers. For example, typing "1-3, 5, 8" will extract pages 1, 2, 3, 5, and 8 into your newly created PDF.' },
-      { question: 'What happens if I enter a page number that does not exist?', answer: 'Our tool validates your inputs in real time. Any page numbers higher than the document’s total page count will be highlighted in an advisory alert and safely omitted.' },
+      { question: 'What happens if I enter a page number that does not exist?', answer: 'The tool validates your input in real time. Numbers exceeding the total document pages are flagged in an advisory warning and safely excluded.' },
       { question: 'Is there any cost or limit on how many times I can split PDFs?', answer: 'No. Easy Utility India is completely free with no usage limits, no email registration, and no subscriptions.' }
     ],
     relatedSlugs: ['merge-pdf', 'pdf-preview', 'image-to-pdf']
@@ -158,7 +190,7 @@ export const tools: Tool[] = [
     seoTitle: 'PDF Preview & Viewer Online Free | Easy Utility India',
     seoDescription: 'Preview and inspect PDF documents directly in your browser with zoom, page jump, and Fit-Width mode. 100% private client rendering with PDF.js.',
     specs: [
-      { label: 'Rendering Engine', value: 'PDF.js HTML5 Canvas' },
+      { label: 'Rendering Engine', value: 'PDF.js HTML5 Canvas (Local Worker)' },
       { label: 'Zoom Range', value: '40% to 300% + Fit Width' },
       { label: 'Navigation', value: 'Prev/Next, Direct Page Jump' },
       { label: 'Privacy', value: 'Local memory reading only' },
@@ -174,6 +206,16 @@ export const tools: Tool[] = [
       { step: 1, title: 'Select PDF', text: 'Choose or drag-and-drop any PDF file from your phone or PC.' },
       { step: 2, title: 'Read and Flip Pages', text: 'Use the arrow buttons or enter a page number to jump directly to any section.' },
       { step: 3, title: 'Adjust Zoom Level', text: 'Click "+" or "-" to zoom, or tap "Fit Width" for optimal reading on smartphones.' }
+    ],
+    realisticExample: {
+      scenario: 'Inspecting exam roll number, test center address, and reporting time on an official admit card PDF on a mobile phone before traveling.',
+      input: 'NTA/UPSC Admit Card PDF downloaded from candidate portal.',
+      output: 'High-contrast mobile-friendly canvas display with 1-click Fit-Width zoom.',
+      tip: 'Tap "Fit Width" on smaller smartphone screens to eliminate horizontal scrolling.'
+    },
+    limitations: [
+      { title: 'Specialized CMYK Profiles', text: 'PDF.js renders colors into the sRGB color space. High-end commercial print documents with specialized CMYK spot colors may exhibit subtle shade differences.' },
+      { title: '3D & Multimedia Annotations', text: 'Interactive 3D models or embedded video streams inside PDFs are not supported by standard browser canvas viewers.' }
     ],
     faqs: [
       { question: 'Do I need Adobe Acrobat or third-party viewer software?', answer: 'No. This viewer executes directly inside modern web browsers using Mozilla’s PDF.js rendering engine.' },
@@ -215,10 +257,20 @@ export const tools: Tool[] = [
       { step: 2, title: 'Choose Dimensions or Preset', text: 'Enter your desired width/height or click one of our official exam presets.' },
       { step: 3, title: 'Inspect Preview and Download', text: 'Review the live canvas preview and estimated file size, then click "Download Resized Image".' }
     ],
+    realisticExample: {
+      scenario: 'Resizing a smartphone vertical portrait photo to the exact 350 × 450 pixel format required by UPSC Civil Services and SSC CGL registration forms.',
+      input: 'Smartphone camera photo (3024 × 4032 pixels, 4.2 MB).',
+      output: 'Properly scaled 350 × 450 pixel JPG image ready for immediate portal upload.',
+      tip: 'Click the "UPSC / SSC Photo" preset button for instant one-click dimension calibration.'
+    },
+    limitations: [
+      { title: 'Extreme Upscaling', text: 'Upscaling very small images (e.g. 100px up to 3000px) will produce softer or pixelated results, as canvas resampling cannot artificially invent high-frequency optical details.' },
+      { title: 'Arbitrary Aspect Ratios', text: 'If a portal mandates dimensions with an unnatural aspect ratio (e.g. square 200×200 for a rectangular portrait), disabling "Lock Aspect Ratio" will cause slight visual stretching.' }
+    ],
     faqs: [
       { question: 'What is the standard Indian passport photo size in pixels?', answer: 'An Indian passport photo measures 3.5 cm × 4.5 cm. At standard 300 DPI print resolution, this corresponds to approximately 413 × 531 pixels.' },
-      { question: 'Will resizing change the aspect ratio or stretch my face?', answer: 'By default, "Lock Aspect Ratio" is checked to guarantee proportions remain natural. You can uncheck it if an application portal mandates strict arbitrary dimensions.' },
-      { question: 'Are my photos uploaded to any cloud storage?', answer: 'Never. The resizing is performed purely by your web browser’s Canvas hardware acceleration.' }
+      { question: 'Will resizing change the aspect ratio or stretch my face?', answer: 'By default, "Lock Aspect Ratio" is enabled to keep facial features proportional. You can uncheck it if an application portal mandates strict arbitrary dimensions.' },
+      { question: 'Are my photos uploaded to any cloud storage?', answer: 'No. Resizing executes purely via your web browser’s Canvas hardware acceleration. No image data is sent to external servers.' }
     ],
     relatedSlugs: ['image-compressor', 'jpg-to-png', 'image-to-pdf']
   },
@@ -256,9 +308,19 @@ export const tools: Tool[] = [
       { step: 2, title: 'Set Target KB', text: 'Type your portal’s maximum allowed KB (e.g., 50 for SSC photo, 20 for signature) or click a quick preset.' },
       { step: 3, title: 'Compress and Verify', text: 'Click "Compress to Target KB". Inspect the output KB and visual clarity, then click "Download Compressed Image".' }
     ],
+    realisticExample: {
+      scenario: 'Compressing a scanned signature image from 1.8 MB down to strictly under 20 KB for the Staff Selection Commission (SSC) portal.',
+      input: 'High-resolution smartphone crop of handwritten signature (1840 KB).',
+      output: 'Clean, legible JPEG signature file at 18.2 KB (comfortably below the 20 KB cutoff).',
+      tip: 'Crop closely around the signature before compressing so the algorithm doesn’t waste data on blank white paper.'
+    },
+    limitations: [
+      { title: 'Extreme Compression Bounds', text: 'Attempting to compress a complex full-color scenery photo into 5 KB will require drastic dimension scaling and quality reduction, which may cause visible pixelation.' },
+      { title: 'Format Nature', text: 'Target KB compression outputs in JPEG format because PNG’s lossless encoding cannot guarantee arbitrary file size caps without quality degradation.' }
+    ],
     faqs: [
-      { question: 'Why do Indian government portals reject photo uploads?', answer: 'Recruitment portals (like UPSC, SSC, NTA) enforce strict server storage caps. If a photograph is even 51 KB when the limit is 50 KB, the portal will reject it. Our tool guarantees the file size remains strictly under your target.' },
-      { question: 'What happens if my photo is 5MB and I need 20KB?', answer: 'Our intelligent engine scales down pixel dimensions alongside compression quality so that the photo remains crisp and recognizable rather than a blurry block of artifacts.' },
+      { question: 'Why do Indian government portals reject photo uploads?', answer: 'Recruitment portals (like UPSC, SSC, NTA) enforce strict server storage caps. If a photograph is even 51 KB when the limit is 50 KB, the portal will reject it. Our tool targets the exact threshold required.' },
+      { question: 'What happens if my photo is 5MB and I need 20KB?', answer: 'Our algorithm scales down pixel dimensions alongside compression quality so that the photo remains crisp and recognizable rather than a blurry block of artifacts.' },
       { question: 'Can I compress my signature to 20 KB?', answer: 'Yes! Simply select the "20 KB (Signature)" preset button and our compressor will optimize your scanned signature immediately.' }
     ],
     relatedSlugs: ['image-resizer', 'jpg-to-png', 'image-to-pdf']
@@ -296,9 +358,19 @@ export const tools: Tool[] = [
       { step: 2, title: 'Select Desired Format', text: 'Choose PNG, JPG, or WebP. If converting PNG to JPG, select your preferred background fill.' },
       { step: 3, title: 'Convert and Save', text: 'Click "Convert & Download" to save your newly formatted image.' }
     ],
+    realisticExample: {
+      scenario: 'Converting a transparent PNG college logo or digital seal into a clean white-background JPG required by an online recruitment form.',
+      input: 'Transparent PNG image (800 × 800 px).',
+      output: 'Solid white background JPEG image accepted by older recruitment portal upload engines.',
+      tip: 'Leave the background fill selector set to "White Background" for government document compatibility.'
+    },
+    limitations: [
+      { title: 'No Detail Recovery', text: 'Converting a heavily compressed, blurry JPG into PNG preserves the exact current quality without further loss, but cannot restore details lost in earlier compression.' },
+      { title: 'File Size Differences', text: 'PNG uses lossless compression; saving photographic images as PNG will often produce significantly larger file sizes than equivalent JPEGs.' }
+    ],
     faqs: [
       { question: 'Why should I convert a JPG to PNG?', answer: 'PNG uses lossless compression, making it better for diagrams, signatures, text screenshots, and logos where JPEG compression artifacts would cause blurriness.' },
-      { question: 'What happens to transparency when converting PNG to JPG?', answer: 'Since JPEG does not support alpha transparency, transparent areas will be filled with a solid background color (white by default, which is required for official documents).' }
+      { question: 'What happens to transparency when converting PNG to JPG?', answer: 'Since JPEG does not support alpha transparency, transparent areas are filled with a solid background color (white by default, which is required for official documents).' }
     ],
     relatedSlugs: ['image-compressor', 'image-resizer', 'image-to-pdf']
   },
@@ -335,10 +407,20 @@ export const tools: Tool[] = [
       { step: 2, title: 'Choose Reference Cutoff Date', text: 'Leave as "Today" or choose an exam notification cutoff date (e.g. 1st August).' },
       { step: 3, title: 'View Exact Breakdown', text: 'Instantly view your age in years, months, and days, along with your next birthday countdown.' }
     ],
+    realisticExample: {
+      scenario: 'Verifying eligibility for UPSC Civil Services Prelims 2026 where the notification cutoff date is August 1, 2026 for a candidate born on May 15, 2001.',
+      input: 'Date of Birth: 15-05-2001 | Cutoff Reference Date: 01-08-2026.',
+      output: 'Exact Age: 25 Years, 2 Months, 17 Days (Eligible within 21–32 General bracket).',
+      tip: 'Click the "1st August (UPSC/SSC Cutoff)" preset button to instantly set the reference date.'
+    },
+    limitations: [
+      { title: 'Category Relaxations', text: 'This calculator computes chronological age based on standard calendar rules. It does not automatically apply caste- or service-based age relaxations (e.g. 3 years for OBC, 5 years for SC/ST, or Ex-Servicemen quotas); consult your specific exam notification for relaxed upper age limits.' },
+      { title: 'Time of Birth', text: 'Calculations are day-based using the Gregorian calendar. Time-of-day birth hour offsets or astrological lunar day (tithi) calculations are outside the scope of competitive exam eligibility.' }
+    ],
     faqs: [
       { question: 'How is age calculated for UPSC and SSC exams in India?', answer: 'Most Indian recruitment notifications require candidates to fall within an age bracket (e.g., 21 to 32 years) as on a specific reference cutoff date—typically August 1st or January 1st of the recruitment year. Our tool allows you to specify this cutoff date with one click.' },
-      { question: 'Does the age calculation accurately handle leap years?', answer: 'Yes. Our integer calendar algorithm factors in leap years and varying month lengths (28, 29, 30, and 31 days) with 100% mathematical precision.' },
-      { question: 'Can I copy my calculated age for application forms?', answer: 'Yes! Click the "Copy Age" button in the results card to copy your exact age string directly to your clipboard.' }
+      { question: 'Does the age calculation accurately handle leap years?', answer: 'Yes. Our integer calendar algorithm factors in leap years and varying month lengths (28, 29, 30, and 31 days) without timezone parsing shifts.' },
+      { question: 'Can I copy my calculated age for application forms?', answer: 'Yes. Click the "Copy Age" button in the results card to copy your exact age string directly to your clipboard.' }
     ],
     relatedSlugs: ['percentage-calculator', 'discount-calculator', 'image-compressor']
   },
@@ -374,6 +456,16 @@ export const tools: Tool[] = [
       { step: 1, title: 'Choose Mode', text: 'Select whether you want to calculate exam marks %, a percentage of a number, or percentage increase/decrease.' },
       { step: 2, title: 'Enter Numbers', text: 'Type your values into the input fields.' },
       { step: 3, title: 'View Result and Formula', text: 'The result and calculation steps update instantly on screen as you type.' }
+    ],
+    realisticExample: {
+      scenario: 'Calculating Class 12 CBSE board exam marks percentage to fill out a central university admission form.',
+      input: 'Marks Obtained: 442 | Total Maximum Marks: 500 (across 5 subjects).',
+      output: 'Final Percentage: 88.40% (Formula: (442 / 500) × 100 = 88.40%).',
+      tip: 'Tap the "CBSE 500" quick preset under the Total Marks field to set the denominator immediately.'
+    },
+    limitations: [
+      { title: 'CGPA Conversions', text: 'This tool performs standard arithmetic marks percentages. Different Indian universities use different CGPA-to-percentage multiplier formulas (e.g. CBSE multiplies CGPA by 9.5, whereas certain autonomous universities use custom formulas). Check your university transcript guidelines.' },
+      { title: 'Best of 5 Rule', text: 'Enter only the aggregate marks of the subjects that your target college counseling allows (e.g. core 5 subjects vs total subjects).' }
     ],
     faqs: [
       { question: 'How do I calculate CBSE or university marks percentage?', answer: 'Select Tab 2 ("Marks %"), enter your total marks obtained and the maximum total marks (e.g. 500 for 5 CBSE subjects), and the exact percentage will appear immediately.' },
@@ -414,10 +506,20 @@ export const tools: Tool[] = [
       { step: 2, title: 'Apply Discount & GST', text: 'Specify the discount percentage or flat off, and choose the applicable GST tax slab.' },
       { step: 3, title: 'View Summary', text: 'Instantly view your final payable price, net savings, and itemized bill.' }
     ],
+    realisticExample: {
+      scenario: 'Calculating the net savings and final checkout amount for a laptop on sale during festive season (MRP ₹60,000 with a 15% store discount, ₹2,000 bank card coupon, plus 18% GST on the discounted price).',
+      input: 'MRP: ₹60,000 | Store Discount: 15% | Extra Bank Offer: ₹2,000 | GST Slab: 18%.',
+      output: 'Final Payable Price: ₹57,820 (Total Savings: ₹11,000 off original retail MRP).',
+      tip: 'Tap "Copy Bill" to copy the full itemized breakdown to share on WhatsApp or save for your records.'
+    },
+    limitations: [
+      { title: 'Commercial Invoicing & Cess', text: 'This calculator is designed for consumer retail estimation. It does not calculate compensation cess (e.g. on tobacco/automobiles) or complex input tax credit (ITC) commercial adjustments.' },
+      { title: 'Reverse Charge Mechanism (RCM)', text: 'Specialized business transactions subject to reverse charge are not included; consult a Chartered Accountant for formal commercial GST filing.' }
+    ],
     faqs: [
-      { question: 'Can I calculate both discount and GST together?', answer: 'Yes! The calculator deducts the primary discount and any additional coupon first, then calculates GST on the discounted subtotal.' },
+      { question: 'Can I calculate both discount and GST together?', answer: 'Yes. The calculator deducts the primary discount and any additional coupon first, then calculates GST on the discounted subtotal.' },
       { question: 'What are the standard GST slabs in India?', answer: 'India has four primary GST slabs: 5% (essentials and economy apparel), 12% (processed food), 18% (electronics and services), and 28% (luxury items and motor vehicles).' },
-      { question: 'Can I copy the itemized bill summary?', answer: 'Yes! Tap the "Copy Bill" button to copy the itemized breakdown directly to your clipboard.' }
+      { question: 'Can I copy the itemized bill summary?', answer: 'Yes. Tap the "Copy Bill" button to copy the itemized breakdown directly to your clipboard.' }
     ],
     relatedSlugs: ['percentage-calculator', 'age-calculator']
   }

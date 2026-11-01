@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
   tagline: 'Free Online Tools for Everyday Needs',
   description:
     'Free, fast, and 100% private online tools for India. Compress photos to 20KB/50KB for UPSC & SSC, merge PDFs, and calculate age & GST. No server uploads.',
-  url: 'https://easyutilityindia.vercel.app',
+  url: 'https://easy-utility-india.vercel.app',
   locale: 'en_IN',
   country: 'India',
   adsense: {

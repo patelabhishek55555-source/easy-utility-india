@@ -123,6 +123,54 @@ const breadcrumbItems = [
 
     </section>
 
+    <!-- Realistic Scenario & Use Case -->
+    {tool.realisticExample && (
+      <section class="bg-gradient-to-br from-brand-50/60 to-slate-50 rounded-2xl border border-brand-200/80 p-5 sm:p-6 shadow-sm mb-10">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-7 h-7 rounded-lg bg-brand-600 text-white flex items-center justify-center text-xs font-bold">EX</span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">Realistic Example & Exam Use Case</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-700 font-medium mb-3 leading-relaxed">
+          {tool.realisticExample.scenario}
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white p-4 rounded-xl border border-slate-200">
+          <div>
+            <span class="font-bold text-slate-500 uppercase tracking-wider block text-[10px]">Typical Input</span>
+            <p class="text-slate-800 font-mono mt-0.5">{tool.realisticExample.input}</p>
+          </div>
+          <div>
+            <span class="font-bold text-emerald-700 uppercase tracking-wider block text-[10px]">Expected Output</span>
+            <p class="text-slate-800 font-mono mt-0.5">{tool.realisticExample.output}</p>
+          </div>
+        </div>
+        <p class="text-xs text-brand-900 mt-3 flex items-start gap-1.5 font-medium">
+          <span class="font-bold text-brand-700">Pro Tip:</span>
+          <span>{tool.realisticExample.tip}</span>
+        </p>
+      </section>
+    )}
+
+    <!-- Practical Limitations & Edge Cases -->
+    {tool.limitations && tool.limitations.length > 0 && (
+      <section class="bg-amber-50/60 rounded-2xl border border-amber-200/80 p-5 sm:p-6 shadow-sm mb-10">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-black">!</span>
+          Practical Limitations & Important Considerations
+        </h2>
+        <div class="space-y-2.5">
+          {tool.limitations.map((limit) => (
+            <div class="flex items-start gap-2.5 text-xs sm:text-sm">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></span>
+              <div>
+                <strong class="font-semibold text-slate-900">{limit.title}:</strong>
+                <span class="text-slate-700 ml-1 leading-relaxed">{limit.text}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
     <!-- Technical Specifications Table -->
     {tool.specs && tool.specs.length > 0 && (
       <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm mb-10">

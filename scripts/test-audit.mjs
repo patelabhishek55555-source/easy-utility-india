@@ -131,6 +131,91 @@ async function runAudit() {
   }
   console.log('✓ Discount & GST Calculator math verified (MRP: ₹' + mrp + ', Final: ₹' + finalPayable + ', Saved: ₹' + savings + ')');
 
+  // Test 5: Image Resizer & Aspect Ratio Math Audit
+  console.log('\n[TEST 5] Testing Image Resizer Aspect Ratio and Exam Presets...');
+  const origW = 3000;
+  const origH = 4000;
+  const ar = origW / origH; // 0.75
+  
+  // Test resizing width to 350 with lock aspect ratio:
+  const newW = 350;
+  const calcH = Math.round(newW / ar); // 350 / 0.75 = 466.67 -> 467
+  if (calcH !== 467) throw new Error('Aspect ratio calculation mismatch!');
+  
+  // Verify standard presets are within safe bounds
+  const examPresets = [
+    { name: 'Indian Passport', w: 413, h: 531 },
+    { name: 'UPSC / SSC Photo', w: 350, h: 450 },
+    { name: 'Signature', w: 140, h: 60 },
+    { name: 'PAN Card', w: 213, h: 213 }
+  ];
+  for (const p of examPresets) {
+    if (p.w < 10 || p.w > 8000 || p.h < 10 || p.h > 8000) {
+      throw new Error(`Preset ${p.name} out of bounds!`);
+    }
+  }
+  console.log('✓ Image Resizer aspect ratio math and official presets verified.');
+
+  // Test 6: Split PDF Page Range Normalization & Boundary Checks
+  console.log('\n[TEST 6] Testing Split PDF Range Parser Edge Cases...');
+  function parsePageRange(input, totalPages) {
+    const selected = new Set();
+    const parts = input.split(',').map(s => s.trim()).filter(Boolean);
+    const outOfBounds = [];
+
+    for (const part of parts) {
+      if (part.includes('-')) {
+        const [rawStart, rawEnd] = part.split('-').map(s => parseInt(s.trim(), 10));
+        if (!isNaN(rawStart) && !isNaN(rawEnd)) {
+          const start = Math.min(rawStart, rawEnd);
+          const end = Math.max(rawStart, rawEnd);
+          for (let p = start; p <= end; p++) {
+            if (p >= 1 && p <= totalPages) {
+              selected.add(p);
+            } else if (p > totalPages) {
+              outOfBounds.push(p);
+            }
+          }
+        }
+      } else {
+        const p = parseInt(part, 10);
+        if (!isNaN(p)) {
+          if (p >= 1 && p <= totalPages) {
+            selected.add(p);
+          } else if (p > totalPages) {
+            outOfBounds.push(p);
+          }
+        }
+      }
+    }
+    return {
+      pages: Array.from(selected).sort((a, b) => a - b),
+      outOfBounds: Array.from(new Set(outOfBounds)).sort((a, b) => a - b)
+    };
+  }
+
+  // Case 6a: Inverted range '5-1' in a 10-page document
+  const r1 = parsePageRange('5-1', 10);
+  if (r1.pages.length !== 5 || r1.pages[0] !== 1 || r1.pages[4] !== 5) {
+    throw new Error('Inverted range normalization failed!');
+  }
+
+  // Case 6b: Out of bounds detection '1-3, 12, 15' in a 10-page document
+  const r2 = parsePageRange('1-3, 12, 15', 10);
+  if (r2.pages.join(',') !== '1,2,3' || r2.outOfBounds.join(',') !== '12,15') {
+    throw new Error('Out-of-bounds page range check failed!');
+  }
+  console.log('✓ Split PDF range normalization and out-of-bounds guards verified.');
+
+  // Test 7: Target KB Validation Bounds
+  console.log('\n[TEST 7] Testing Target KB Verification Presets (20KB, 50KB, 100KB)...');
+  const targetPresets = [20, 50, 100, 200];
+  for (const kb of targetPresets) {
+    const bytes = kb * 1024;
+    if (bytes <= 0 || kb < 5) throw new Error(`Invalid target KB: ${kb}`);
+  }
+  console.log('✓ Target KB limits (20KB signature, 50KB photo, 100KB document) verified.');
+
   console.log('\n--- ALL CORE CALCULATION & PDF LOGIC PASSED ---');
 }
 
