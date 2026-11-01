@@ -1,0 +1,49 @@
+---
+export interface BreadcrumbItem {
+  name: string;
+  href?: string;
+}
+
+export interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: item.href ? new URL(item.href, Astro.site || Astro.url.origin).href : undefined,
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="mb-4">
+  <ol class="flex items-center flex-wrap gap-2 text-xs sm:text-sm text-slate-500">
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="flex items-center gap-2">
+          {index > 0 && (
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          )}
+          {isLast || !item.href ? (
+            <span class="text-slate-800 font-medium" aria-current="page">{item.name}</span>
+          ) : (
+            <a href={item.href} class="hover:text-brand-600 transition-colors">
+              {item.name}
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

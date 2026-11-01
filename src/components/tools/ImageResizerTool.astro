@@ -1,0 +1,349 @@
+---
+---
+
+<div id="image-resizer-app" class="space-y-6">
+  <!-- Upload Zone -->
+  <div
+    id="resizer-drop-zone"
+    class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/30 rounded-2xl p-8 text-center transition-all cursor-pointer relative"
+  >
+    <input
+      type="file"
+      id="resizer-file-input"
+      accept="image/jpeg,image/png,image/webp,image/jpg"
+      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+    />
+    <div class="flex flex-col items-center justify-center pointer-events-none">
+      <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+        </svg>
+      </div>
+      <p class="text-base font-semibold text-slate-800">
+        Choose an Image to Resize
+      </p>
+      <p class="text-xs text-slate-500 mt-1">
+        Resize by exact pixels, percentage, or Indian exam/passport presets.
+      </p>
+      <span class="mt-4 px-4 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg shadow-sm">
+        Select Image
+      </span>
+    </div>
+  </div>
+
+  <!-- Workspace (Hidden until image selected) -->
+  <div id="resizer-workspace" class="hidden space-y-6">
+    
+    <!-- Presets Bar -->
+    <div class="bg-brand-50/60 border border-brand-100 rounded-xl p-4">
+      <p class="text-xs font-bold text-brand-900 uppercase tracking-wider mb-2">
+        Popular Presets (Exams & Documents):
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="preset-btn text-xs bg-white hover:bg-brand-600 hover:text-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 transition-all font-medium shadow-sm" data-w="413" data-h="531">
+          Indian Passport Photo (3.5×4.5cm)
+        </button>
+        <button type="button" class="preset-btn text-xs bg-white hover:bg-brand-600 hover:text-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 transition-all font-medium shadow-sm" data-w="350" data-h="450">
+          UPSC / SSC Photo (350×450px)
+        </button>
+        <button type="button" class="preset-btn text-xs bg-white hover:bg-brand-600 hover:text-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 transition-all font-medium shadow-sm" data-w="140" data-h="60">
+          Exam Signature (140×60px)
+        </button>
+        <button type="button" class="preset-btn text-xs bg-white hover:bg-brand-600 hover:text-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 transition-all font-medium shadow-sm" data-w="213" data-h="213">
+          PAN Card Photo (213×213px)
+        </button>
+        <button type="button" class="preset-btn text-xs bg-white hover:bg-brand-600 hover:text-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 transition-all font-medium shadow-sm" data-w="1080" data-h="1080">
+          Square (1080×1080px)
+        </button>
+        <button type="button" class="preset-btn text-xs bg-white hover:bg-brand-600 hover:text-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 transition-all font-medium shadow-sm" data-w="1280" data-h="720">
+          16:9 HD (1280×720px)
+        </button>
+      </div>
+    </div>
+
+    <!-- Controls & Preview Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Left Controls (5 cols) -->
+      <div class="lg:col-span-5 space-y-4">
+        
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+          <div class="flex items-center justify-between text-xs text-slate-500 pb-2 border-b border-slate-200">
+            <span>Original Size:</span>
+            <span id="orig-dimensions" class="font-bold text-slate-800">0 × 0 px</span>
+          </div>
+
+          <!-- Dimension Inputs -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="target-width" class="block text-xs font-bold text-slate-700 mb-1">Width (px)</label>
+              <input type="number" id="target-width" class="input-text font-mono" min="10" max="10000" />
+            </div>
+            <div>
+              <label for="target-height" class="block text-xs font-bold text-slate-700 mb-1">Height (px)</label>
+              <input type="number" id="target-height" class="input-text font-mono" min="10" max="10000" />
+            </div>
+          </div>
+
+          <!-- Aspect Ratio Toggle -->
+          <div class="flex items-center gap-2 pt-1">
+            <input type="checkbox" id="lock-aspect" checked class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500" />
+            <label for="lock-aspect" class="text-xs font-medium text-slate-700 cursor-pointer">
+              Lock Aspect Ratio (prevents distortion)
+            </label>
+          </div>
+        </div>
+
+        <!-- Percentage Scaling -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <label class="block text-xs font-bold text-slate-700 mb-2">Percentage Scaling</label>
+          <div class="grid grid-cols-5 gap-1.5">
+            <button type="button" class="scale-btn text-xs py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-brand-50 hover:text-brand-700 font-medium" data-scale="0.25">25%</button>
+            <button type="button" class="scale-btn text-xs py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-brand-50 hover:text-brand-700 font-medium" data-scale="0.5">50%</button>
+            <button type="button" class="scale-btn text-xs py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-brand-50 hover:text-brand-700 font-medium" data-scale="0.75">75%</button>
+            <button type="button" class="scale-btn text-xs py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-brand-50 hover:text-brand-700 font-medium" data-scale="1">100%</button>
+            <button type="button" class="scale-btn text-xs py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-brand-50 hover:text-brand-700 font-medium" data-scale="1.5">150%</button>
+          </div>
+        </div>
+
+        <!-- Format & Quality -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+          <div>
+            <label for="output-format" class="block text-xs font-bold text-slate-700 mb-1">Target Format</label>
+            <select id="output-format" class="input-text text-sm">
+              <option value="image/jpeg">JPG / JPEG (Best for photos)</option>
+              <option value="image/png">PNG (Lossless, sharp edges)</option>
+              <option value="image/webp">WebP (Modern, compact)</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
+              <span>Quality</span>
+              <span id="quality-val" class="font-mono text-brand-600">90%</span>
+            </div>
+            <input type="range" id="quality-slider" min="10" max="100" value="90" class="w-full accent-brand-600 cursor-pointer" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Preview (7 cols) -->
+      <div class="lg:col-span-7 flex flex-col">
+        <div class="bg-slate-100 rounded-xl border border-slate-200 p-4 flex-1 flex flex-col items-center justify-center min-h-[300px] overflow-hidden">
+          <p class="text-xs font-semibold text-slate-500 mb-2">Live Canvas Preview</p>
+          <div class="max-w-full max-h-[350px] overflow-auto rounded-lg shadow-sm bg-white p-2 border border-slate-200">
+            <canvas id="resize-preview-canvas" class="max-w-full h-auto block"></canvas>
+          </div>
+          <p id="preview-output-info" class="text-xs text-slate-600 mt-3 font-medium text-center"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Status Alert -->
+    <div id="resizer-status" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-slate-200">
+      <button id="resizer-reset-btn" type="button" class="btn-secondary w-full sm:w-auto">
+        Reset & Change Photo
+      </button>
+      <button id="download-resized-btn" type="button" class="btn-primary w-full sm:w-auto">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        <span>Download Resized Image</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let origImage: HTMLImageElement | null = null;
+  let origFile: File | null = null;
+  let aspectRatio = 1;
+
+  const dropZone = document.getElementById('resizer-drop-zone');
+  const fileInput = document.getElementById('resizer-file-input') as HTMLInputElement | null;
+  const workspace = document.getElementById('resizer-workspace');
+  const widthInput = document.getElementById('target-width') as HTMLInputElement | null;
+  const heightInput = document.getElementById('target-height') as HTMLInputElement | null;
+  const lockAspect = document.getElementById('lock-aspect') as HTMLInputElement | null;
+  const origDimensionsEl = document.getElementById('orig-dimensions');
+  const formatSelect = document.getElementById('output-format') as HTMLSelectElement | null;
+  const qualitySlider = document.getElementById('quality-slider') as HTMLInputElement | null;
+  const qualityVal = document.getElementById('quality-val');
+  const previewCanvas = document.getElementById('resize-preview-canvas') as HTMLCanvasElement | null;
+  const previewInfo = document.getElementById('preview-output-info');
+  const downloadBtn = document.getElementById('download-resized-btn');
+  const resetBtn = document.getElementById('resizer-reset-btn');
+  const statusEl = document.getElementById('resizer-status');
+  const presetBtns = document.querySelectorAll<HTMLButtonElement>('.preset-btn');
+  const scaleBtns = document.querySelectorAll<HTMLButtonElement>('.scale-btn');
+
+  function loadImageFile(file: File) {
+    if (!file || !file.type.startsWith('image/')) return;
+
+    origFile = file;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      origImage = img;
+      aspectRatio = img.naturalWidth / img.naturalHeight;
+
+      if (origDimensionsEl) {
+        origDimensionsEl.textContent = `${img.naturalWidth} × ${img.naturalHeight} px (${(file.size / 1024).toFixed(1)} KB)`;
+      }
+
+      if (widthInput) widthInput.value = img.naturalWidth.toString();
+      if (heightInput) heightInput.value = img.naturalHeight.toString();
+
+      dropZone?.classList.add('hidden');
+      workspace?.classList.remove('hidden');
+      statusEl?.classList.add('hidden');
+
+      updatePreview();
+    };
+    img.src = url;
+  }
+
+  function updatePreview() {
+    if (!origImage || !previewCanvas || !widthInput || !heightInput) return;
+
+    const targetW = parseInt(widthInput.value, 10) || 100;
+    const targetH = parseInt(heightInput.value, 10) || 100;
+
+    previewCanvas.width = targetW;
+    previewCanvas.height = targetH;
+    const ctx = previewCanvas.getContext('2d');
+    if (!ctx) return;
+
+    const format = formatSelect?.value || 'image/jpeg';
+    if (format === 'image/jpeg') {
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, targetW, targetH);
+    } else {
+      ctx.clearRect(0, 0, targetW, targetH);
+    }
+
+    ctx.drawImage(origImage, 0, 0, targetW, targetH);
+
+    const q = (parseInt(qualitySlider?.value || '90', 10)) / 100;
+    previewCanvas.toBlob((blob) => {
+      if (blob && previewInfo) {
+        const estKB = (blob.size / 1024).toFixed(1);
+        previewInfo.textContent = `Output: ${targetW} × ${targetH} px • Est. Size: ${estKB} KB`;
+      }
+    }, format, q);
+  }
+
+  widthInput?.addEventListener('input', () => {
+    if (lockAspect?.checked && origImage && widthInput && heightInput) {
+      const w = parseInt(widthInput.value, 10);
+      if (!isNaN(w) && w > 0) {
+        heightInput.value = Math.round(w / aspectRatio).toString();
+      }
+    }
+    updatePreview();
+  });
+
+  heightInput?.addEventListener('input', () => {
+    if (lockAspect?.checked && origImage && widthInput && heightInput) {
+      const h = parseInt(heightInput.value, 10);
+      if (!isNaN(h) && h > 0) {
+        widthInput.value = Math.round(h * aspectRatio).toString();
+      }
+    }
+    updatePreview();
+  });
+
+  presetBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const w = btn.dataset.w;
+      const h = btn.dataset.h;
+      if (w && h && widthInput && heightInput) {
+        if (lockAspect) lockAspect.checked = false;
+        widthInput.value = w;
+        heightInput.value = h;
+        updatePreview();
+      }
+    });
+  });
+
+  scaleBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!origImage || !widthInput || !heightInput) return;
+      const scale = parseFloat(btn.dataset.scale || '1');
+      widthInput.value = Math.round(origImage.naturalWidth * scale).toString();
+      heightInput.value = Math.round(origImage.naturalHeight * scale).toString();
+      updatePreview();
+    });
+  });
+
+  formatSelect?.addEventListener('change', updatePreview);
+
+  qualitySlider?.addEventListener('input', () => {
+    if (qualityVal) qualityVal.textContent = `${qualitySlider.value}%`;
+    updatePreview();
+  });
+
+  fileInput?.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      loadImageFile(target.files[0]);
+    }
+    target.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-brand-500', 'bg-brand-50/50');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-brand-500', 'bg-brand-50/50');
+    });
+  });
+
+  dropZone?.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files[0]) {
+      loadImageFile(dt.files[0]);
+    }
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    origImage = null;
+    origFile = null;
+    dropZone?.classList.remove('hidden');
+    workspace?.classList.add('hidden');
+    statusEl?.classList.add('hidden');
+  });
+
+  downloadBtn?.addEventListener('click', () => {
+    if (!previewCanvas) return;
+
+    const format = formatSelect?.value || 'image/jpeg';
+    const q = (parseInt(qualitySlider?.value || '90', 10)) / 100;
+
+    previewCanvas.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const ext = format === 'image/png' ? 'png' : format === 'image/webp' ? 'webp' : 'jpg';
+      const baseName = origFile?.name.replace(/\.[^/.]+$/, '') || 'resized_image';
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${baseName}_${previewCanvas.width}x${previewCanvas.height}.${ext}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, format, q);
+  });
+</script>

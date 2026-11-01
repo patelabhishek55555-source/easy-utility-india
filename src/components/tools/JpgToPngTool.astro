@@ -1,0 +1,260 @@
+---
+---
+
+<div id="jpg-to-png-app" class="space-y-6">
+  <!-- Upload Zone -->
+  <div
+    id="converter-drop-zone"
+    class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/30 rounded-2xl p-8 text-center transition-all cursor-pointer relative"
+  >
+    <input
+      type="file"
+      id="converter-file-input"
+      accept="image/jpeg,image/png,image/webp,image/jpg"
+      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+    />
+    <div class="flex flex-col items-center justify-center pointer-events-none">
+      <div class="w-14 h-14 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mb-4">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+      </div>
+      <p class="text-base font-semibold text-slate-800">
+        Choose an Image to Convert Format
+      </p>
+      <p class="text-xs text-slate-500 mt-1">
+        Convert JPG to PNG, PNG to JPG, or WebP instantly in your browser.
+      </p>
+      <span class="mt-4 px-4 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg shadow-sm">
+        Select Image
+      </span>
+    </div>
+  </div>
+
+  <!-- Workspace -->
+  <div id="converter-workspace" class="hidden space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Source Image Info -->
+      <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <span class="text-xs font-bold text-slate-500 uppercase">Input Image</span>
+          <span id="input-format-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700"></span>
+        </div>
+        <div class="h-48 bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden p-2">
+          <img id="converter-preview" alt="Input Preview" class="max-h-full max-w-full object-contain" />
+        </div>
+        <div class="text-xs text-slate-600 space-y-1">
+          <p>File name: <span id="input-filename" class="font-semibold text-slate-900"></span></p>
+          <p>Dimensions: <span id="input-dims" class="font-semibold text-slate-900"></span></p>
+          <p>Size: <span id="input-filesize" class="font-semibold text-slate-900"></span></p>
+        </div>
+      </div>
+
+      <!-- Conversion Options -->
+      <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-4 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="pb-3 border-b border-slate-100">
+            <span class="text-xs font-bold text-slate-500 uppercase">Conversion Settings</span>
+          </div>
+
+          <div>
+            <label for="target-format-select" class="block text-xs font-bold text-slate-700 mb-1.5">Convert To:</label>
+            <select id="target-format-select" class="input-text text-sm">
+              <option value="image/png" selected>PNG (Lossless & transparent)</option>
+              <option value="image/jpeg">JPG / JPEG (Standard photo)</option>
+              <option value="image/webp">WebP (Modern lightweight)</option>
+            </select>
+          </div>
+
+          <div id="bg-color-wrapper" class="hidden space-y-1.5">
+            <label for="bg-color-select" class="block text-xs font-bold text-slate-700">Background Color (for transparent PNG):</label>
+            <select id="bg-color-select" class="input-text text-sm">
+              <option value="#FFFFFF" selected>White (Standard for docs)</option>
+              <option value="#000000">Black</option>
+              <option value="#F8FAFC">Off-White / Slate</option>
+            </select>
+          </div>
+
+          <div id="quality-wrapper">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
+              <span>Quality</span>
+              <span id="converter-quality-val" class="text-brand-600 font-mono">92%</span>
+            </div>
+            <input type="range" id="converter-quality" min="10" max="100" value="92" class="w-full accent-brand-600 cursor-pointer" />
+          </div>
+        </div>
+
+        <!-- Result Stats -->
+        <div id="conversion-result-box" class="hidden p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-900">
+          <p class="font-bold">Conversion Ready!</p>
+          <p id="conversion-result-stats" class="mt-0.5 text-emerald-700"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200">
+      <button id="converter-reset-btn" type="button" class="btn-secondary w-full sm:w-auto">
+        Change Image
+      </button>
+
+      <button id="download-converted-btn" type="button" class="btn-primary w-full sm:w-auto">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        <span>Convert & Download</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let loadedFile: File | null = null;
+  let loadedImg: HTMLImageElement | null = null;
+
+  const dropZone = document.getElementById('converter-drop-zone');
+  const fileInput = document.getElementById('converter-file-input') as HTMLInputElement | null;
+  const workspace = document.getElementById('converter-workspace');
+  const previewImg = document.getElementById('converter-preview') as HTMLImageElement | null;
+  const formatBadge = document.getElementById('input-format-badge');
+  const filenameEl = document.getElementById('input-filename');
+  const dimsEl = document.getElementById('input-dims');
+  const filesizeEl = document.getElementById('input-filesize');
+  const targetFormatSelect = document.getElementById('target-format-select') as HTMLSelectElement | null;
+  const bgColorWrapper = document.getElementById('bg-color-wrapper');
+  const bgColorSelect = document.getElementById('bg-color-select') as HTMLSelectElement | null;
+  const qualityWrapper = document.getElementById('quality-wrapper');
+  const qualitySlider = document.getElementById('converter-quality') as HTMLInputElement | null;
+  const qualityVal = document.getElementById('converter-quality-val');
+  const resultBox = document.getElementById('conversion-result-box');
+  const resultStats = document.getElementById('conversion-result-stats');
+  const downloadBtn = document.getElementById('download-converted-btn');
+  const resetBtn = document.getElementById('converter-reset-btn');
+
+  function handleFile(file: File) {
+    if (!file || !file.type.startsWith('image/')) return;
+    loadedFile = file;
+
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      loadedImg = img;
+      if (previewImg) previewImg.src = url;
+      if (formatBadge) formatBadge.textContent = file.type.split('/')[1].toUpperCase();
+      if (filenameEl) filenameEl.textContent = file.name;
+      if (dimsEl) dimsEl.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
+      if (filesizeEl) filesizeEl.textContent = `${(file.size / 1024).toFixed(1)} KB`;
+
+      // If uploaded JPG, default target to PNG; if PNG, default to JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+        if (targetFormatSelect) targetFormatSelect.value = 'image/png';
+      } else {
+        if (targetFormatSelect) targetFormatSelect.value = 'image/jpeg';
+      }
+
+      updateFormatOptions();
+
+      dropZone?.classList.add('hidden');
+      workspace?.classList.remove('hidden');
+    };
+    img.src = url;
+  }
+
+  function updateFormatOptions() {
+    const targetFormat = targetFormatSelect?.value || 'image/png';
+    if (targetFormat === 'image/jpeg') {
+      bgColorWrapper?.classList.remove('hidden');
+      qualityWrapper?.classList.remove('hidden');
+    } else if (targetFormat === 'image/webp') {
+      bgColorWrapper?.classList.add('hidden');
+      qualityWrapper?.classList.remove('hidden');
+    } else {
+      bgColorWrapper?.classList.add('hidden');
+      qualityWrapper?.classList.add('hidden');
+    }
+  }
+
+  targetFormatSelect?.addEventListener('change', updateFormatOptions);
+
+  qualitySlider?.addEventListener('input', () => {
+    if (qualityVal && qualitySlider) qualityVal.textContent = `${qualitySlider.value}%`;
+  });
+
+  downloadBtn?.addEventListener('click', () => {
+    if (!loadedImg || !loadedFile || !targetFormatSelect) return;
+
+    const targetFormat = targetFormatSelect.value;
+    const canvas = document.createElement('canvas');
+    canvas.width = loadedImg.naturalWidth;
+    canvas.height = loadedImg.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    if (targetFormat === 'image/jpeg') {
+      ctx.fillStyle = bgColorSelect?.value || '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    ctx.drawImage(loadedImg, 0, 0);
+
+    const q = (parseInt(qualitySlider?.value || '92', 10)) / 100;
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      const ext = targetFormat === 'image/png' ? 'png' : targetFormat === 'image/webp' ? 'webp' : 'jpg';
+      const baseName = loadedFile?.name.replace(/\.[^/.]+$/, '') || 'converted';
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${baseName}.${ext}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      if (resultBox && resultStats) {
+        resultBox.classList.remove('hidden');
+        resultStats.textContent = `Saved as ${ext.toUpperCase()} (${(blob.size / 1024).toFixed(1)} KB). Download started!`;
+      }
+    }, targetFormat, q);
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    loadedFile = null;
+    loadedImg = null;
+    dropZone?.classList.remove('hidden');
+    workspace?.classList.add('hidden');
+    resultBox?.classList.add('hidden');
+  });
+
+  fileInput?.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      handleFile(target.files[0]);
+    }
+    target.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-brand-500', 'bg-brand-50/50');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-brand-500', 'bg-brand-50/50');
+    });
+  });
+
+  dropZone?.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files[0]) {
+      handleFile(dt.files[0]);
+    }
+  });
+</script>

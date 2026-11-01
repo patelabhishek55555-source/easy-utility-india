@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Disclaimer' },
+];
+---
+
+<BaseLayout
+  seo={{
+    title: 'Disclaimer - Easy Utility India',
+    description: 'Disclaimer and legal notice regarding information, calculations, and document processing provided by Easy Utility India.',
+  }}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm prose prose-slate max-w-none text-slate-700 space-y-6">
+      <div>
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 uppercase tracking-wider inline-block mb-3">
+          Notice
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Disclaimer
+        </h1>
+        <p class="text-xs text-slate-500 mt-2">Last updated: November 1, 2026</p>
+      </div>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">1. General Information Only</h2>
+        <p>
+          All calculations, utilities, guides, and tools provided on <strong>Easy Utility India</strong> are for informational, personal, and educational assistance. While we strive for extreme mathematical precision and software reliability, we make no warranties regarding 100% error-free operation or compliance with every third-party recruitment portal's evolving requirements.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">2. Examination & Recruitment Portals</h2>
+        <p>
+          Users are strongly advised to cross-check file specifications (exact allowable KB ranges, DPI, aspect ratio, and photo dimensions) against the official notifications published by recruiting organizations (such as UPSC, SSC, IBPS, NTA, or State Public Service Commissions). Easy Utility India is an independent platform and is not affiliated with, authorized, or endorsed by any government entity or examination authority.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">3. Financial & Tax Calculations</h2>
+        <p>
+          The Discount & GST Calculator is provided as an estimation utility for shoppers and small businesses. It does not constitute formal accounting or chartered financial advice. For complex GST filings, tax exemptions, or commercial invoicing, please consult a certified tax professional or Chartered Accountant (CA).
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">4. Limitation of Liability</h2>
+        <p>
+          In no event shall Easy Utility India, its authors, or maintainers be held liable for any direct, indirect, incidental, consequential, or punitive damages arising out of your access, use, or inability to use our tools or any files processed herein.
+        </p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>

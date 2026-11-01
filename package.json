@@ -1,0 +1,27 @@
+{
+  "name": "easy-utility-india",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Easy Utility India - Free Online Tools for Everyday Needs. 100% Client-Side Privacy-First Utilities for PDF, Images, and Calculators.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.5",
+    "astro": "^5.4.2",
+    "lucide-astro": "^0.477.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.10.38",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "typescript": "^5.7.3"
+  }
+}

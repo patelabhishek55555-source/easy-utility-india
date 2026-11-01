@@ -1,0 +1,299 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolCard from '../components/common/ToolCard.astro';
+import SearchBar from '../components/common/SearchBar.astro';
+import AdSenseSlot from '../components/common/AdSenseSlot.astro';
+import { tools, getPopularTools, getRecentlyAddedTools, getToolsByCategory } from '../config/tools';
+
+const popularTools = getPopularTools();
+const recentlyAdded = getRecentlyAddedTools();
+const pdfTools = getToolsByCategory('pdf');
+const imageTools = getToolsByCategory('image');
+const calculators = getToolsByCategory('calculator');
+
+const homeFaqs = [
+  {
+    question: 'Are my uploaded files and photos private and safe?',
+    answer: 'Absolutely. Easy Utility India processes all files 100% in your local web browser using client-side JavaScript (HTML5 Canvas and WebAssembly). Your files, marksheets, photos, and documents are NEVER uploaded to our servers or stored in any database.',
+  },
+  {
+    question: 'How do I compress my photo to 20 KB or 50 KB for SSC/UPSC exams?',
+    answer: 'Open our "Image Compressor by Target KB" tool. Upload your photo or signature, enter "50" or "20" in the Target KB box, and our intelligent algorithm will compress the file to meet the government portal limit while preserving maximum visual clarity.',
+  },
+  {
+    question: 'Is Easy Utility India completely free to use?',
+    answer: 'Yes! There are no hidden subscription charges, no sign-up requirements, and no watermarks placed on any generated PDF or image.',
+  },
+  {
+    question: 'Can I use these tools on my mobile phone?',
+    answer: 'Yes, Easy Utility India is designed mobile-first and works seamlessly on Android smartphones, iPhones, iPads, laptops, and desktop computers without installing any apps.',
+  },
+];
+---
+
+<BaseLayout
+  seo={{
+    title: 'Easy Utility India - Free Online Tools for Everyday Needs',
+    description: '100% private, browser-side online tools for India. Compress photos to 20KB/50KB, merge & split PDFs, convert image to PDF, calculate age for cutoff dates, and discount with GST.',
+    faqs: homeFaqs,
+  }}
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-slate-50 to-white py-16 sm:py-24 border-b border-slate-200/80">
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none opacity-40">
+      <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-200 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 -left-40 w-96 h-96 bg-sky-200 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <!-- Tricolor Pill Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-semibold text-slate-800 mb-6">
+        <span class="flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+          <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+        </span>
+        <span>India's Fast & Privacy-First Utility Platform</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+        Free Online Tools for <span class="text-brand-600">Everyday Needs</span>
+      </h1>
+      
+      <p class="mt-4 text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Compress images to exact KB for exam portals, merge & split PDFs, and calculate ages & discounts. Zero server uploads—everything happens securely on your device.
+      </p>
+
+      <!-- Trust Badges Bar -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-600 font-medium">
+        <div class="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>100% Client-Side Privacy</span>
+        </div>
+        <div class="flex items-center gap-1.5 text-brand-700 bg-brand-50 px-3 py-1 rounded-full border border-brand-200">
+          <svg class="w-4 h-4 text-brand-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+          </svg>
+          <span>Zero Server Uploads</span>
+        </div>
+        <div class="flex items-center gap-1.5 text-slate-700 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm">
+          <span>⚡ No Sign-up Required</span>
+        </div>
+      </div>
+
+      <!-- Live Search Bar -->
+      <div class="mt-10 max-w-2xl mx-auto">
+        <SearchBar />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Top Ad Placement -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <AdSenseSlot slot="home-top-banner" format="horizontal" />
+  </div>
+
+  <!-- Popular Tools Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Popular Tools</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Frequently used by students, job applicants, and professionals.</p>
+      </div>
+      <a href="/tools" class="text-xs sm:text-sm font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1">
+        <span>View all {tools.length} tools</span>
+        <span>→</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {popularTools.map((tool) => (
+        <ToolCard tool={tool} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Categorized Tools Grid -->
+  <section class="bg-white py-14 border-y border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <!-- PDF Tools Category -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+              PDF
+            </div>
+            <div>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900">PDF Tools</h3>
+              <p class="text-xs text-slate-500">Manipulate, combine, and inspect PDF files without installing software.</p>
+            </div>
+          </div>
+          <a href="/tools#pdf-tools" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Explore PDF →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {pdfTools.map((tool) => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+
+      <!-- Image Tools Category -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+              IMG
+            </div>
+            <div>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Image Tools</h3>
+              <p class="text-xs text-slate-500">Compress to target KB for UPSC/SSC portals and resize with presets.</p>
+            </div>
+          </div>
+          <a href="/tools#image-tools" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Explore Image →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {imageTools.map((tool) => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+
+      <!-- Calculators Category -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+              CALC
+            </div>
+            <div>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Calculators</h3>
+              <p class="text-xs text-slate-500">Exam age cutoffs, school/college marks percentages, and discount bills.</p>
+            </div>
+          </div>
+          <a href="/tools#calculators" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Explore Calculators →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {calculators.map((tool) => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Helpful Guides & Use Cases for India -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider inline-block mb-3">
+        Knowledge & Practical Guides
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Helpful Guides for Indian Portals
+      </h2>
+      <p class="text-slate-600 mt-2 text-sm sm:text-base">
+        Step-by-step guidance to ensure your documents pass strict official portal checks on the first attempt.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Guide 1 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md">Govt Exams</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-3">
+            How to Compress Photo Under 50KB for UPSC & SSC
+          </h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Indian exam portals reject applications if photos exceed 50KB or signatures exceed 20KB. Use our Target KB compressor to automatically scale dimensions and quality while preserving crisp face recognition.
+          </p>
+        </div>
+        <a href="/tools/image-compressor" class="mt-4 text-xs font-bold text-brand-600 hover:text-brand-700 inline-flex items-center gap-1">
+          Open Image Compressor →
+        </a>
+      </div>
+
+      <!-- Guide 2 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">Eligibility Cutoffs</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-3">
+            Calculating Exact Age as on 1st August or 1st January
+          </h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Most recruitment notifications enforce strict cutoff dates (e.g., minimum 21 years as of 01/08/2026). Our Age Calculator allows you to specify the exact cutoff date to verify your eligibility down to the exact day.
+          </p>
+        </div>
+        <a href="/tools/age-calculator" class="mt-4 text-xs font-bold text-brand-600 hover:text-brand-700 inline-flex items-center gap-1">
+          Open Age Calculator →
+        </a>
+      </div>
+
+      <!-- Guide 3 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">College & Admissions</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-3">
+            How to Combine Marksheets & Certificates into One PDF
+          </h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Counseling portals frequently ask for a single consolidated PDF containing 10th, 12th, and degree marksheets. With our Merge PDF and Image to PDF tools, combine multiple scans in seconds without exposing private records.
+          </p>
+        </div>
+        <a href="/tools/merge-pdf" class="mt-4 text-xs font-bold text-brand-600 hover:text-brand-700 inline-flex items-center gap-1">
+          Open Merge PDF →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recently Added Tools -->
+  {recentlyAdded.length > 0 && (
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Recently Added Utilities</h2>
+          <p class="text-xs text-slate-500">Fresh additions to make your digital work faster.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {recentlyAdded.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ Section -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Frequently Asked Questions</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Everything you need to know about our privacy and tools.</p>
+      </div>
+
+      <div class="space-y-4 divide-y divide-slate-100">
+        {homeFaqs.map((faq, index) => (
+          <details class="group pt-4 first:pt-0" open={index === 0}>
+            <summary class="flex items-center justify-between font-semibold text-slate-900 cursor-pointer list-none text-sm sm:text-base hover:text-brand-600 transition-colors">
+              <span>{faq.question}</span>
+              <span class="ml-4 flex-shrink-0 text-slate-400 group-open:rotate-180 transition-transform duration-200">
+                ▼
+              </span>
+            </summary>
+            <p class="mt-2 text-sm text-slate-600 leading-relaxed pl-1">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

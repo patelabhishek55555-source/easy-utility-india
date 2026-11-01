@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/common/ToolCard.astro';
+import SearchBar from '../../components/common/SearchBar.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import AdSenseSlot from '../../components/common/AdSenseSlot.astro';
+import { tools, getToolsByCategory } from '../../config/tools';
+
+const pdfTools = getToolsByCategory('pdf');
+const imageTools = getToolsByCategory('image');
+const calculators = getToolsByCategory('calculator');
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'All Tools' },
+];
+---
+
+<BaseLayout
+  seo={{
+    title: 'All Free Online Tools - PDF, Images & Calculators | Easy Utility India',
+    description: 'Explore all 10 free, private online tools at Easy Utility India. Convert images to PDF, compress photos to 20KB/50KB, calculate age for cutoff dates, and calculate GST.',
+  }}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Page Header -->
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider inline-block mb-3">
+        Full Suite of Utilities
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+        All Free Online Tools
+      </h1>
+      <p class="text-slate-600 mt-3 text-sm sm:text-base leading-relaxed">
+        Fast, dependable, and 100% private. All operations run directly in your browser memory—no file is ever transmitted to a server.
+      </p>
+
+      <!-- Search Bar -->
+      <div class="mt-8">
+        <SearchBar placeholder="Type to filter tools by name or purpose..." />
+      </div>
+    </div>
+
+    <!-- Top Ad Placement -->
+    <AdSenseSlot slot="all-tools-top" format="horizontal" />
+
+    <!-- Category 1: PDF Tools -->
+    <section id="pdf-tools" class="mt-12 scroll-mt-24">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">PDF Tools</h2>
+          <p class="text-xs text-slate-500">Create, combine, split, and preview PDF files securely in memory.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {pdfTools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Category 2: Image Tools -->
+    <section id="image-tools" class="mt-16 scroll-mt-24">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Image Tools</h2>
+          <p class="text-xs text-slate-500">Resize, compress to exact KB for exam portals, and convert photo formats.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {imageTools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Category 3: Calculators -->
+    <section id="calculators" class="mt-16 scroll-mt-24">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Calculators</h2>
+          <p class="text-xs text-slate-500">Calculate age for exam cutoffs, school/college marks percentages, and discount + GST.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {calculators.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Bottom Ad Placement -->
+    <AdSenseSlot slot="all-tools-bottom" format="horizontal" />
+
+  </div>
+</BaseLayout>

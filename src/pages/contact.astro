@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Contact Us' },
+];
+---
+
+<BaseLayout
+  seo={{
+    title: 'Contact Us - Easy Utility India | Feedback & Support',
+    description: 'Get in touch with the Easy Utility India team. Send us tool requests, bug reports, feature suggestions, or business inquiries.',
+  }}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+      <div class="max-w-2xl mb-8">
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider inline-block mb-3">
+          Support & Inquiries
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Contact Us
+        </h1>
+        <p class="text-slate-600 mt-2 text-sm sm:text-base leading-relaxed">
+          Have an idea for a tool that would help Indian users? Encountered a problem with file compression or PDF merging? Reach out to our team below.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        
+        <!-- Form (7 cols) -->
+        <div class="md:col-span-7">
+          <form id="contact-form" class="space-y-4">
+            <div>
+              <label for="contact-name" class="block text-xs font-bold text-slate-700 uppercase mb-1">Your Name *</label>
+              <input type="text" id="contact-name" required placeholder="e.g. Ramesh Kumar" class="input-text text-sm" />
+            </div>
+
+            <div>
+              <label for="contact-email" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address *</label>
+              <input type="email" id="contact-email" required placeholder="ramesh@example.com" class="input-text text-sm" />
+            </div>
+
+            <div>
+              <label for="contact-subject" class="block text-xs font-bold text-slate-700 uppercase mb-1">Inquiry Type *</label>
+              <select id="contact-subject" class="input-text text-sm">
+                <option value="Tool Request">Request a New Tool</option>
+                <option value="Bug Report">Report a Bug / Issue</option>
+                <option value="Feedback">General Feedback</option>
+                <option value="Partnership">Partnership / Advertising Inquiry</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block text-xs font-bold text-slate-700 uppercase mb-1">Message *</label>
+              <textarea id="contact-message" rows="4" required placeholder="Tell us how we can help you..." class="input-text text-sm resize-none"></textarea>
+            </div>
+
+            <div id="contact-status" class="hidden p-3 rounded-lg text-xs font-medium"></div>
+
+            <button type="submit" id="submit-contact-btn" class="btn-primary w-full">
+              <span>Send Message</span>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Sidebar Details (5 cols) -->
+        <div class="md:col-span-5 bg-slate-50 p-6 rounded-xl border border-slate-200/90 flex flex-col justify-between space-y-6">
+          <div class="space-y-5">
+            <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wider">Quick Details</h3>
+
+            <div class="flex items-start gap-3 text-xs text-slate-600">
+              <div class="w-7 h-7 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-slate-900">Email Support</p>
+                <p class="text-slate-500 mt-0.5">support@easyutilityindia.com</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 text-xs text-slate-600">
+              <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-slate-900">Headquarters</p>
+                <p class="text-slate-500 mt-0.5">Bengaluru, Karnataka, India</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 text-xs text-slate-600">
+              <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-slate-900">Response Window</p>
+                <p class="text-slate-500 mt-0.5">Typically within 24 to 48 business hours</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-emerald-800">
+            <p class="font-bold">No Account Needed</p>
+            <p class="mt-0.5 text-emerald-700">You don't need an account or sign-in to use any of our online tools.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('contact-status');
+  const submitBtn = document.getElementById('submit-contact-btn');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!statusEl || !submitBtn) return;
+
+    submitBtn.setAttribute('disabled', 'true');
+    statusEl.classList.remove('hidden', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+    statusEl.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+    statusEl.innerHTML = 'Thank you! Your message has been received. Our team will review your inquiry shortly.';
+
+    form.reset();
+    setTimeout(() => {
+      submitBtn.removeAttribute('disabled');
+    }, 2000);
+  });
+</script>

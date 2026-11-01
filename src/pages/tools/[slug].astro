@@ -1,0 +1,41 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import { tools, type Tool } from '../../config/tools';
+
+import ImageToPdfTool from '../../components/tools/ImageToPdfTool.astro';
+import MergePdfTool from '../../components/tools/MergePdfTool.astro';
+import SplitPdfTool from '../../components/tools/SplitPdfTool.astro';
+import PdfPreviewTool from '../../components/tools/PdfPreviewTool.astro';
+import ImageResizerTool from '../../components/tools/ImageResizerTool.astro';
+import ImageCompressorTool from '../../components/tools/ImageCompressorTool.astro';
+import JpgToPngTool from '../../components/tools/JpgToPngTool.astro';
+import AgeCalculatorTool from '../../components/tools/AgeCalculatorTool.astro';
+import PercentageCalculatorTool from '../../components/tools/PercentageCalculatorTool.astro';
+import DiscountCalculatorTool from '../../components/tools/DiscountCalculatorTool.astro';
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+export interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+---
+
+<ToolLayout tool={tool}>
+  {tool.slug === 'image-to-pdf' && <ImageToPdfTool />}
+  {tool.slug === 'merge-pdf' && <MergePdfTool />}
+  {tool.slug === 'split-pdf' && <SplitPdfTool />}
+  {tool.slug === 'pdf-preview' && <PdfPreviewTool />}
+  {tool.slug === 'image-resizer' && <ImageResizerTool />}
+  {tool.slug === 'image-compressor' && <ImageCompressorTool />}
+  {tool.slug === 'jpg-to-png' && <JpgToPngTool />}
+  {tool.slug === 'age-calculator' && <AgeCalculatorTool />}
+  {tool.slug === 'percentage-calculator' && <PercentageCalculatorTool />}
+  {tool.slug === 'discount-calculator' && <DiscountCalculatorTool />}
+</ToolLayout>

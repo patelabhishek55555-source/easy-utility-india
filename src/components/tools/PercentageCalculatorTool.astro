@@ -1,0 +1,240 @@
+---
+---
+
+<div id="percentage-calc-app" class="space-y-6">
+  <!-- Mode Tabs -->
+  <div class="flex items-center gap-2 border-b border-slate-200 pb-3 flex-wrap">
+    <button
+      type="button"
+      class="tab-btn px-4 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all bg-brand-600 text-white shadow-sm"
+      data-tab="mode1"
+    >
+      1. What is X% of Y?
+    </button>
+    <button
+      type="button"
+      class="tab-btn px-4 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all bg-slate-100 text-slate-700 hover:bg-slate-200"
+      data-tab="mode2"
+    >
+      2. Marks % (X out of Y)
+    </button>
+    <button
+      type="button"
+      class="tab-btn px-4 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all bg-slate-100 text-slate-700 hover:bg-slate-200"
+      data-tab="mode3"
+    >
+      3. % Increase / Decrease
+    </button>
+  </div>
+
+  <!-- TAB 1: What is X% of Y? -->
+  <div id="pane-mode1" class="tab-pane space-y-5">
+    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="m1-x" class="block text-xs font-bold text-slate-700 uppercase mb-1">Percentage (X %)</label>
+          <div class="relative">
+            <input type="number" id="m1-x" value="18" step="any" class="input-text pr-8 font-mono text-base" />
+            <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 font-bold">%</span>
+          </div>
+        </div>
+        <div>
+          <label for="m1-y" class="block text-xs font-bold text-slate-700 uppercase mb-1">Total Number / Value (Y)</label>
+          <input type="number" id="m1-y" value="2500" step="any" class="input-text font-mono text-base" />
+        </div>
+      </div>
+
+      <!-- Quick Indian Tax / Common % Presets -->
+      <div class="flex items-center gap-2 flex-wrap text-xs mt-3 pt-3 border-t border-slate-200">
+        <span class="text-slate-500 font-semibold">Standard GST:</span>
+        <button type="button" class="m1-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-val="5">5%</button>
+        <button type="button" class="m1-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-val="12">12%</button>
+        <button type="button" class="m1-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-val="18">18%</button>
+        <button type="button" class="m1-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-val="28">28%</button>
+      </div>
+    </div>
+
+    <!-- Mode 1 Result Box -->
+    <div class="bg-brand-50/70 border border-brand-200 rounded-2xl p-6 text-center space-y-2">
+      <p class="text-xs font-bold text-brand-900 uppercase tracking-widest">Calculated Result</p>
+      <p id="m1-result" class="text-4xl sm:text-5xl font-black text-brand-700 font-mono">450</p>
+      <p id="m1-formula" class="text-xs sm:text-sm text-slate-600 font-mono">Formula: (18 ÷ 100) × 2,500 = 450</p>
+    </div>
+  </div>
+
+  <!-- TAB 2: Marks % / X is what % of Y? -->
+  <div id="pane-mode2" class="tab-pane hidden space-y-5">
+    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="m2-x" class="block text-xs font-bold text-slate-700 uppercase mb-1">Marks Obtained / Part (X)</label>
+          <input type="number" id="m2-x" value="485" step="any" class="input-text font-mono text-base" />
+        </div>
+        <div>
+          <label for="m2-y" class="block text-xs font-bold text-slate-700 uppercase mb-1">Total Marks / Whole (Y)</label>
+          <input type="number" id="m2-y" value="500" step="any" class="input-text font-mono text-base" />
+        </div>
+      </div>
+
+      <!-- Quick Marks Presets -->
+      <div class="flex items-center gap-2 flex-wrap text-xs mt-3 pt-3 border-t border-slate-200">
+        <span class="text-slate-500 font-semibold">Total Marks Preset:</span>
+        <button type="button" class="m2-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-total="500">500 (CBSE 5 Subs)</button>
+        <button type="button" class="m2-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-total="600">600 (6 Subs)</button>
+        <button type="button" class="m2-preset px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded font-medium" data-total="1000">1000</button>
+      </div>
+    </div>
+
+    <!-- Mode 2 Result Box -->
+    <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-6 text-center space-y-2">
+      <p class="text-xs font-bold text-emerald-900 uppercase tracking-widest">Marks Percentage</p>
+      <p id="m2-result" class="text-4xl sm:text-5xl font-black text-emerald-700 font-mono">97.00%</p>
+      <p id="m2-formula" class="text-xs sm:text-sm text-slate-600 font-mono">Formula: (485 ÷ 500) × 100 = 97.00%</p>
+    </div>
+  </div>
+
+  <!-- TAB 3: % Increase or Decrease -->
+  <div id="pane-mode3" class="tab-pane hidden space-y-5">
+    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="m3-initial" class="block text-xs font-bold text-slate-700 uppercase mb-1">Initial / Old Value (A)</label>
+          <input type="number" id="m3-initial" value="1000" step="any" class="input-text font-mono text-base" />
+        </div>
+        <div>
+          <label for="m3-final" class="block text-xs font-bold text-slate-700 uppercase mb-1">Final / New Value (B)</label>
+          <input type="number" id="m3-final" value="1250" step="any" class="input-text font-mono text-base" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode 3 Result Box -->
+    <div class="bg-brand-50/70 border border-brand-200 rounded-2xl p-6 text-center space-y-2">
+      <p class="text-xs font-bold text-brand-900 uppercase tracking-widest">Percentage Change</p>
+      <p id="m3-result" class="text-4xl sm:text-5xl font-black text-brand-700 font-mono">+25.00%</p>
+      <p id="m3-formula" class="text-xs sm:text-sm text-slate-600 font-mono">Increase of 25.00% (+250)</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tab Switching
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const panes = document.querySelectorAll<HTMLElement>('.tab-pane');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        t.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+        t.classList.add('bg-slate-100', 'text-slate-700');
+      });
+      tab.classList.remove('bg-slate-100', 'text-slate-700');
+      tab.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+
+      const targetPane = tab.dataset.tab;
+      panes.forEach((pane) => {
+        if (pane.id === `pane-${targetPane}`) {
+          pane.classList.remove('hidden');
+        } else {
+          pane.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // MODE 1 CALCULATION
+  const m1X = document.getElementById('m1-x') as HTMLInputElement | null;
+  const m1Y = document.getElementById('m1-y') as HTMLInputElement | null;
+  const m1Result = document.getElementById('m1-result');
+  const m1Formula = document.getElementById('m1-formula');
+  const m1Presets = document.querySelectorAll<HTMLButtonElement>('.m1-preset');
+
+  function calcM1() {
+    if (!m1X || !m1Y || !m1Result || !m1Formula) return;
+    const x = parseFloat(m1X.value) || 0;
+    const y = parseFloat(m1Y.value) || 0;
+    const res = (x / 100) * y;
+    m1Result.textContent = Number.isInteger(res) ? res.toLocaleString('en-IN') : res.toFixed(2);
+    m1Formula.textContent = `Formula: (${x} ÷ 100) × ${y.toLocaleString('en-IN')} = ${res.toFixed(2)}`;
+  }
+
+  m1X?.addEventListener('input', calcM1);
+  m1Y?.addEventListener('input', calcM1);
+
+  m1Presets.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (m1X && btn.dataset.val) {
+        m1X.value = btn.dataset.val;
+        calcM1();
+      }
+    });
+  });
+
+  // MODE 2 CALCULATION
+  const m2X = document.getElementById('m2-x') as HTMLInputElement | null;
+  const m2Y = document.getElementById('m2-y') as HTMLInputElement | null;
+  const m2Result = document.getElementById('m2-result');
+  const m2Formula = document.getElementById('m2-formula');
+  const m2Presets = document.querySelectorAll<HTMLButtonElement>('.m2-preset');
+
+  function calcM2() {
+    if (!m2X || !m2Y || !m2Result || !m2Formula) return;
+    const x = parseFloat(m2X.value) || 0;
+    const y = parseFloat(m2Y.value) || 1;
+    if (y === 0) {
+      m2Result.textContent = '0%';
+      return;
+    }
+    const percent = (x / y) * 100;
+    m2Result.textContent = `${percent.toFixed(2)}%`;
+    m2Formula.textContent = `Formula: (${x} ÷ ${y}) × 100 = ${percent.toFixed(2)}%`;
+  }
+
+  m2X?.addEventListener('input', calcM2);
+  m2Y?.addEventListener('input', calcM2);
+
+  m2Presets.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (m2Y && btn.dataset.total) {
+        m2Y.value = btn.dataset.total;
+        calcM2();
+      }
+    });
+  });
+
+  // MODE 3 CALCULATION
+  const m3Init = document.getElementById('m3-initial') as HTMLInputElement | null;
+  const m3Final = document.getElementById('m3-final') as HTMLInputElement | null;
+  const m3Result = document.getElementById('m3-result');
+  const m3Formula = document.getElementById('m3-formula');
+
+  function calcM3() {
+    if (!m3Init || !m3Final || !m3Result || !m3Formula) return;
+    const a = parseFloat(m3Init.value) || 0;
+    const b = parseFloat(m3Final.value) || 0;
+    if (a === 0) {
+      m3Result.textContent = 'N/A';
+      return;
+    }
+    const diff = b - a;
+    const change = (diff / Math.abs(a)) * 100;
+    const sign = change >= 0 ? '+' : '';
+    m3Result.textContent = `${sign}${change.toFixed(2)}%`;
+
+    if (change >= 0) {
+      m3Formula.textContent = `Increase of ${change.toFixed(2)}% (+${diff.toLocaleString('en-IN')})`;
+      m3Result.className = 'text-4xl sm:text-5xl font-black text-emerald-600 font-mono';
+    } else {
+      m3Formula.textContent = `Decrease of ${Math.abs(change).toFixed(2)}% (${diff.toLocaleString('en-IN')})`;
+      m3Result.className = 'text-4xl sm:text-5xl font-black text-rose-600 font-mono';
+    }
+  }
+
+  m3Init?.addEventListener('input', calcM3);
+  m3Final?.addEventListener('input', calcM3);
+
+  // Initial runs
+  calcM1();
+  calcM2();
+  calcM3();
+</script>

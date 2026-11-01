@@ -1,0 +1,149 @@
+---
+export interface Props {
+  placeholder?: string;
+  showCategoryFilters?: boolean;
+}
+
+const {
+  placeholder = 'Search by tool name or keyword (e.g., compress, pdf, age, ssc, resize)...',
+  showCategoryFilters = true,
+} = Astro.props;
+---
+
+<div class="w-full max-w-3xl mx-auto" data-search-container>
+  <!-- Search Input Box -->
+  <div class="relative flex items-center">
+    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </div>
+    <input
+      type="text"
+      id="tool-search-input"
+      class="w-full pl-11 pr-10 py-3.5 sm:py-4 bg-white border border-slate-300 rounded-2xl text-slate-900 placeholder-slate-400 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
+      placeholder={placeholder}
+      aria-label="Search tools"
+    />
+    <button
+      id="search-clear-btn"
+      type="button"
+      class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 hidden"
+      aria-label="Clear search"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Filter Chips -->
+  {showCategoryFilters && (
+    <div class="flex items-center justify-center gap-2 mt-4 flex-wrap text-xs sm:text-sm">
+      <button
+        type="button"
+        class="filter-chip px-3.5 py-1.5 rounded-full font-medium transition-all bg-brand-600 text-white shadow-sm"
+        data-filter="all"
+      >
+        All Tools (10)
+      </button>
+      <button
+        type="button"
+        class="filter-chip px-3.5 py-1.5 rounded-full font-medium transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+        data-filter="pdf"
+      >
+        PDF Tools (4)
+      </button>
+      <button
+        type="button"
+        class="filter-chip px-3.5 py-1.5 rounded-full font-medium transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+        data-filter="image"
+      >
+        Image Tools (3)
+      </button>
+      <button
+        type="button"
+        class="filter-chip px-3.5 py-1.5 rounded-full font-medium transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+        data-filter="calculator"
+      >
+        Calculators (3)
+      </button>
+    </div>
+  )}
+
+  <p id="search-status-text" class="text-xs text-center text-slate-500 mt-2 hidden"></p>
+</div>
+
+<script>
+  function setupSearch() {
+    const input = document.getElementById('tool-search-input') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('search-clear-btn');
+    const filterChips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+    const cards = document.querySelectorAll<HTMLElement>('[data-tool-card]');
+    const statusText = document.getElementById('search-status-text');
+
+    if (!input) return;
+
+    let activeFilter = 'all';
+
+    function filterTools() {
+      const query = input?.value.trim().toLowerCase() || '';
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', query === '');
+      }
+
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const category = card.dataset.category || '';
+        const keywords = card.dataset.keywords || '';
+
+        const matchesCategory = activeFilter === 'all' || category === activeFilter;
+        const matchesQuery = query === '' || keywords.includes(query);
+
+        if (matchesCategory && matchesQuery) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (statusText) {
+        if (query || activeFilter !== 'all') {
+          statusText.classList.remove('hidden');
+          statusText.textContent = `Showing ${visibleCount} tool${visibleCount === 1 ? '' : 's'}${query ? ` matching "${query}"` : ''}`;
+        } else {
+          statusText.classList.add('hidden');
+        }
+      }
+    }
+
+    input.addEventListener('input', filterTools);
+
+    clearBtn?.addEventListener('click', () => {
+      input.value = '';
+      input.focus();
+      filterTools();
+    });
+
+    filterChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach((c) => {
+          c.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+          c.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+        });
+
+        chip.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+        chip.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+
+        activeFilter = chip.dataset.filter || 'all';
+        filterTools();
+      });
+    });
+  }
+
+  // Run on initial load & after Astro page transitions
+  setupSearch();
+  document.addEventListener('astro:page-load', setupSearch);
+</script>

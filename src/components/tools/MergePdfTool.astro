@@ -1,0 +1,297 @@
+---
+---
+
+<div id="merge-pdf-app" class="space-y-6">
+  <!-- Upload Zone -->
+  <div
+    id="merge-drop-zone"
+    class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/30 rounded-2xl p-8 text-center transition-all cursor-pointer relative"
+  >
+    <input
+      type="file"
+      id="merge-file-input"
+      multiple
+      accept="application/pdf,.pdf"
+      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+    />
+    <div class="flex flex-col items-center justify-center pointer-events-none">
+      <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <p class="text-base font-semibold text-slate-800">
+        Choose PDF Files or drag & drop them here
+      </p>
+      <p class="text-xs text-slate-500 mt-1">
+        Select 2 or more PDF documents to merge into one.
+      </p>
+      <span class="mt-4 px-4 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg shadow-sm">
+        Browse PDFs
+      </span>
+    </div>
+  </div>
+
+  <!-- Action Panel -->
+  <div id="merge-action-panel" class="hidden space-y-6">
+    <!-- List Header -->
+    <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+      <div>
+        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <span>Files to Merge</span>
+          <span id="merge-count-badge" class="px-2 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-bold">0</span>
+        </h3>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Total Pages: <span id="total-pages-count" class="font-bold text-slate-800">0</span>
+        </p>
+      </div>
+      <button id="merge-clear-btn" class="text-xs text-rose-600 hover:text-rose-800 font-semibold cursor-pointer">
+        Clear All
+      </button>
+    </div>
+
+    <!-- PDF File Items List -->
+    <div id="pdf-items-list" class="space-y-3"></div>
+
+    <!-- Status Alert -->
+    <div id="merge-status-container" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-slate-200">
+      <button id="merge-reset-btn" type="button" class="btn-secondary w-full sm:w-auto">
+        Reset
+      </button>
+      <button id="execute-merge-btn" type="button" class="btn-primary w-full sm:w-auto">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+        <span>Merge & Download PDF</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { PDFDocument } from 'pdf-lib';
+
+  interface PdfFileItem {
+    id: string;
+    file: File;
+    name: string;
+    sizeFormatted: string;
+    pageCount: number;
+    arrayBuffer: ArrayBuffer;
+  }
+
+  let pdfList: PdfFileItem[] = [];
+
+  const fileInput = document.getElementById('merge-file-input') as HTMLInputElement | null;
+  const dropZone = document.getElementById('merge-drop-zone');
+  const actionPanel = document.getElementById('merge-action-panel');
+  const itemsContainer = document.getElementById('pdf-items-list');
+  const countBadge = document.getElementById('merge-count-badge');
+  const totalPagesEl = document.getElementById('total-pages-count');
+  const clearBtn = document.getElementById('merge-clear-btn');
+  const resetBtn = document.getElementById('merge-reset-btn');
+  const mergeBtn = document.getElementById('execute-merge-btn');
+  const statusContainer = document.getElementById('merge-status-container');
+
+  function formatBytes(bytes: number) {
+    if (bytes === 0) return '0 KB';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) continue;
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const doc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+        const pageCount = doc.getPageCount();
+
+        pdfList.push({
+          id: Math.random().toString(36).substring(2, 9),
+          file,
+          name: file.name,
+          sizeFormatted: formatBytes(file.size),
+          pageCount,
+          arrayBuffer,
+        });
+      } catch (err) {
+        console.error('Error inspecting PDF:', err);
+        showStatus(`Failed to read "${file.name}". Ensure it is a valid, unencrypted PDF.`, true);
+      }
+    }
+
+    renderPdfList();
+  }
+
+  function renderPdfList() {
+    if (!itemsContainer || !actionPanel || !countBadge || !totalPagesEl) return;
+
+    if (pdfList.length === 0) {
+      actionPanel.classList.add('hidden');
+      itemsContainer.innerHTML = '';
+      countBadge.textContent = '0';
+      totalPagesEl.textContent = '0';
+      return;
+    }
+
+    actionPanel.classList.remove('hidden');
+    countBadge.textContent = pdfList.length.toString();
+    const totalPages = pdfList.reduce((acc, curr) => acc + curr.pageCount, 0);
+    totalPagesEl.textContent = totalPages.toString();
+
+    itemsContainer.innerHTML = '';
+
+    pdfList.forEach((item, index) => {
+      const row = document.createElement('div');
+      row.className = 'flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 transition-colors';
+      row.innerHTML = `
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="w-7 h-7 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+            ${index + 1}
+          </span>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-slate-800 truncate" title="${item.name}">${item.name}</p>
+            <p class="text-xs text-slate-500">${item.sizeFormatted} • <span class="font-medium text-slate-700">${item.pageCount} page${item.pageCount === 1 ? '' : 's'}</span></p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          ${index > 0 ? `<button type="button" class="p-1.5 text-slate-500 hover:text-brand-600 hover:bg-slate-100 rounded move-up" data-idx="${index}" title="Move Up">▲</button>` : ''}
+          ${index < pdfList.length - 1 ? `<button type="button" class="p-1.5 text-slate-500 hover:text-brand-600 hover:bg-slate-100 rounded move-down" data-idx="${index}" title="Move Down">▼</button>` : ''}
+          <button type="button" class="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded remove-item font-bold" data-idx="${index}" title="Remove">✕</button>
+        </div>
+      `;
+      itemsContainer.appendChild(row);
+    });
+
+    itemsContainer.querySelectorAll<HTMLButtonElement>('.move-up').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx || '0', 10);
+        if (idx > 0) {
+          const temp = pdfList[idx];
+          pdfList[idx] = pdfList[idx - 1];
+          pdfList[idx - 1] = temp;
+          renderPdfList();
+        }
+      });
+    });
+
+    itemsContainer.querySelectorAll<HTMLButtonElement>('.move-down').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx || '0', 10);
+        if (idx < pdfList.length - 1) {
+          const temp = pdfList[idx];
+          pdfList[idx] = pdfList[idx + 1];
+          pdfList[idx + 1] = temp;
+          renderPdfList();
+        }
+      });
+    });
+
+    itemsContainer.querySelectorAll<HTMLButtonElement>('.remove-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx || '0', 10);
+        pdfList.splice(idx, 1);
+        renderPdfList();
+      });
+    });
+  }
+
+  fileInput?.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement;
+    handleFiles(target.files);
+    target.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-brand-500', 'bg-brand-50/50');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-brand-500', 'bg-brand-50/50');
+    });
+  });
+
+  dropZone?.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    if (dt && dt.files) {
+      handleFiles(dt.files);
+    }
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    pdfList = [];
+    renderPdfList();
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    pdfList = [];
+    renderPdfList();
+    if (statusContainer) statusContainer.classList.add('hidden');
+  });
+
+  function showStatus(msg: string, isError: boolean = false) {
+    if (!statusContainer) return;
+    statusContainer.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+    if (isError) {
+      statusContainer.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+    } else {
+      statusContainer.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+    }
+    statusContainer.innerHTML = msg;
+  }
+
+  mergeBtn?.addEventListener('click', async () => {
+    if (pdfList.length < 2) {
+      showStatus('Please upload at least 2 PDF files to merge.', true);
+      return;
+    }
+
+    try {
+      mergeBtn.setAttribute('disabled', 'true');
+      showStatus('Merging PDFs locally in your browser memory...');
+
+      const mergedDoc = await PDFDocument.create();
+
+      for (let i = 0; i < pdfList.length; i++) {
+        const item = pdfList[i];
+        const srcDoc = await PDFDocument.load(item.arrayBuffer);
+        const copiedPages = await mergedDoc.copyPages(srcDoc, srcDoc.getPageIndices());
+        copiedPages.forEach((page) => mergedDoc.addPage(page));
+      }
+
+      const mergedBytes = await mergedDoc.save();
+      const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `EasyUtility_Merged_${Date.now()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      const totalMergedPages = mergedDoc.getPageCount();
+      showStatus(`Successfully merged ${pdfList.length} PDFs into a single document (${totalMergedPages} total pages). Download started!`);
+    } catch (err: any) {
+      console.error(err);
+      showStatus(`Error merging PDFs: ${err.message || 'Unknown error'}`, true);
+    } finally {
+      mergeBtn.removeAttribute('disabled');
+    }
+  });
+</script>

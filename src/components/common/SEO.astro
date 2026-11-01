@@ -1,0 +1,104 @@
+---
+import { siteConfig } from '../../config/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogType?: 'website' | 'article';
+  image?: string;
+  faqs?: { question: string; answer: string }[];
+  toolSchema?: {
+    name: string;
+    description: string;
+    applicationCategory: string;
+    operatingSystem: string;
+  };
+}
+
+const {
+  title = `${siteConfig.name} - ${siteConfig.tagline}`,
+  description = siteConfig.description,
+  canonical = Astro.url.href,
+  ogType = 'website',
+  image = `${siteConfig.url}/og-image.png`,
+  faqs,
+  toolSchema,
+} = Astro.props;
+
+const fullTitle = title.includes(siteConfig.name) ? title : `${title} | ${siteConfig.name}`;
+
+// Build JSON-LD schemas
+const jsonLdSchemas: any[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    inLanguage: 'en-IN',
+  },
+];
+
+if (toolSchema) {
+  jsonLdSchemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: toolSchema.name,
+    url: canonical,
+    description: toolSchema.description,
+    applicationCategory: toolSchema.applicationCategory || 'UtilitiesApplication',
+    operatingSystem: 'All',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    browserRequirements: 'Requires JavaScript. Requires HTML5.',
+  });
+}
+
+if (faqs && faqs.length > 0) {
+  jsonLdSchemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  });
+}
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#2563eb" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:site_name" content={siteConfig.name} />
+<meta property="og:locale" content={siteConfig.locale} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonical} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={image} />
+
+<!-- Structured Data / JSON-LD -->
+{jsonLdSchemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

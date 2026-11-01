@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Privacy Policy' },
+];
+---
+
+<BaseLayout
+  seo={{
+    title: 'Privacy Policy - Easy Utility India | Zero Server Upload Guarantee',
+    description: 'Learn how Easy Utility India protects your data. All document processing happens strictly inside your local web browser with zero server storage.',
+  }}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm prose prose-slate max-w-none text-slate-700 space-y-6">
+      <div>
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider inline-block mb-3">
+          Privacy Guarantee
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Privacy Policy
+        </h1>
+        <p class="text-xs text-slate-500 mt-2">Last updated: November 1, 2026</p>
+      </div>
+
+      <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-xs text-emerald-900 leading-relaxed font-medium">
+        <strong>Executive Summary:</strong> When you use Easy Utility India to compress images, merge PDFs, or split documents, your files are never uploaded to any server. All processing runs 100% inside your web browser on your phone or computer.
+      </div>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">1. Information We Do NOT Collect</h2>
+        <p>
+          Unlike conventional utility platforms, Easy Utility India does not operate server-side file processors. When you interact with our file utilities (Image to PDF, Merge PDF, Split PDF, PDF Preview, Image Resizer, Image Compressor, JPG to PNG Converter):
+        </p>
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          <li>We do <strong>not</strong> upload your documents or images to our servers.</li>
+          <li>We do <strong>not</strong> store your personal files on cloud buckets or storage databases.</li>
+          <li>We do <strong>not</strong> read, inspect, or sell the contents of your documents or calculation inputs.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">2. Technical Processing Model</h2>
+        <p>
+          Our tools operate via client-side JavaScript APIs (HTML5 Canvas, File API, and WebAssembly). All memory manipulation happens within the sandbox of your own device's web browser. When you refresh or close your browser tab, all memory allocated for your documents is immediately discarded by your device operating system.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">3. Cookies and Analytics</h2>
+        <p>
+          We do not use invasive tracking cookies. We may use standard anonymized web analytics to measure aggregate website traffic (e.g., page views, popular tools, browser types) to optimize user experience and page load speed across India.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">4. Third-Party Advertising (Google AdSense)</h2>
+        <p>
+          To maintain all utilities free of charge without subscriptions or paywalls, this website may display advertisements provided by third-party advertising partners such as Google AdSense.
+        </p>
+        <p>
+          Google, as a third-party vendor, uses cookies (including the DoubleClick cookie) to serve ads based on prior visits to our website or other websites on the Internet. Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="text-brand-600 underline">Google Ads Settings</a>.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">5. Contact Regarding Privacy</h2>
+        <p>
+          If you have any questions, clarifications, or feedback concerning this Privacy Policy, please email our privacy team at <a href="mailto:privacy@easyutilityindia.com" class="text-brand-600 underline">privacy@easyutilityindia.com</a> or visit our <a href="/contact" class="text-brand-600 underline">Contact Page</a>.
+        </p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>

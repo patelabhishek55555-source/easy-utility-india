@@ -1,0 +1,38 @@
+---
+import { siteConfig } from '../../config/site';
+
+export interface Props {
+  slot?: string;
+  format?: 'auto' | 'horizontal' | 'rectangle';
+  responsive?: boolean;
+  className?: string;
+}
+
+const {
+  slot = '',
+  format = 'auto',
+  responsive = true,
+  className = '',
+} = Astro.props;
+
+const isEnabled = siteConfig.adsense.enabled && siteConfig.adsense.client && slot;
+---
+
+{isEnabled ? (
+  <div class={`adsense-container my-6 text-center overflow-hidden ${className}`}>
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={siteConfig.adsense.client}
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive={responsive ? 'true' : 'false'}
+    />
+    <script is:inline>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+) : (
+  <!-- AdSense slot disabled pending publisher verification -->
+  <div class="hidden" aria-hidden="true" data-ad-slot-ready="pending-publisher-id" />
+)}

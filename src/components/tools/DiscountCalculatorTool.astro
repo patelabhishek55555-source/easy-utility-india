@@ -1,0 +1,211 @@
+---
+---
+
+<div id="discount-calc-app" class="space-y-6">
+  
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- Input Form (7 cols) -->
+    <div class="lg:col-span-7 bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 space-y-5">
+      
+      <!-- Original MRP Price -->
+      <div>
+        <label for="original-price" class="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+          Original Price (MRP in ₹)
+        </label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-bold">₹</span>
+          <input
+            type="number"
+            id="original-price"
+            value="1999"
+            min="0"
+            step="any"
+            class="input-text pl-8 font-mono text-lg font-bold"
+          />
+        </div>
+      </div>
+
+      <!-- Discount Section -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <label for="discount-val" class="block text-xs font-bold text-slate-700 uppercase">Discount</label>
+          <div class="flex items-center gap-1 text-xs">
+            <button type="button" id="type-percent" class="px-2.5 py-1 rounded bg-brand-600 text-white font-bold transition-colors">Percentage (%)</button>
+            <button type="button" id="type-flat" class="px-2.5 py-1 rounded bg-white text-slate-600 border border-slate-200 font-medium hover:bg-slate-100 transition-colors">Flat Rupee (₹)</button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <input
+            type="number"
+            id="discount-val"
+            value="25"
+            min="0"
+            step="any"
+            class="input-text font-mono text-base font-bold pr-10"
+          />
+          <span id="discount-unit-symbol" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 font-bold">%</span>
+        </div>
+
+        <!-- Quick Discount Presets -->
+        <div class="flex items-center gap-1.5 flex-wrap text-xs pt-1">
+          <span class="text-slate-500 font-medium">Quick %:</span>
+          <button type="button" class="disc-preset px-2 py-0.5 bg-white border border-slate-200 hover:bg-brand-50 rounded font-medium" data-val="10">10%</button>
+          <button type="button" class="disc-preset px-2 py-0.5 bg-white border border-slate-200 hover:bg-brand-50 rounded font-medium" data-val="20">20%</button>
+          <button type="button" class="disc-preset px-2 py-0.5 bg-white border border-slate-200 hover:bg-brand-50 rounded font-medium" data-val="30">30%</button>
+          <button type="button" class="disc-preset px-2 py-0.5 bg-white border border-slate-200 hover:bg-brand-50 rounded font-medium" data-val="50">50% Half Price</button>
+          <button type="button" class="disc-preset px-2 py-0.5 bg-white border border-slate-200 hover:bg-brand-50 rounded font-medium" data-val="70">70% Clearance</button>
+        </div>
+      </div>
+
+      <!-- Indian GST Tax Selector -->
+      <div>
+        <label for="gst-select" class="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+          Indian GST / Tax Slab
+        </label>
+        <select id="gst-select" class="input-text text-sm font-medium">
+          <option value="0" selected>0% (No GST / GST Included in MRP)</option>
+          <option value="5">5% GST (Apparel under ₹1000, Packaged Food)</option>
+          <option value="12">12% GST (Processed Food, Business Hotels)</option>
+          <option value="18">18% GST (Electronics, Software, Online Services)</option>
+          <option value="28">28% GST (Luxury Items, Automobiles)</option>
+        </select>
+        <p class="text-[11px] text-slate-500 mt-1">If the MRP already includes tax, select 0% GST.</p>
+      </div>
+
+    </div>
+
+    <!-- Results & Receipt Breakdown (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+      
+      <!-- Highlighted Price Card -->
+      <div class="bg-gradient-to-tr from-brand-700 to-blue-600 rounded-2xl p-6 text-white shadow-md text-center">
+        <span class="text-xs font-bold text-brand-200 uppercase tracking-wider block mb-1">Final Amount to Pay</span>
+        <span id="final-payable" class="text-4xl sm:text-5xl font-black font-mono block my-1">₹1,499.25</span>
+        <span id="net-savings-text" class="inline-block mt-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold text-emerald-300">
+          You Save ₹499.75 (25%)
+        </span>
+      </div>
+
+      <!-- Itemized Receipt -->
+      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm text-xs space-y-2.5">
+        <h4 class="font-bold text-slate-900 uppercase tracking-wider text-[11px] pb-2 border-b border-slate-100">
+          Bill Summary
+        </h4>
+        <div class="flex items-center justify-between text-slate-600">
+          <span>Original Price (MRP):</span>
+          <span id="receipt-mrp" class="font-semibold text-slate-900 font-mono">₹1,999.00</span>
+        </div>
+        <div class="flex items-center justify-between text-emerald-600 font-medium">
+          <span>Discount Applied:</span>
+          <span id="receipt-discount" class="font-semibold font-mono">-₹499.75</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-600">
+          <span>Discounted Subtotal:</span>
+          <span id="receipt-subtotal" class="font-semibold text-slate-900 font-mono">₹1,499.25</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-600">
+          <span>GST / Tax (<span id="receipt-gst-pct">0</span>%):</span>
+          <span id="receipt-gst" class="font-semibold text-slate-900 font-mono">+₹0.00</span>
+        </div>
+        <div class="pt-2 border-t border-slate-200 flex items-center justify-between font-bold text-sm text-slate-900">
+          <span>Final Payable:</span>
+          <span id="receipt-total" class="text-brand-600 font-mono">₹1,499.25</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  let discountMode: 'percent' | 'flat' = 'percent';
+
+  const originalPriceInput = document.getElementById('original-price') as HTMLInputElement | null;
+  const discountValInput = document.getElementById('discount-val') as HTMLInputElement | null;
+  const gstSelect = document.getElementById('gst-select') as HTMLSelectElement | null;
+  const typePercentBtn = document.getElementById('type-percent');
+  const typeFlatBtn = document.getElementById('type-flat');
+  const unitSymbol = document.getElementById('discount-unit-symbol');
+  const finalPayableEl = document.getElementById('final-payable');
+  const netSavingsText = document.getElementById('net-savings-text');
+  const receiptMrp = document.getElementById('receipt-mrp');
+  const receiptDiscount = document.getElementById('receipt-discount');
+  const receiptSubtotal = document.getElementById('receipt-subtotal');
+  const receiptGstPct = document.getElementById('receipt-gst-pct');
+  const receiptGst = document.getElementById('receipt-gst');
+  const receiptTotal = document.getElementById('receipt-total');
+  const discPresets = document.querySelectorAll<HTMLButtonElement>('.disc-preset');
+
+  function formatInr(val: number): string {
+    return '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculateBill() {
+    if (!originalPriceInput || !discountValInput || !gstSelect) return;
+
+    const mrp = Math.max(0, parseFloat(originalPriceInput.value) || 0);
+    const discVal = Math.max(0, parseFloat(discountValInput.value) || 0);
+    const gstRate = parseFloat(gstSelect.value) || 0;
+
+    let discountAmount = 0;
+    if (discountMode === 'percent') {
+      discountAmount = (discVal / 100) * mrp;
+    } else {
+      discountAmount = Math.min(mrp, discVal);
+    }
+
+    const subtotal = Math.max(0, mrp - discountAmount);
+    const gstAmount = (gstRate / 100) * subtotal;
+    const finalAmount = subtotal + gstAmount;
+    const netSavings = Math.max(0, mrp - subtotal);
+    const savingsPercent = mrp > 0 ? (netSavings / mrp) * 100 : 0;
+
+    if (finalPayableEl) finalPayableEl.textContent = formatInr(finalAmount);
+    if (netSavingsText) netSavingsText.textContent = `You Save ${formatInr(netSavings)} (${savingsPercent.toFixed(1)}%)`;
+
+    if (receiptMrp) receiptMrp.textContent = formatInr(mrp);
+    if (receiptDiscount) receiptDiscount.textContent = `-${formatInr(discountAmount)}`;
+    if (receiptSubtotal) receiptSubtotal.textContent = formatInr(subtotal);
+    if (receiptGstPct) receiptGstPct.textContent = gstRate.toString();
+    if (receiptGst) receiptGst.textContent = `+${formatInr(gstAmount)}`;
+    if (receiptTotal) receiptTotal.textContent = formatInr(finalAmount);
+  }
+
+  typePercentBtn?.addEventListener('click', () => {
+    discountMode = 'percent';
+    typePercentBtn.className = 'px-2.5 py-1 rounded bg-brand-600 text-white font-bold transition-colors';
+    typeFlatBtn!.className = 'px-2.5 py-1 rounded bg-white text-slate-600 border border-slate-200 font-medium hover:bg-slate-100 transition-colors';
+    if (unitSymbol) unitSymbol.textContent = '%';
+    calculateBill();
+  });
+
+  typeFlatBtn?.addEventListener('click', () => {
+    discountMode = 'flat';
+    typeFlatBtn.className = 'px-2.5 py-1 rounded bg-brand-600 text-white font-bold transition-colors';
+    typePercentBtn!.className = 'px-2.5 py-1 rounded bg-white text-slate-600 border border-slate-200 font-medium hover:bg-slate-100 transition-colors';
+    if (unitSymbol) unitSymbol.textContent = '₹';
+    calculateBill();
+  });
+
+  discPresets.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (discountValInput && btn.dataset.val) {
+        if (discountMode !== 'percent') {
+          typePercentBtn?.click();
+        }
+        discountValInput.value = btn.dataset.val;
+        calculateBill();
+      }
+    });
+  });
+
+  originalPriceInput?.addEventListener('input', calculateBill);
+  discountValInput?.addEventListener('input', calculateBill);
+  gstSelect?.addEventListener('change', calculateBill);
+
+  calculateBill();
+</script>

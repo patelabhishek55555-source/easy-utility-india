@@ -1,0 +1,168 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import ToolCard from '../components/common/ToolCard.astro';
+import AdSenseSlot from '../components/common/AdSenseSlot.astro';
+import { type Tool, tools } from '../config/tools';
+
+export interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+
+const relatedTools = tool.relatedSlugs
+  .map((slug) => tools.find((t) => t.slug === slug))
+  .filter((t): t is Tool => Boolean(t));
+
+const breadcrumbItems = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/tools' },
+  { name: tool.shortTitle },
+];
+---
+
+<BaseLayout
+  seo={{
+    title: tool.seoTitle,
+    description: tool.seoDescription,
+    faqs: tool.faqs,
+    toolSchema: {
+      name: tool.title,
+      description: tool.description,
+      applicationCategory: tool.category === 'calculator' ? 'BusinessApplication' : 'UtilitiesApplication',
+      operatingSystem: 'All',
+    },
+  }}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    
+    <!-- Breadcrumbs -->
+    <Breadcrumbs items={breadcrumbItems} />
+
+    <!-- Tool Header Header Section -->
+    <div class="mb-8 text-center sm:text-left">
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-3">
+        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wide">
+          {tool.category.toUpperCase()} TOOL
+        </span>
+        {tool.badge && (
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+            {tool.badge}
+          </span>
+        )}
+        <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+          <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd" />
+          </svg>
+          100% Client-Side Privacy
+        </span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        {tool.title}
+      </h1>
+      <p class="text-slate-600 mt-2 sm:text-base max-w-3xl leading-relaxed">
+        {tool.description}
+      </p>
+    </div>
+
+    <!-- Top Ad Placement (Clean & Inactive until approved) -->
+    <AdSenseSlot slot="tool-top-banner" format="horizontal" />
+
+    <!-- Main Interactive Workspace -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 mb-12">
+      <slot />
+    </div>
+
+    <!-- Middle Ad Placement -->
+    <AdSenseSlot slot="tool-mid-banner" format="horizontal" />
+
+    <!-- Step-by-Step Instructions & Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      
+      <!-- Instructions Card -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-black">?</span>
+          How to Use {tool.shortTitle}
+        </h2>
+        <div class="space-y-4">
+          {tool.instructions.map((step) => (
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                {step.step}
+              </span>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-800">{step.title}</h3>
+                <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">{step.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Key Features Card -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-black">★</span>
+          Key Features & Privacy
+        </h2>
+        <ul class="space-y-3">
+          {tool.features.map((feature) => (
+            <li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <svg class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Frequently Asked Questions -->
+    {tool.faqs.length > 0 && (
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm mb-12">
+        <h2 class="text-xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4 divide-y divide-slate-100">
+          {tool.faqs.map((faq, index) => (
+            <details class="group pt-4 first:pt-0" open={index === 0}>
+              <summary class="flex items-center justify-between font-semibold text-slate-900 cursor-pointer list-none text-sm sm:text-base hover:text-brand-600 transition-colors">
+                <span>{faq.question}</span>
+                <span class="ml-4 flex-shrink-0 text-slate-400 group-open:rotate-180 transition-transform duration-200">
+                  ▼
+                </span>
+              </summary>
+              <p class="mt-2 text-sm text-slate-600 leading-relaxed pl-1">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Bottom Ad Placement -->
+    <AdSenseSlot slot="tool-bottom-banner" format="horizontal" />
+
+    <!-- Related Tools Section -->
+    {relatedTools.length > 0 && (
+      <div class="mt-12">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-slate-900">Explore Related Tools</h2>
+          <a href="/tools" class="text-sm font-semibold text-brand-600 hover:text-brand-700">
+            View All Tools →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {relatedTools.map((relTool) => (
+            <ToolCard tool={relTool} />
+          ))}
+        </div>
+      </div>
+    )}
+
+  </div>
+</BaseLayout>
