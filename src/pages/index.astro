@@ -14,19 +14,19 @@ const calculators = getToolsByCategory('calculator');
 const homeFaqs = [
   {
     question: 'Are my uploaded files and photos private and safe?',
-    answer: 'Absolutely. Easy Utility India processes all files 100% in your local web browser using client-side JavaScript (HTML5 Canvas and WebAssembly). Your files, marksheets, photos, and documents are NEVER uploaded to our servers or stored in any database.',
+    answer: 'Yes, 100% safe. Easy Utility India processes all files directly in your local browser using client-side WebAssembly, JavaScript, and HTML5 Canvas. Your documents, photos, and marksheets never touch any external server or cloud database.',
   },
   {
-    question: 'How do I compress my photo to 20 KB or 50 KB for SSC/UPSC exams?',
-    answer: 'Open our "Image Compressor by Target KB" tool. Upload your photo or signature, enter "50" or "20" in the Target KB box, and our intelligent algorithm will compress the file to meet the government portal limit while preserving maximum visual clarity.',
+    question: 'How do I compress my photo to 20 KB or 50 KB for UPSC or SSC exams?',
+    answer: 'Open our Image Compressor tool, select your photo or signature, enter 50 or 20 in the Target KB field, and our engine will compress the image to meet official portal limits while preserving maximum visual clarity.',
   },
   {
     question: 'Is Easy Utility India completely free to use?',
-    answer: 'Yes! There are no hidden subscription charges, no sign-up requirements, and no watermarks placed on any generated PDF or image.',
+    answer: 'Yes! There are no hidden fees, no subscriptions, no email registration, and no watermarks placed on any generated PDF or image.',
   },
   {
-    question: 'Can I use these tools on my mobile phone?',
-    answer: 'Yes, Easy Utility India is designed mobile-first and works seamlessly on Android smartphones, iPhones, iPads, laptops, and desktop computers without installing any apps.',
+    question: 'Can I use these tools on an Android phone or iPhone?',
+    answer: 'Yes. Easy Utility India is engineered mobile-first and functions smoothly across Chrome, Safari, Firefox, and Edge on smartphones, tablets, and computers.',
   },
 ];
 ---
@@ -34,13 +34,12 @@ const homeFaqs = [
 <BaseLayout
   seo={{
     title: 'Easy Utility India - Free Online Tools for Everyday Needs',
-    description: '100% private, browser-side online tools for India. Compress photos to 20KB/50KB, merge & split PDFs, convert image to PDF, calculate age for cutoff dates, and discount with GST.',
+    description: 'Free, fast, and 100% private online tools for India. Compress photos to 20KB/50KB for UPSC & SSC, merge PDFs, and calculate age & GST. No server uploads.',
     faqs: homeFaqs,
   }}
 >
   <!-- Hero Section -->
-  <section class="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-slate-50 to-white py-16 sm:py-24 border-b border-slate-200/80">
-    <!-- Decorative background elements -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-slate-50 to-white py-14 sm:py-20 border-b border-slate-200/80">
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none opacity-40">
       <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-200 rounded-full blur-3xl"></div>
       <div class="absolute top-1/2 -left-40 w-96 h-96 bg-sky-200 rounded-full blur-3xl"></div>
@@ -48,26 +47,26 @@ const homeFaqs = [
 
     <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       
-      <!-- Tricolor Pill Badge -->
+      <!-- Tricolor Badge -->
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-semibold text-slate-800 mb-6">
         <span class="flex items-center gap-1">
           <span class="w-2 h-2 rounded-full bg-amber-500"></span>
           <span class="w-2 h-2 rounded-full bg-slate-300"></span>
           <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
         </span>
-        <span>India's Fast & Privacy-First Utility Platform</span>
+        <span>India's Fast & Privacy-First Utility Suite</span>
       </div>
 
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
         Free Online Tools for <span class="text-brand-600">Everyday Needs</span>
       </h1>
       
-      <p class="mt-4 text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-        Compress images to exact KB for exam portals, merge & split PDFs, and calculate ages & discounts. Zero server uploads—everything happens securely on your device.
+      <p class="mt-4 text-sm sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Compress photos to exact KB for exam portals, merge & split PDFs, and calculate age & GST. Zero server uploads—everything executes securely on your device.
       </p>
 
       <!-- Trust Badges Bar -->
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-600 font-medium">
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-slate-600 font-medium">
         <div class="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
           <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
@@ -86,7 +85,7 @@ const homeFaqs = [
       </div>
 
       <!-- Live Search Bar -->
-      <div class="mt-10 max-w-2xl mx-auto">
+      <div class="mt-8 max-w-2xl mx-auto">
         <SearchBar />
       </div>
 
@@ -111,7 +110,7 @@ const homeFaqs = [
       </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
       {popularTools.map((tool) => (
         <ToolCard tool={tool} />
       ))}
@@ -130,13 +129,13 @@ const homeFaqs = [
               PDF
             </div>
             <div>
-              <h3 class="text-xl sm:text-2xl font-bold text-slate-900">PDF Tools</h3>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900">PDF Tools</h2>
               <p class="text-xs text-slate-500">Manipulate, combine, and inspect PDF files without installing software.</p>
             </div>
           </div>
           <a href="/tools#pdf-tools" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Explore PDF →</a>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {pdfTools.map((tool) => (
             <ToolCard tool={tool} />
           ))}
@@ -151,13 +150,13 @@ const homeFaqs = [
               IMG
             </div>
             <div>
-              <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Image Tools</h3>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Image Tools</h2>
               <p class="text-xs text-slate-500">Compress to target KB for UPSC/SSC portals and resize with presets.</p>
             </div>
           </div>
           <a href="/tools#image-tools" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Explore Image →</a>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {imageTools.map((tool) => (
             <ToolCard tool={tool} />
           ))}
@@ -172,13 +171,13 @@ const homeFaqs = [
               CALC
             </div>
             <div>
-              <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Calculators</h3>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Calculators</h2>
               <p class="text-xs text-slate-500">Exam age cutoffs, school/college marks percentages, and discount bills.</p>
             </div>
           </div>
           <a href="/tools#calculators" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Explore Calculators →</a>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {calculators.map((tool) => (
             <ToolCard tool={tool} />
           ))}
@@ -203,15 +202,14 @@ const homeFaqs = [
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Guide 1 -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
           <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md">Govt Exams</span>
           <h3 class="font-bold text-slate-900 text-lg mt-3">
-            How to Compress Photo Under 50KB for UPSC & SSC
+            Compress Photo Under 50KB for UPSC & SSC
           </h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Indian exam portals reject applications if photos exceed 50KB or signatures exceed 20KB. Use our Target KB compressor to automatically scale dimensions and quality while preserving crisp face recognition.
+            Indian exam portals reject applications if photos exceed 50KB or signatures exceed 20KB. Use our Target KB compressor to automatically scale dimensions and quality while preserving crisp clarity.
           </p>
         </div>
         <a href="/tools/image-compressor" class="mt-4 text-xs font-bold text-brand-600 hover:text-brand-700 inline-flex items-center gap-1">
@@ -219,15 +217,14 @@ const homeFaqs = [
         </a>
       </div>
 
-      <!-- Guide 2 -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
           <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">Eligibility Cutoffs</span>
           <h3 class="font-bold text-slate-900 text-lg mt-3">
-            Calculating Exact Age as on 1st August or 1st January
+            Calculate Age on 1st August or 1st January
           </h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Most recruitment notifications enforce strict cutoff dates (e.g., minimum 21 years as of 01/08/2026). Our Age Calculator allows you to specify the exact cutoff date to verify your eligibility down to the exact day.
+            Most recruitment notifications enforce strict cutoff dates (e.g. minimum 21 years as of 01/08/2026). Our Age Calculator allows you to specify the exact cutoff date to verify eligibility down to the exact day.
           </p>
         </div>
         <a href="/tools/age-calculator" class="mt-4 text-xs font-bold text-brand-600 hover:text-brand-700 inline-flex items-center gap-1">
@@ -235,15 +232,14 @@ const homeFaqs = [
         </a>
       </div>
 
-      <!-- Guide 3 -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
-          <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">College & Admissions</span>
+          <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">College Admissions</span>
           <h3 class="font-bold text-slate-900 text-lg mt-3">
-            How to Combine Marksheets & Certificates into One PDF
+            Combine Marksheets into a Single PDF
           </h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Counseling portals frequently ask for a single consolidated PDF containing 10th, 12th, and degree marksheets. With our Merge PDF and Image to PDF tools, combine multiple scans in seconds without exposing private records.
+            Counseling portals frequently ask for a single consolidated PDF containing 10th, 12th, and degree marksheets. With our Merge PDF and Image to PDF tools, combine multiple scans without exposing private records.
           </p>
         </div>
         <a href="/tools/merge-pdf" class="mt-4 text-xs font-bold text-brand-600 hover:text-brand-700 inline-flex items-center gap-1">
@@ -262,7 +258,7 @@ const homeFaqs = [
           <p class="text-xs text-slate-500">Fresh additions to make your digital work faster.</p>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {recentlyAdded.map((tool) => (
           <ToolCard tool={tool} />
         ))}
@@ -287,7 +283,7 @@ const homeFaqs = [
                 ▼
               </span>
             </summary>
-            <p class="mt-2 text-sm text-slate-600 leading-relaxed pl-1">
+            <p class="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed pl-1">
               {faq.answer}
             </p>
           </details>

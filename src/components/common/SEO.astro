@@ -12,88 +12,132 @@ export interface Props {
     name: string;
     description: string;
     applicationCategory: string;
-    operatingSystem: string;
+    operatingSystem?: string;
+    featureList?: string[];
   };
 }
 
 const {
   title = `${siteConfig.name} - ${siteConfig.tagline}`,
   description = siteConfig.description,
-  canonical = Astro.url.href,
+  canonical,
   ogType = 'website',
-  image = `${siteConfig.url}/og-image.png`,
+  image = `${siteConfig.url}/favicon.svg`,
   faqs,
   toolSchema,
 } = Astro.props;
 
-const fullTitle = title.includes(siteConfig.name) ? title : `${title} | ${siteConfig.name}`;
+// Ensure title does not redundantly repeat brand name
+let fullTitle = title;
+if (!title.includes(siteConfig.name)) {
+  fullTitle = `${title} | ${siteConfig.name}`;
+}
 
-// Build JSON-LD schemas
-const jsonLdSchemas: any[] = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: siteConfig.name,
-    url: siteConfig.url,
-    description: siteConfig.description,
-    inLanguage: 'en-IN',
+// Canonical URL Normalization: Remove any query strings or trailing slashes (except root)
+const siteRoot = siteConfig.url.replace(/\/$/, '');
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '';
+const cleanCanonical = canonical || (pathname ? `${siteRoot}${pathname}` : siteRoot);
+
+// 1. WebSite Schema with Sitelinks SearchBox
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteRoot}/#website`,
+  name: siteConfig.name,
+  url: siteRoot,
+  description: siteConfig.description,
+  inLanguage: 'en-IN',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteRoot}/tools?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
   },
-];
+};
 
+// 2. Organization Schema
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteRoot}/#organization`,
+  name: siteConfig.name,
+  url: siteRoot,
+  logo: `${siteRoot}/favicon.svg`,
+  description: siteConfig.description,
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'IN',
+  },
+};
+
+const jsonLdSchemas: any[] = [websiteSchema, organizationSchema];
+
+// 3. WebApplication Schema for Tools
 if (toolSchema) {
   jsonLdSchemas.push({
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
+    '@id': `${cleanCanonical}/#webapp`,
     name: toolSchema.name,
-    url: canonical,
+    url: cleanCanonical,
     description: toolSchema.description,
     applicationCategory: toolSchema.applicationCategory || 'UtilitiesApplication',
-    operatingSystem: 'All',
+    operatingSystem: toolSchema.operatingSystem || 'All',
+    browserRequirements: 'Requires JavaScript. Requires HTML5.',
     offers: {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
     },
-    browserRequirements: 'Requires JavaScript. Requires HTML5.',
+    featureList: toolSchema.featureList || [],
+    author: {
+      '@id': `${siteRoot}/#organization`,
+    },
   });
 }
 
+// 4. FAQPage Schema
 if (faqs && faqs.length > 0) {
   jsonLdSchemas.push({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
-      name: faq.question,
+      name: faq.question.trim(),
       acceptedAnswer: {
         '@type': 'Answer',
-        text: faq.answer,
+        text: faq.answer.replace(/<[^>]*>?/gm, '').trim(),
       },
     })),
   });
 }
 ---
 
-<!-- Primary Meta Tags -->
+<!-- Technical SEO Primary Meta Tags -->
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
-<meta name="robots" content="index, follow" />
+<link rel="canonical" href={cleanCanonical} />
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 <meta name="theme-color" content="#2563eb" />
+<meta name="geo.region" content="IN" />
+<meta name="geo.placename" content="India" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={ogType} />
-<meta property="og:url" content={canonical} />
+<meta property="og:url" content={cleanCanonical} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image} />
 <meta property="og:site_name" content={siteConfig.name} />
 <meta property="og:locale" content={siteConfig.locale} />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonical} />
+<!-- Twitter Cards -->
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:url" content={cleanCanonical} />
 <meta property="twitter:title" content={fullTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={image} />

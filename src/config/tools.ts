@@ -12,143 +12,178 @@ export interface Tool {
   seoTitle: string;
   seoDescription: string;
   features: string[];
+  specs: { label: string; value: string }[];
   instructions: { step: number; title: string; text: string }[];
   faqs: { question: string; answer: string }[];
   relatedSlugs: string[];
 }
 
 export const tools: Tool[] = [
-  // PDF TOOLS
+  // 1. IMAGE TO PDF
   {
     id: 'image-to-pdf',
     slug: 'image-to-pdf',
     title: 'Image to PDF Converter',
     shortTitle: 'Image to PDF',
     category: 'pdf',
-    description: 'Convert multiple JPG, PNG, and WebP images into a single clean PDF document. Reorder images, customize page orientation, and generate PDFs 100% locally.',
+    description: 'Convert multiple JPG, PNG, and WebP images into a single organized PDF document. Reorder pages, set custom margins, and generate PDFs 100% locally in your browser.',
     icon: 'FileImage',
     badge: 'Popular',
     popular: true,
     recentlyAdded: false,
-    seoTitle: 'Free Image to PDF Converter Online - Convert JPG/PNG to PDF | Easy Utility India',
-    seoDescription: 'Convert JPG, PNG, and WebP photos to high quality PDF files instantly in your browser. No file size limits, no server uploads, 100% private and free.',
+    seoTitle: 'Image to PDF Converter Online Free | Easy Utility India',
+    seoDescription: 'Convert JPG, PNG, and WebP photos into high quality PDF files instantly in your browser. No file limits, no watermarks, and 100% private client processing.',
+    specs: [
+      { label: 'Supported Input Formats', value: 'JPG, JPEG, PNG, WebP' },
+      { label: 'Output Format', value: 'Standard PDF (ISO 32000-1)' },
+      { label: 'Page Formats', value: 'A4, US Letter, Fit to Image' },
+      { label: 'Security & Privacy', value: '100% Client-Side (Zero Server Upload)' },
+    ],
     features: [
-      'Convert single or multiple images (JPG, PNG, WebP) into one organized PDF',
-      'Choose page orientation: Portrait, Landscape, or Auto-fit',
-      'Set custom page margins (None, Small, Normal)',
-      'Reorder or remove images before converting',
-      '100% Client-Side: Your confidential documents never leave your browser',
-      'Optimized for Indian students, competitive exam documents, and job applications'
+      'Combine multiple photos (marksheets, Aadhaar, certificates) into one PDF',
+      'Configurable page orientation: Portrait, Landscape, or Auto image matching',
+      'Selectable page margins: None (0 mm), Small (5 mm), or Standard (10 mm)',
+      'Reorder or remove individual images before compiling the final document',
+      'Zero server upload: Private identity documents stay strictly in your device RAM',
+      'Ideal for university admissions, job portals, and KYC documentation'
     ],
     instructions: [
-      { step: 1, title: 'Upload Images', text: 'Drag and drop your JPG, PNG, or WebP images into the upload box or click to select files from your phone or PC.' },
-      { step: 2, title: 'Arrange & Configure', text: 'Reorder images by clicking move buttons, adjust page orientation (Portrait or Landscape), and select margin preference.' },
-      { step: 3, title: 'Convert & Download', text: 'Click "Generate PDF" to compile your document in seconds and download it directly to your device.' }
+      { step: 1, title: 'Select or Drop Images', text: 'Click "Browse Files" or drag and drop your JPG, PNG, or WebP images into the upload area.' },
+      { step: 2, title: 'Arrange Page Sequence', text: 'Use the up/down arrows on image cards to put marksheets or pages in your exact preferred sequence.' },
+      { step: 3, title: 'Configure Page Layout', text: 'Choose your desired paper size (A4 is standard in India), orientation, and margin spacing.' },
+      { step: 4, title: 'Compile and Download', text: 'Click "Generate & Download PDF" to instantly create and save your document.' }
     ],
     faqs: [
-      { question: 'Is my data secure when converting images to PDF?', answer: 'Yes! Easy Utility India processes all files entirely inside your web browser using JavaScript (pdf-lib). Your photos are never uploaded to any cloud server or database.' },
-      { question: 'Can I combine multiple photos into a single PDF?', answer: 'Yes, you can upload dozens of photos at once, reorder them as desired, and merge them all into a single continuous PDF file.' },
-      { question: 'Is there any watermark or file limit?', answer: 'No watermarks, no fees, and no artificial limits. You can use it as many times as you need for school, college, or job applications.' }
+      { question: 'Is it safe to convert Aadhaar or PAN card photos with this tool?', answer: 'Yes, completely safe. Unlike other websites that transfer your photos to unknown cloud servers, Easy Utility India compiles the PDF entirely inside your web browser. Your private ID cards never touch any external server.' },
+      { question: 'Can I add more photos after uploading the first batch?', answer: 'Yes! Simply click "+ Add More Photos" above the image list to include additional pages at any point before compiling.' },
+      { question: 'Is there any restriction on the number of pages?', answer: 'There is no artificial limit. You can compile dozens of images into a single PDF as long as your device has sufficient browser memory.' },
+      { question: 'Does this converter add any watermark or brand logo?', answer: 'No. All generated PDFs are 100% clean, professional, and free of any watermarks or advertising stamps.' }
     ],
     relatedSlugs: ['merge-pdf', 'split-pdf', 'image-compressor', 'image-resizer']
   },
+
+  // 2. MERGE PDF
   {
     id: 'merge-pdf',
     slug: 'merge-pdf',
     title: 'Merge PDF Documents',
     shortTitle: 'Merge PDF',
     category: 'pdf',
-    description: 'Combine multiple PDF files into a single organized document in your desired order. Fast, secure, and processed completely in your browser.',
+    description: 'Combine multiple PDF files into a single consolidated document in your preferred order. Inspect page counts, reorder files, and merge 100% locally in your browser.',
     icon: 'Copy',
     badge: 'Essential',
     popular: true,
     recentlyAdded: false,
-    seoTitle: 'Merge PDF Online Free - Combine PDF Files Securely | Easy Utility India',
-    seoDescription: 'Combine multiple PDF documents into one PDF file online for free. Fast, easy, and secure browser-side merging. Ideal for marksheets, resumes, and govt forms.',
+    seoTitle: 'Merge PDF Files Online Securely | Easy Utility India',
+    seoDescription: 'Combine multiple PDF files into one clean document online for free. Fast, secure, browser-side PDF merging for marksheets, resumes, and official applications.',
+    specs: [
+      { label: 'Supported Files', value: 'Standard PDF documents' },
+      { label: 'Processing Speed', value: 'Under 2 seconds for multi-page files' },
+      { label: 'Reordering', value: 'Interactive Up/Down sequence buttons' },
+      { label: 'Privacy Standard', value: 'Browser Sandbox (Zero cloud storage)' },
+    ],
     features: [
-      'Merge multiple PDF documents into a single cohesive file',
-      'Easily arrange the order of PDFs before merging',
+      'Merge multiple PDF files into one clean, continuous document',
       'Real-time page count inspection for each uploaded file',
-      'Instant client-side processing without uploading files to remote servers',
-      'Perfect for combining marksheets, certificates, Aadhaar/PAN scans, and contracts'
+      'Simple Up/Down controls to arrange documents in the exact desired order',
+      'Fast client-side assembly using pdf-lib with zero data exposure',
+      'Retains 100% original document visual resolution, vectors, and embedded fonts'
     ],
     instructions: [
-      { step: 1, title: 'Select PDF Files', text: 'Upload two or more PDF files using the file picker or drag and drop.' },
-      { step: 2, title: 'Order Documents', text: 'Use the up/down arrows to arrange the files in the exact sequence you want them to appear in the merged document.' },
-      { step: 3, title: 'Merge and Save', text: 'Click "Merge PDFs" and download your newly combined PDF immediately.' }
+      { step: 1, title: 'Upload PDF Files', text: 'Select two or more PDF files from your phone or computer, or drag them into the upload box.' },
+      { step: 2, title: 'Verify Sequence and Pages', text: 'Inspect total page counts and use the arrows to position files in the correct sequence.' },
+      { step: 3, title: 'Merge Document', text: 'Click "Merge & Download PDF" to assemble the combined file and trigger an instant download.' }
     ],
     faqs: [
-      { question: 'Are my confidential documents uploaded to the internet?', answer: 'Never. Unlike other online tools that send your PDFs to remote cloud servers, Easy Utility India merges files locally in your browser memory.' },
-      { question: 'Is there a limit on how many PDFs I can merge?', answer: 'You can merge as many PDF files as your device’s memory can handle, typically dozens of files without any issues.' },
-      { question: 'Will the visual quality of my PDF decrease after merging?', answer: 'No, all vector graphics, fonts, and high-resolution scanned pages are retained with 100% original fidelity.' }
+      { question: 'Are my confidential documents uploaded to the internet?', answer: 'No. Easy Utility India processes all PDF operations directly in your browser memory. Your files are never transmitted across the network.' },
+      { question: 'Can I merge password-protected PDF files?', answer: 'For security reasons, password-protected PDFs must be unlocked prior to merging, as encrypted streams cannot be assembled without the user password.' },
+      { question: 'Does merging compress or reduce text clarity?', answer: 'No. All text vectors, vector shapes, signatures, and scanned images retain their exact original quality without compression artifacts.' },
+      { question: 'Can I merge marksheets for college counseling portals?', answer: 'Yes! This is the most common use case. You can combine 10th, 12th, graduation marksheets, and transfer certificates into a single organized PDF.' }
     ],
     relatedSlugs: ['split-pdf', 'image-to-pdf', 'pdf-preview']
   },
+
+  // 3. SPLIT PDF
   {
     id: 'split-pdf',
     slug: 'split-pdf',
     title: 'Split PDF Pages',
     shortTitle: 'Split PDF',
     category: 'pdf',
-    description: 'Extract specific pages or page ranges (e.g., 1-3, 5, 8-10) from any PDF document into a clean, standalone PDF file in seconds.',
+    description: 'Extract specific pages or custom page ranges (e.g., 1-3, 5, 8-10) from any PDF document into a clean, standalone PDF file in seconds.',
     icon: 'Split',
     badge: 'Free',
     popular: false,
     recentlyAdded: true,
-    seoTitle: 'Split PDF Pages Online Free - Extract Specific Pages | Easy Utility India',
-    seoDescription: 'Extract selected pages or custom page ranges from your PDF files online. Free, quick, and 100% private client-side PDF splitter tool.',
+    seoTitle: 'Split PDF Pages Online Free | Easy Utility India',
+    seoDescription: 'Extract selected pages or custom page ranges from your PDF files online. Free, quick, and 100% private client-side PDF page splitter tool.',
+    specs: [
+      { label: 'Range Syntax', value: 'Comma & Hyphen (e.g. 1-3, 5)' },
+      { label: 'Presets Available', value: 'Page 1, Last Page, All, Odd, Even' },
+      { label: 'Output File', value: 'New standalone trimmed PDF' },
+      { label: 'Data Security', value: '100% In-Browser Execution' },
+    ],
     features: [
       'Extract custom page ranges such as "1-4, 7, 9-12"',
-      'Inspect total page count and file information instantly',
-      'Option to extract all pages or isolate a single page',
-      'Zero server upload—all page extraction happens in your browser',
-      'Save bandwidth and keep only the pages you need for official submissions'
+      'Quick presets for Page 1 Only, Last Page, Odd Pages, or Even Pages',
+      'Automatic range normalization (e.g. "5-1" automatically parsed to "1-5")',
+      'Helpful warning indicator if an entered page number exceeds total document pages',
+      'Instant browser-side extraction with zero server waiting time'
     ],
     instructions: [
-      { step: 1, title: 'Upload PDF', text: 'Upload the PDF document you want to split or extract pages from.' },
-      { step: 2, title: 'Enter Page Numbers', text: 'Type the pages or ranges you wish to extract (for example: 1, 3-5, 8).' },
-      { step: 3, title: 'Extract & Download', text: 'Click "Extract Pages" to generate your new trimmed PDF and download it.' }
+      { step: 1, title: 'Upload PDF Document', text: 'Select the PDF file you wish to split or extract pages from.' },
+      { step: 2, title: 'Specify Page Numbers', text: 'Type your required page numbers or ranges separated by commas (e.g., 1-2, 5).' },
+      { step: 3, title: 'Extract and Save', text: 'Click "Extract & Download PDF" to generate and save your new tailored PDF.' }
     ],
     faqs: [
-      { question: 'How do I specify page ranges to extract?', answer: 'You can use commas and hyphens. For example, typing "1-3, 5, 8-10" will extract pages 1, 2, 3, 5, 8, 9, and 10 into your new PDF.' },
-      { question: 'Can I split password protected PDFs?', answer: 'Please unlock password-protected PDFs before splitting, as client-side cryptographic handling requires unprotected document streams.' },
-      { question: 'Is it free to split large PDF files?', answer: 'Yes, completely free with no restrictions on page count or daily usage.' }
+      { question: 'How do I specify multiple separate page ranges?', answer: 'Use commas between ranges or single page numbers. For example, typing "1-3, 5, 8" will extract pages 1, 2, 3, 5, and 8 into your newly created PDF.' },
+      { question: 'What happens if I enter a page number that does not exist?', answer: 'Our tool validates your inputs in real time. Any page numbers higher than the document’s total page count will be highlighted in an advisory alert and safely omitted.' },
+      { question: 'Is there any cost or limit on how many times I can split PDFs?', answer: 'No. Easy Utility India is completely free with no usage limits, no email registration, and no subscriptions.' }
     ],
     relatedSlugs: ['merge-pdf', 'pdf-preview', 'image-to-pdf']
   },
+
+  // 4. PDF PREVIEW
   {
     id: 'pdf-preview',
     slug: 'pdf-preview',
     title: 'PDF Preview & Viewer',
     shortTitle: 'PDF Preview',
     category: 'pdf',
-    description: 'Preview, inspect, and read PDF files directly in your web browser with zoom controls, page navigation, and metadata details without installing Acrobat reader.',
+    description: 'Preview, inspect, and read PDF files directly in your web browser with zoom controls, page navigation, and metadata details without third-party reader software.',
     icon: 'Eye',
     badge: 'New',
     popular: false,
     recentlyAdded: true,
-    seoTitle: 'Free Online PDF Viewer & Page Inspector | Easy Utility India',
-    seoDescription: 'Preview and inspect PDF documents directly in your web browser with zoom, page navigation, and metadata inspection. No software installation needed.',
+    seoTitle: 'PDF Preview & Viewer Online Free | Easy Utility India',
+    seoDescription: 'Preview and inspect PDF documents directly in your browser with zoom, page jump, and Fit-Width mode. 100% private client rendering with PDF.js.',
+    specs: [
+      { label: 'Rendering Engine', value: 'PDF.js HTML5 Canvas' },
+      { label: 'Zoom Range', value: '40% to 300% + Fit Width' },
+      { label: 'Navigation', value: 'Prev/Next, Direct Page Jump' },
+      { label: 'Privacy', value: 'Local memory reading only' },
+    ],
     features: [
-      'High-resolution canvas rendering for crystal-clear text and graphics',
-      'Page navigation with Jump-to-Page and previous/next controls',
-      'Interactive zoom controls (50% to 200%) for comfortable reading',
-      'Instant document metadata inspection (file size, page dimensions, total pages)',
-      '100% offline-capable once loaded—works privately on any device'
+      'High-resolution canvas rendering for crystal-clear typography and diagrams',
+      'Interactive zoom controls with dedicated "Fit Width" mode for mobile screens',
+      'Fast page jump selector and Previous/Next buttons',
+      'Instant document metadata inspection (page count, file size, dimensions)',
+      'One-click direct download button from the viewer toolbar'
     ],
     instructions: [
-      { step: 1, title: 'Select File', text: 'Choose or drag-and-drop any PDF file from your device.' },
-      { step: 2, title: 'Navigate Pages', text: 'Use the page selector or arrow buttons to flip through pages.' },
-      { step: 3, title: 'Zoom & Inspect', text: 'Zoom in to read fine print or zoom out to view full-page layouts.' }
+      { step: 1, title: 'Select PDF', text: 'Choose or drag-and-drop any PDF file from your phone or PC.' },
+      { step: 2, title: 'Read and Flip Pages', text: 'Use the arrow buttons or enter a page number to jump directly to any section.' },
+      { step: 3, title: 'Adjust Zoom Level', text: 'Click "+" or "-" to zoom, or tap "Fit Width" for optimal reading on smartphones.' }
     ],
     faqs: [
-      { question: 'Do I need Adobe Acrobat or third-party software?', answer: 'No software installation is required. This viewer uses PDF.js directly within your browser.' },
-      { question: 'Can anyone else see the PDF I open here?', answer: 'No. The file is read strictly within your local computer or phone RAM. It is never uploaded to any server.' }
+      { question: 'Do I need Adobe Acrobat or third-party viewer software?', answer: 'No. This viewer executes directly inside modern web browsers using Mozilla’s PDF.js rendering engine.' },
+      { question: 'Can anyone else view the PDF file I open here?', answer: 'No. The file is read strictly within your local computer or phone RAM. It is never uploaded to any server or logged in any database.' },
+      { question: 'Does the preview support large multi-page reports?', answer: 'Yes. It renders pages on demand as you navigate, keeping memory consumption low even on long documents.' }
     ],
     relatedSlugs: ['merge-pdf', 'split-pdf', 'image-to-pdf']
   },
 
-  // IMAGE TOOLS
+  // 5. IMAGE RESIZER
   {
     id: 'image-resizer',
     slug: 'image-resizer',
@@ -160,27 +195,35 @@ export const tools: Tool[] = [
     badge: 'Popular',
     popular: true,
     recentlyAdded: false,
-    seoTitle: 'Online Image Resizer - Resize Images in Pixels & Presets | Easy Utility India',
-    seoDescription: 'Resize photos to exact pixel width, height, or percentage. Includes presets for Indian passport photos, UPSC, SSC, and social media. Free and private.',
+    seoTitle: 'Online Image Resizer in Pixels | Easy Utility India',
+    seoDescription: 'Resize photos to exact pixel width, height, or percentage scaling. Includes presets for Indian passport photos, UPSC, SSC, and PAN cards. Free and private.',
+    specs: [
+      { label: 'Dimension Range', value: '10 px to 8,000 px' },
+      { label: 'Scaling Modes', value: 'Exact Pixels, Aspect Ratio, Percentage' },
+      { label: 'Output Formats', value: 'JPG, PNG, WebP with Quality Slider' },
+      { label: 'Hardware Acceleration', value: 'HTML5 2D Canvas' },
+    ],
     features: [
-      'Resize by exact Width and Height in pixels',
-      'Quick percentage scaling: 25%, 50%, 75%, 150%, 200%',
-      'Lock Aspect Ratio toggle to prevent image stretching or distortion',
-      'Standard Indian presets: Passport Size Photo (3.5 x 4.5 cm / 413x531 px), Signature (140x60 px), UPSC, SSC, Instagram, YouTube Banner',
-      'Choose output format: JPG, PNG, or WebP with adjustable quality slider'
+      'Resize images by exact Width and Height in pixels',
+      'Quick percentage scaling: 25%, 50%, 75%, 100%, 150%',
+      'Lock Aspect Ratio toggle to prevent stretching or distorted photos',
+      'Standard Indian presets: Indian Passport (413×531 px / 3.5×4.5 cm), UPSC/SSC (350×450 px), Signature (140×60 px), PAN Card (213×213 px)',
+      'Export to JPG, PNG, or WebP with adjustable compression quality'
     ],
     instructions: [
-      { step: 1, title: 'Upload Image', text: 'Select a JPG, PNG, or WebP photo from your computer or mobile.' },
-      { step: 2, title: 'Set Dimensions', text: 'Enter your desired width and height, choose a preset, or adjust the percentage slider.' },
-      { step: 3, title: 'Download Resized Image', text: 'Preview the updated image dimensions and click "Download Resized Image".' }
+      { step: 1, title: 'Upload Image', text: 'Select a JPG, PNG, or WebP photo from your computer or mobile device.' },
+      { step: 2, title: 'Choose Dimensions or Preset', text: 'Enter your desired width/height or click one of our official exam presets.' },
+      { step: 3, title: 'Inspect Preview and Download', text: 'Review the live canvas preview and estimated file size, then click "Download Resized Image".' }
     ],
     faqs: [
-      { question: 'Will resizing change the aspect ratio?', answer: 'By default, the "Lock Aspect Ratio" feature is enabled to preserve original proportions. You can uncheck it if you need specific arbitrary dimensions.' },
-      { question: 'What is the standard Indian passport photo size in pixels?', answer: 'An Indian passport photo (3.5 cm x 4.5 cm at 300 DPI) is approximately 413 x 531 pixels.' },
-      { question: 'Are files sent over the internet?', answer: 'No. The resizing is performed purely by your browser’s HTML5 Canvas hardware acceleration.' }
+      { question: 'What is the standard Indian passport photo size in pixels?', answer: 'An Indian passport photo measures 3.5 cm × 4.5 cm. At standard 300 DPI print resolution, this corresponds to approximately 413 × 531 pixels.' },
+      { question: 'Will resizing change the aspect ratio or stretch my face?', answer: 'By default, "Lock Aspect Ratio" is checked to guarantee proportions remain natural. You can uncheck it if an application portal mandates strict arbitrary dimensions.' },
+      { question: 'Are my photos uploaded to any cloud storage?', answer: 'Never. The resizing is performed purely by your web browser’s Canvas hardware acceleration.' }
     ],
     relatedSlugs: ['image-compressor', 'jpg-to-png', 'image-to-pdf']
   },
+
+  // 6. IMAGE COMPRESSOR (TARGET KB)
   {
     id: 'image-compressor',
     slug: 'image-compressor',
@@ -192,31 +235,40 @@ export const tools: Tool[] = [
     badge: 'Govt Exam Special',
     popular: true,
     recentlyAdded: false,
-    seoTitle: 'Image Compressor to Target KB Online - Compress Photo to 20KB, 50KB, 100KB',
-    seoDescription: 'Compress images to an exact target file size in KB (e.g. 20KB, 50KB, 100KB) for UPSC, SSC, IBPS, NTA, and Indian job application portals. 100% free.',
+    seoTitle: 'Compress Image to Target KB Online | Easy Utility India',
+    seoDescription: 'Compress images to an exact target file size in KB (e.g. 20KB, 50KB, 100KB) for UPSC, SSC, IBPS, and Indian govt application portals. 100% free and private.',
+    specs: [
+      { label: 'Target Size Range', value: '5 KB to 10,000 KB' },
+      { label: 'Standard Exam Presets', value: '20 KB (Signature), 50 KB (Photo), 100 KB, 200 KB' },
+      { label: 'Algorithm', value: 'Binary-search quality optimization + dimensional scaling' },
+      { label: 'Privacy', value: 'Zero server uploads (Client-side memory)' },
+    ],
     features: [
-      'Specify exact target file size in KB (e.g., 20 KB, 50 KB, 100 KB, 200 KB)',
-      'Intelligent binary search compression algorithm that adjusts quality and scale',
-      'Shows live original file size, compressed file size, and percentage saved',
+      'Specify exact target file size in KB (e.g., 20 KB for signature, 50 KB for photo)',
+      'Intelligent compression algorithm balancing visual quality and dimension scaling',
+      'Side-by-side comparison displaying original vs output size and percentage saved',
+      'Optional custom dimension boundaries with aspect ratio preservation',
       'Helpful explanation when an image cannot be reduced further without severe quality loss',
-      'Essential for Indian government exam forms (SSC CGL, UPSC, State PSC, NEET, JEE, IBPS)'
+      'Tailored for SSC CGL, UPSC Civil Services, IBPS, NEET, JEE, and State PSC portals'
     ],
     instructions: [
-      { step: 1, title: 'Upload Your Photo or Signature', text: 'Upload your image (JPG, PNG, or WebP).' },
-      { step: 2, title: 'Enter Target Size in KB', text: 'Enter the maximum KB required by your application portal (for example, 50 for SSC photo, 20 for signature).' },
-      { step: 3, title: 'Compress & Verify', text: 'Click "Compress Image". Check the output KB and visual preview, then download your compliant photo.' }
+      { step: 1, title: 'Upload Photo or Signature', text: 'Select your photo (JPG, PNG, or WebP) from your smartphone or computer.' },
+      { step: 2, title: 'Set Target KB', text: 'Type your portal’s maximum allowed KB (e.g., 50 for SSC photo, 20 for signature) or click a quick preset.' },
+      { step: 3, title: 'Compress and Verify', text: 'Click "Compress to Target KB". Inspect the output KB and visual clarity, then click "Download Compressed Image".' }
     ],
     faqs: [
-      { question: 'Why do Indian exam portals require images under 20KB or 50KB?', answer: 'Government recruitment and admission portals (like UPSC, SSC, NTA) enforce strict bandwidth limits for server storage by capping photograph and signature uploads between 10KB to 50KB.' },
-      { question: 'What happens if my photo is 5MB and I ask for 20KB?', answer: 'The compressor intelligently scales down image dimensions alongside JPEG quality. If the target is mathematically unreachable without making the image unrecognizable, it alerts you and provides the closest achievable size.' },
-      { question: 'Is my photograph uploaded to any server?', answer: 'No. All compression runs locally on your device. Your photo and signature remain 100% private and confidential.' }
+      { question: 'Why do Indian government portals reject photo uploads?', answer: 'Recruitment portals (like UPSC, SSC, NTA) enforce strict server storage caps. If a photograph is even 51 KB when the limit is 50 KB, the portal will reject it. Our tool guarantees the file size remains strictly under your target.' },
+      { question: 'What happens if my photo is 5MB and I need 20KB?', answer: 'Our intelligent engine scales down pixel dimensions alongside compression quality so that the photo remains crisp and recognizable rather than a blurry block of artifacts.' },
+      { question: 'Can I compress my signature to 20 KB?', answer: 'Yes! Simply select the "20 KB (Signature)" preset button and our compressor will optimize your scanned signature immediately.' }
     ],
     relatedSlugs: ['image-resizer', 'jpg-to-png', 'image-to-pdf']
   },
+
+  // 7. JPG TO PNG CONVERTER
   {
     id: 'jpg-to-png',
     slug: 'jpg-to-png',
-    title: 'JPG to PNG / Format Converter',
+    title: 'JPG to PNG & Format Converter',
     shortTitle: 'JPG to PNG Converter',
     category: 'image',
     description: 'Convert image formats seamlessly between JPG, PNG, and modern WebP. Retain high quality, customize background fills, and download instantly.',
@@ -224,59 +276,74 @@ export const tools: Tool[] = [
     badge: 'Fast',
     popular: false,
     recentlyAdded: false,
-    seoTitle: 'JPG to PNG & Image Format Converter Online Free | Easy Utility India',
-    seoDescription: 'Convert JPG to PNG, PNG to JPG, and WebP images online for free. Clean, loss-free browser conversion without server uploads.',
+    seoTitle: 'JPG to PNG Converter Online Free | Easy Utility India',
+    seoDescription: 'Convert JPG to PNG, PNG to JPG, and WebP images online for free. Clean, loss-free browser conversion without server uploads or watermarks.',
+    specs: [
+      { label: 'Supported Input', value: 'JPG, JPEG, PNG, WebP' },
+      { label: 'Supported Output', value: 'PNG, JPG, WebP' },
+      { label: 'Transparency Handling', value: 'Customizable solid background fills for JPG' },
+      { label: 'Processing', value: 'Instant local canvas conversion' },
+    ],
     features: [
-      'Convert JPG to PNG with crisp graphic edges',
+      'Convert JPG to lossless PNG with crisp graphic edges',
       'Convert PNG to JPG with customizable solid background colors (White/Black)',
       'Convert any photo to ultra-light modern WebP format',
-      'Custom quality setting slider (10% to 100%)',
-      'Batch conversion support for faster workflows'
+      'Adjustable output quality slider (10% to 100%)',
+      'Zero server upload: Your files stay 100% on your device'
     ],
     instructions: [
-      { step: 1, title: 'Upload Image', text: 'Select any JPG, PNG, or WebP image from your device.' },
-      { step: 2, title: 'Select Target Format', text: 'Choose your desired output format (PNG, JPG, or WebP).' },
-      { step: 3, title: 'Convert & Save', text: 'Click "Convert Image" and download the converted file right away.' }
+      { step: 1, title: 'Upload Image', text: 'Select any JPG, PNG, or WebP file from your device.' },
+      { step: 2, title: 'Select Desired Format', text: 'Choose PNG, JPG, or WebP. If converting PNG to JPG, select your preferred background fill.' },
+      { step: 3, title: 'Convert and Save', text: 'Click "Convert & Download" to save your newly formatted image.' }
     ],
     faqs: [
-      { question: 'Why convert JPG to PNG?', answer: 'PNG uses lossless compression, making it better for diagrams, signatures, text screenshots, and logos without blocky JPEG artifacts.' },
-      { question: 'What happens to transparency when converting PNG to JPG?', answer: 'Because JPEG does not support alpha transparency, any transparent areas will be filled with a clean white background.' }
+      { question: 'Why should I convert a JPG to PNG?', answer: 'PNG uses lossless compression, making it better for diagrams, signatures, text screenshots, and logos where JPEG compression artifacts would cause blurriness.' },
+      { question: 'What happens to transparency when converting PNG to JPG?', answer: 'Since JPEG does not support alpha transparency, transparent areas will be filled with a solid background color (white by default, which is required for official documents).' }
     ],
     relatedSlugs: ['image-compressor', 'image-resizer', 'image-to-pdf']
   },
 
-  // CALCULATORS
+  // 8. AGE CALCULATOR
   {
     id: 'age-calculator',
     slug: 'age-calculator',
-    title: 'Age Calculator Online',
+    title: 'Age Calculator for Govt Exams',
     shortTitle: 'Age Calculator',
     category: 'calculator',
-    description: 'Calculate your exact age in years, months, and days. Includes custom "Age as on Date" calculation for Indian government exam eligibility cut-offs.',
+    description: 'Calculate your exact age in years, months, and days. Includes custom "Age as of Date" calculation for Indian government exam eligibility cut-offs.',
     icon: 'Calendar',
     badge: 'Popular',
     popular: true,
     recentlyAdded: false,
-    seoTitle: 'Age Calculator Online - Calculate Exact Age for Govt Job Eligibility India',
-    seoDescription: 'Free online age calculator. Find your exact age in years, months, and days. Calculate age as on specific eligibility cutoff dates for UPSC, SSC, and state exams.',
+    seoTitle: 'Age Calculator for Govt Exams Online | Easy Utility India',
+    seoDescription: 'Free online age calculator for UPSC, SSC, and state exams. Calculate exact age in years, months, and days as on official recruitment cutoff dates.',
+    specs: [
+      { label: 'Precision', value: 'Years, Months, Days, Hours, Minutes' },
+      { label: 'Exam Presets', value: '1st August (UPSC/SSC), 1st January, Today' },
+      { label: 'Leap Year Math', value: 'Full calendar leap year & February 29 support' },
+      { label: 'One-Click Action', value: 'Copy Age Summary to Clipboard' },
+    ],
     features: [
       'Calculate exact age in Years, Months, and Days',
-      'Custom "Age as on Date" field tailored for Indian job eligibility criteria (e.g. 01/08/2026 or 01/01/2026)',
-      'Detailed lifespan breakdown: Total Months, Weeks, Days, Hours, and Minutes lived',
+      'Custom "Age as of Date" selector tailored for Indian recruitment cutoff dates (e.g. 01/08/2026 or 01/01/2026)',
+      'Lifetime statistical summary: Total Months, Weeks, Days, Hours, and Minutes lived',
       'Upcoming birthday countdown with remaining days and weekday indicator',
-      'Milestones timeline showing future milestone birthdays (e.g. 21st, 25th, 30th, 50th, 60th retirement age)'
+      'One-click "Copy Age" button to easily paste details into application portals'
     ],
     instructions: [
-      { step: 1, title: 'Select Birth Date', text: 'Pick your Date of Birth using the date selector.' },
-      { step: 2, title: 'Choose Reference Date', text: 'Leave as "Today" for current age, or select an official cutoff date specified in your job advertisement.' },
-      { step: 3, title: 'View Complete Breakdown', text: 'Instantly view your exact age, days to next birthday, and full statistical summary.' }
+      { step: 1, title: 'Enter Date of Birth', text: 'Select your birth date using the date selector.' },
+      { step: 2, title: 'Choose Reference Cutoff Date', text: 'Leave as "Today" or choose an exam notification cutoff date (e.g. 1st August).' },
+      { step: 3, title: 'View Exact Breakdown', text: 'Instantly view your age in years, months, and days, along with your next birthday countdown.' }
     ],
     faqs: [
-      { question: 'How is age calculated for Indian government exams (UPSC/SSC)?', answer: 'Most Indian exam notifications state an age limit (e.g., 21 to 32 years) as on a specific reference cutoff date (usually August 1st or January 1st of the exam year). Our tool allows you to set this reference date precisely.' },
-      { question: 'Does the calculator account for leap years?', answer: 'Yes! Our algorithm accurately factors in leap years and the varying number of days in each calendar month.' }
+      { question: 'How is age calculated for UPSC and SSC exams in India?', answer: 'Most Indian recruitment notifications require candidates to fall within an age bracket (e.g., 21 to 32 years) as on a specific reference cutoff date—typically August 1st or January 1st of the recruitment year. Our tool allows you to specify this cutoff date with one click.' },
+      { question: 'Does the age calculation accurately handle leap years?', answer: 'Yes. Our integer calendar algorithm factors in leap years and varying month lengths (28, 29, 30, and 31 days) with 100% mathematical precision.' },
+      { question: 'Can I copy my calculated age for application forms?', answer: 'Yes! Click the "Copy Age" button in the results card to copy your exact age string directly to your clipboard.' }
     ],
     relatedSlugs: ['percentage-calculator', 'discount-calculator', 'image-compressor']
   },
+
+  // 9. PERCENTAGE CALCULATOR
   {
     id: 'percentage-calculator',
     slug: 'percentage-calculator',
@@ -288,30 +355,38 @@ export const tools: Tool[] = [
     badge: 'Essential',
     popular: false,
     recentlyAdded: false,
-    seoTitle: 'Percentage Calculator Online - Marks %, Percentage of X, % Increase/Decrease',
-    seoDescription: 'Free percentage calculator. Calculate exam marks percentage, find percentage of any value, and calculate percentage change with step-by-step formulas.',
+    seoTitle: 'Percentage Calculator Online Free | Easy Utility India',
+    seoDescription: 'Calculate exam marks percentage, percentage of any value, and percentage increase or decrease with step-by-step formulas. 100% free online calculator.',
+    specs: [
+      { label: 'Calculation Modes', value: '3-in-1: X% of Y, Marks %, % Increase/Decrease' },
+      { label: 'Standard Presets', value: 'GST (5%, 12%, 18%, 28%), CBSE 500/600/1000' },
+      { label: 'Display Output', value: 'Result value + Step-by-step mathematical formula' },
+      { label: 'Clipboard', value: 'One-click copy for all calculation results' },
+    ],
     features: [
-      'Mode 1: Calculate marks percentage (e.g. 485 marks obtained out of 500 total = 97%)',
-      'Mode 2: Find What is X% of Y (e.g. What is 18% GST of ₹2,500?)',
+      'Mode 1: What is X% of Y? (e.g. 18% GST of ₹2,500 = ₹450)',
+      'Mode 2: Marks percentage calculator (e.g. 485 obtained out of 500 = 97.00%)',
       'Mode 3: Percentage increase / decrease from value A to value B',
-      'Shows complete step-by-step mathematical calculation formulas',
-      'One-click copy result button and instant calculation as you type'
+      'Displays full mathematical calculation steps for verification',
+      'One-click copy buttons for every calculation result'
     ],
     instructions: [
-      { step: 1, title: 'Select Calculation Mode', text: 'Choose whether you want to calculate exam marks %, percentage of a number, or percentage increase/decrease.' },
-      { step: 2, title: 'Enter Values', text: 'Type your numbers into the corresponding input fields.' },
-      { step: 3, title: 'See Result & Steps', text: 'The result and calculation formula appear immediately on screen.' }
+      { step: 1, title: 'Choose Mode', text: 'Select whether you want to calculate exam marks %, a percentage of a number, or percentage increase/decrease.' },
+      { step: 2, title: 'Enter Numbers', text: 'Type your values into the input fields.' },
+      { step: 3, title: 'View Result and Formula', text: 'The result and calculation steps update instantly on screen as you type.' }
     ],
     faqs: [
-      { question: 'How do I calculate CBSE or college marks percentage?', answer: 'Divide the total marks you obtained by the total maximum possible marks and multiply by 100. For example: (450 ÷ 500) × 100 = 90%.' },
-      { question: 'How do I calculate percentage discount or markup?', answer: 'Select the "% Increase / Decrease" tab, enter the original price and new price to see the exact percentage change.' }
+      { question: 'How do I calculate CBSE or university marks percentage?', answer: 'Select Tab 2 ("Marks %"), enter your total marks obtained and the maximum total marks (e.g. 500 for 5 CBSE subjects), and the exact percentage will appear immediately.' },
+      { question: 'How do I calculate percentage discount or markup?', answer: 'Select Tab 3 ("% Change"), enter the old price and new price to see the exact percentage increase or decrease.' }
     ],
     relatedSlugs: ['discount-calculator', 'age-calculator']
   },
+
+  // 10. DISCOUNT & GST CALCULATOR
   {
     id: 'discount-calculator',
     slug: 'discount-calculator',
-    title: 'Discount & GST Calculator',
+    title: 'Discount & GST Calculator India',
     shortTitle: 'Discount & GST Calculator',
     category: 'calculator',
     description: 'Calculate discount savings, final sale price, and apply Indian GST tax slabs (0%, 5%, 12%, 18%, 28%) with complete itemized bill breakdowns.',
@@ -319,23 +394,30 @@ export const tools: Tool[] = [
     badge: 'Shopping & Business',
     popular: false,
     recentlyAdded: true,
-    seoTitle: 'Discount & GST Calculator Online - Calculate Savings & Indian GST Slabs',
-    seoDescription: 'Calculate final price after discount and add Indian GST (5%, 12%, 18%, 28%). Free tool for shoppers, retailers, and online shopping deals in India.',
+    seoTitle: 'Discount & GST Calculator India | Easy Utility India',
+    seoDescription: 'Calculate final payable price after discount and add Indian GST (5%, 12%, 18%, 28%). Free tool for festive online shopping and retail billing in India.',
+    specs: [
+      { label: 'Discount Types', value: 'Percentage (%) or Flat Rupee (₹)' },
+      { label: 'Indian GST Slabs', value: '0%, 5%, 12%, 18%, 28%' },
+      { label: 'Additional Offers', value: 'Optional bank card or coupon discount' },
+      { label: 'Receipt Breakdown', value: 'MRP, Discount, Subtotal, GST, Final Payable' },
+    ],
     features: [
-      'Calculate percentage discounts (e.g., 20% off) or flat rupee discounts (e.g., ₹500 off)',
-      'Integrated Indian GST selector with official slabs: 0%, 5%, 12%, 18%, 28% or custom rate',
-      'Itemized price breakdown: Original Price, Discount Amount, Subtotal, GST Amount, Final Payable',
-      'Shows your total net savings and percentage saved',
+      'Calculate percentage discounts (e.g., 25% off) or flat rupee discounts (e.g., ₹500 off)',
+      'Integrated Indian GST selector with official slabs: 0%, 5%, 12%, 18%, 28%',
+      'Optional coupon/bank offer field matching Indian e-commerce checkout flows',
+      'Itemized bill receipt breakdown with one-click copy functionality',
       'Great for festive sales (Diwali, Great Indian Festival, Big Billion Days) and small business invoicing'
     ],
     instructions: [
-      { step: 1, title: 'Enter Original Price', text: 'Type the MRP or initial price of the item in Indian Rupees (₹).' },
-      { step: 2, title: 'Specify Discount & GST', text: 'Enter the discount percentage or flat off, and optionally select the applicable GST rate.' },
-      { step: 3, title: 'View Summary', text: 'Instantly view your final price, GST component, and total savings.' }
+      { step: 1, title: 'Enter Original MRP', text: 'Type the item’s initial MRP or retail price in Indian Rupees (₹).' },
+      { step: 2, title: 'Apply Discount & GST', text: 'Specify the discount percentage or flat off, and choose the applicable GST tax slab.' },
+      { step: 3, title: 'View Summary', text: 'Instantly view your final payable price, net savings, and itemized bill.' }
     ],
     faqs: [
-      { question: 'Can I calculate both discount and GST together?', answer: 'Yes! The calculator deducts the discount from the original price first, then applies the selected GST percentage on the discounted subtotal.' },
-      { question: 'What are the standard GST tax slabs in India?', answer: 'India has four primary GST slabs: 5% (essentials), 12% (standard items), 18% (services and electronics), and 28% (luxury and demerit goods).' }
+      { question: 'Can I calculate both discount and GST together?', answer: 'Yes! The calculator deducts the primary discount and any additional coupon first, then calculates GST on the discounted subtotal.' },
+      { question: 'What are the standard GST slabs in India?', answer: 'India has four primary GST slabs: 5% (essentials and economy apparel), 12% (processed food), 18% (electronics and services), and 28% (luxury items and motor vehicles).' },
+      { question: 'Can I copy the itemized bill summary?', answer: 'Yes! Tap the "Copy Bill" button to copy the itemized breakdown directly to your clipboard.' }
     ],
     relatedSlugs: ['percentage-calculator', 'age-calculator']
   }

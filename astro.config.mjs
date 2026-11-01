@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://easyutilityindia.vercel.app',
   output: 'static',
+  trailingSlash: 'never',
   integrations: [
     tailwind({
       applyBaseStyles: false,

@@ -17,7 +17,7 @@ const relatedTools = tool.relatedSlugs
 
 const breadcrumbItems = [
   { name: 'Home', href: '/' },
-  { name: 'Tools', href: '/tools' },
+  { name: 'All Tools', href: '/tools' },
   { name: tool.shortTitle },
 ];
 ---
@@ -32,6 +32,7 @@ const breadcrumbItems = [
       description: tool.description,
       applicationCategory: tool.category === 'calculator' ? 'BusinessApplication' : 'UtilitiesApplication',
       operatingSystem: 'All',
+      featureList: tool.features,
     },
   }}
 >
@@ -40,8 +41,8 @@ const breadcrumbItems = [
     <!-- Breadcrumbs -->
     <Breadcrumbs items={breadcrumbItems} />
 
-    <!-- Tool Header Header Section -->
-    <div class="mb-8 text-center sm:text-left">
+    <!-- Tool Header Section -->
+    <header class="mb-8 text-center sm:text-left">
       <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-3">
         <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wide">
           {tool.category.toUpperCase()} TOOL
@@ -65,25 +66,25 @@ const breadcrumbItems = [
       <p class="text-slate-600 mt-2 sm:text-base max-w-3xl leading-relaxed">
         {tool.description}
       </p>
-    </div>
+    </header>
 
     <!-- Top Ad Placement (Clean & Inactive until approved) -->
     <AdSenseSlot slot="tool-top-banner" format="horizontal" />
 
     <!-- Main Interactive Workspace -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 mb-12">
+    <section aria-label={`${tool.title} Workspace`} class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 mb-10">
       <slot />
-    </div>
+    </section>
 
     <!-- Middle Ad Placement -->
     <AdSenseSlot slot="tool-mid-banner" format="horizontal" />
 
     <!-- Step-by-Step Instructions & Features Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-10">
       
       <!-- Instructions Card -->
-      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
           <span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-black">?</span>
           How to Use {tool.shortTitle}
         </h2>
@@ -103,10 +104,10 @@ const breadcrumbItems = [
       </div>
 
       <!-- Key Features Card -->
-      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
           <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-black">★</span>
-          Key Features & Privacy
+          Key Features & Security
         </h2>
         <ul class="space-y-3">
           {tool.features.map((feature) => (
@@ -120,11 +121,33 @@ const breadcrumbItems = [
         </ul>
       </div>
 
-    </div>
+    </section>
+
+    <!-- Technical Specifications Table -->
+    {tool.specs && tool.specs.length > 0 && (
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm mb-10">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center text-sm font-black">⚙</span>
+          Technical Specifications
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <tbody>
+              {tool.specs.map((spec) => (
+                <tr class="border-b border-slate-100 last:border-b-0">
+                  <td class="py-2.5 pr-4 font-semibold text-slate-700 w-1/3 sm:w-1/4">{spec.label}</td>
+                  <td class="py-2.5 text-slate-600 font-mono text-xs sm:text-sm">{spec.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
 
     <!-- Frequently Asked Questions -->
     {tool.faqs.length > 0 && (
-      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm mb-12">
+      <section class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-8 shadow-sm mb-10">
         <h2 class="text-xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
         <div class="space-y-4 divide-y divide-slate-100">
           {tool.faqs.map((faq, index) => (
@@ -135,33 +158,33 @@ const breadcrumbItems = [
                   ▼
                 </span>
               </summary>
-              <p class="mt-2 text-sm text-slate-600 leading-relaxed pl-1">
+              <p class="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed pl-1">
                 {faq.answer}
               </p>
             </details>
           ))}
         </div>
-      </div>
+      </section>
     )}
 
     <!-- Bottom Ad Placement -->
     <AdSenseSlot slot="tool-bottom-banner" format="horizontal" />
 
-    <!-- Related Tools Section -->
+    <!-- Related Tools Cross-linking Section -->
     {relatedTools.length > 0 && (
-      <div class="mt-12">
+      <section class="mt-12">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold text-slate-900">Explore Related Tools</h2>
-          <a href="/tools" class="text-sm font-semibold text-brand-600 hover:text-brand-700">
+          <a href="/tools" class="text-xs sm:text-sm font-semibold text-brand-600 hover:text-brand-700">
             View All Tools →
           </a>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {relatedTools.map((relTool) => (
             <ToolCard tool={relTool} />
           ))}
         </div>
-      </div>
+      </section>
     )}
 
   </div>

@@ -18,8 +18,8 @@ const breadcrumbs = [
 
 <BaseLayout
   seo={{
-    title: 'All Free Online Tools - PDF, Images & Calculators | Easy Utility India',
-    description: 'Explore all 10 free, private online tools at Easy Utility India. Convert images to PDF, compress photos to 20KB/50KB, calculate age for cutoff dates, and calculate GST.',
+    title: 'All Free Online Tools | Easy Utility India',
+    description: 'Explore 10 free, private online tools at Easy Utility India. Convert images to PDF, compress photos to 20KB/50KB, calculate age cutoffs, and calculate GST.',
   }}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -27,7 +27,7 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} />
 
     <!-- Page Header -->
-    <div class="text-center max-w-3xl mx-auto mb-10">
+    <header class="text-center max-w-3xl mx-auto mb-10">
       <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider inline-block mb-3">
         Full Suite of Utilities
       </span>
@@ -40,9 +40,9 @@ const breadcrumbs = [
 
       <!-- Search Bar -->
       <div class="mt-8">
-        <SearchBar placeholder="Type to filter tools by name or purpose..." />
+        <SearchBar placeholder="Type to filter tools by name or keyword (e.g. compress, pdf, age, ssc)..." />
       </div>
-    </div>
+    </header>
 
     <!-- Top Ad Placement -->
     <AdSenseSlot slot="all-tools-top" format="horizontal" />
@@ -60,7 +60,7 @@ const breadcrumbs = [
           <p class="text-xs text-slate-500">Create, combine, split, and preview PDF files securely in memory.</p>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {pdfTools.map((tool) => (
           <ToolCard tool={tool} />
         ))}
@@ -80,7 +80,7 @@ const breadcrumbs = [
           <p class="text-xs text-slate-500">Resize, compress to exact KB for exam portals, and convert photo formats.</p>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {imageTools.map((tool) => (
           <ToolCard tool={tool} />
         ))}
@@ -97,10 +97,10 @@ const breadcrumbs = [
         </div>
         <div>
           <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Calculators</h2>
-          <p class="text-xs text-slate-500">Calculate age for exam cutoffs, school/college marks percentages, and discount + GST.</p>
+          <p class="text-xs text-slate-500">Exam age cutoffs, school/college marks percentages, and discount bills.</p>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {calculators.map((tool) => (
           <ToolCard tool={tool} />
         ))}
