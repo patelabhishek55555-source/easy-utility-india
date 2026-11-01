@@ -3,86 +3,101 @@
 
 <div id="age-calc-app" class="space-y-6">
   <!-- Input Form -->
-  <div class="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-5">
+  <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
     <div>
-      <label for="dob-input" class="block text-sm font-bold text-slate-900 mb-1.5">
+      <label for="dob-input" class="block text-xs sm:text-sm font-bold text-slate-900 mb-1.5">
         Date of Birth (DOB)
       </label>
       <input
         type="date"
         id="dob-input"
-        class="input-text text-base font-medium py-3"
+        class="input-text text-base font-medium py-2.5 sm:py-3"
         value="2000-01-15"
       />
       <p class="text-xs text-slate-500 mt-1">Select the day, month, and year you were born.</p>
     </div>
 
     <div>
-      <label for="target-date-input" class="block text-sm font-bold text-slate-900 mb-1.5">
-        Age as of Date (Reference / Cutoff)
+      <label for="target-date-input" class="block text-xs sm:text-sm font-bold text-slate-900 mb-1.5">
+        Age as of Date (Cutoff / Reference Date)
       </label>
       <input
         type="date"
         id="target-date-input"
-        class="input-text text-base font-medium py-3"
+        class="input-text text-base font-medium py-2.5 sm:py-3"
       />
       <p class="text-xs text-slate-500 mt-1">Defaults to today. Set an exam cutoff date (e.g., 01/08/2026).</p>
     </div>
   </div>
 
   <!-- Quick Cutoff Presets for Indian Govt Exams -->
-  <div class="flex items-center gap-2 flex-wrap text-xs">
+  <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap text-xs">
     <span class="text-slate-500 font-semibold">Quick Exam Cutoffs:</span>
-    <button type="button" class="cutoff-preset px-3 py-1.5 bg-white hover:bg-brand-50 text-slate-700 rounded-lg border border-slate-200 font-medium transition-all shadow-sm" data-cutoff="today">
+    <button type="button" class="cutoff-preset px-2.5 sm:px-3 py-1.5 bg-white hover:bg-brand-50 text-slate-700 rounded-lg border border-slate-200 font-medium transition-all shadow-sm cursor-pointer" data-cutoff="today">
       Today
     </button>
-    <button type="button" class="cutoff-preset px-3 py-1.5 bg-white hover:bg-brand-50 text-slate-700 rounded-lg border border-slate-200 font-medium transition-all shadow-sm" data-cutoff="aug1">
+    <button type="button" class="cutoff-preset px-2.5 sm:px-3 py-1.5 bg-white hover:bg-brand-50 text-slate-700 rounded-lg border border-slate-200 font-medium transition-all shadow-sm cursor-pointer" data-cutoff="aug1">
       1st August (UPSC/SSC Cutoff)
     </button>
-    <button type="button" class="cutoff-preset px-3 py-1.5 bg-white hover:bg-brand-50 text-slate-700 rounded-lg border border-slate-200 font-medium transition-all shadow-sm" data-cutoff="jan1">
-      1st January
+    <button type="button" class="cutoff-preset px-2.5 sm:px-3 py-1.5 bg-white hover:bg-brand-50 text-slate-700 rounded-lg border border-slate-200 font-medium transition-all shadow-sm cursor-pointer" data-cutoff="jan1">
+      1st January Next Year
     </button>
   </div>
 
   <!-- Primary Results Card -->
-  <div class="bg-gradient-to-tr from-brand-900 via-brand-800 to-blue-900 rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+  <div class="bg-gradient-to-tr from-brand-900 via-brand-800 to-blue-900 rounded-2xl p-5 sm:p-8 text-white shadow-md relative overflow-hidden">
     <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-white/5 rounded-full pointer-events-none"></div>
 
-    <p class="text-xs font-bold text-brand-300 uppercase tracking-widest mb-2">Exact Calculated Age</p>
+    <div class="flex items-center justify-between mb-2">
+      <p class="text-xs font-bold text-brand-300 uppercase tracking-widest">Exact Calculated Age</p>
+      <button id="copy-age-btn" type="button" class="px-2.5 py-1 text-xs bg-white/15 hover:bg-white/25 rounded-lg text-white font-medium transition-colors cursor-pointer flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+        <span id="copy-age-label">Copy Age</span>
+      </button>
+    </div>
     
-    <div class="grid grid-cols-3 gap-3 sm:gap-6 text-center my-4">
+    <div class="grid grid-cols-3 gap-2 sm:gap-6 text-center my-4">
       <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/15">
-        <span id="years-res" class="block text-3xl sm:text-5xl font-extrabold text-white">26</span>
-        <span class="text-xs sm:text-sm text-brand-200 font-medium uppercase mt-1">Years</span>
+        <span id="years-res" class="block text-2xl sm:text-5xl font-extrabold text-white">26</span>
+        <span class="text-[11px] sm:text-sm text-brand-200 font-medium uppercase mt-1">Years</span>
       </div>
       <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/15">
-        <span id="months-res" class="block text-3xl sm:text-5xl font-extrabold text-white">9</span>
-        <span class="text-xs sm:text-sm text-brand-200 font-medium uppercase mt-1">Months</span>
+        <span id="months-res" class="block text-2xl sm:text-5xl font-extrabold text-white">9</span>
+        <span class="text-[11px] sm:text-sm text-brand-200 font-medium uppercase mt-1">Months</span>
       </div>
       <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/15">
-        <span id="days-res" class="block text-3xl sm:text-5xl font-extrabold text-white">17</span>
-        <span class="text-xs sm:text-sm text-brand-200 font-medium uppercase mt-1">Days</span>
+        <span id="days-res" class="block text-2xl sm:text-5xl font-extrabold text-white">17</span>
+        <span class="text-[11px] sm:text-sm text-brand-200 font-medium uppercase mt-1">Days</span>
       </div>
     </div>
 
     <!-- Summary Sentence -->
-    <p id="summary-sentence" class="text-center text-sm text-brand-100 font-medium mt-3"></p>
+    <p id="summary-sentence" class="text-center text-xs sm:text-sm text-brand-100 font-medium mt-3"></p>
   </div>
 
   <!-- Birthday Countdown & Stats Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
     
     <!-- Next Birthday Card -->
-    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-      <div class="flex items-center gap-2 mb-3 text-brand-600">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <h4 class="font-bold text-slate-900 text-sm">Next Birthday Countdown</h4>
+    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+      <div>
+        <div class="flex items-center gap-2 mb-3 text-brand-600">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h4 class="font-bold text-slate-900 text-sm">Next Birthday Countdown</h4>
+        </div>
+        <div class="bg-brand-50/70 p-4 rounded-xl border border-brand-100 text-center">
+          <p id="next-bday-time" class="text-2xl sm:text-3xl font-black text-brand-700"></p>
+          <p id="next-bday-date" class="text-xs text-slate-600 font-medium mt-1"></p>
+        </div>
       </div>
-      <div class="bg-brand-50/60 p-4 rounded-xl border border-brand-100 text-center">
-        <p id="next-bday-time" class="text-2xl font-black text-brand-700"></p>
-        <p id="next-bday-date" class="text-xs text-slate-600 font-medium mt-1"></p>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
+        <span>Day of week:</span>
+        <span id="next-bday-weekday" class="font-bold text-slate-800"></span>
       </div>
     </div>
 
@@ -91,19 +106,23 @@
       <h4 class="font-bold text-slate-900 text-sm mb-3">Lifetime Statistical Breakdown</h4>
       <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100">
         <span class="text-slate-500">Total Months lived:</span>
-        <span id="total-months-val" class="font-bold text-slate-800"></span>
+        <span id="total-months-val" class="font-bold text-slate-800 font-mono"></span>
       </div>
       <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100">
         <span class="text-slate-500">Total Weeks lived:</span>
-        <span id="total-weeks-val" class="font-bold text-slate-800"></span>
+        <span id="total-weeks-val" class="font-bold text-slate-800 font-mono"></span>
       </div>
       <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100">
         <span class="text-slate-500">Total Days lived:</span>
-        <span id="total-days-val" class="font-bold text-slate-800"></span>
+        <span id="total-days-val" class="font-bold text-slate-800 font-mono"></span>
       </div>
       <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100">
         <span class="text-slate-500">Total Hours lived:</span>
-        <span id="total-hours-val" class="font-bold text-slate-800"></span>
+        <span id="total-hours-val" class="font-bold text-slate-800 font-mono"></span>
+      </div>
+      <div class="flex items-center justify-between text-xs pt-1">
+        <span class="text-slate-500">Total Minutes lived:</span>
+        <span id="total-minutes-val" class="font-bold text-slate-800 font-mono"></span>
       </div>
     </div>
 
@@ -119,17 +138,21 @@
   const summarySentence = document.getElementById('summary-sentence');
   const nextBdayTime = document.getElementById('next-bday-time');
   const nextBdayDate = document.getElementById('next-bday-date');
+  const nextBdayWeekday = document.getElementById('next-bday-weekday');
   const totalMonthsVal = document.getElementById('total-months-val');
   const totalWeeksVal = document.getElementById('total-weeks-val');
   const totalDaysVal = document.getElementById('total-days-val');
   const totalHoursVal = document.getElementById('total-hours-val');
+  const totalMinutesVal = document.getElementById('total-minutes-val');
+  const copyAgeBtn = document.getElementById('copy-age-btn');
+  const copyAgeLabel = document.getElementById('copy-age-label');
   const cutoffPresets = document.querySelectorAll<HTMLButtonElement>('.cutoff-preset');
 
-  // Initialize reference date to today (YYYY-MM-DD in local time)
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
+  // Set default reference date to today (local calendar format YYYY-MM-DD)
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
   if (targetDateInput) targetDateInput.value = `${yyyy}-${mm}-${dd}`;
 
   function calculateAge() {
@@ -139,23 +162,26 @@
     const targetVal = targetDateInput.value;
     if (!dobVal || !targetVal) return;
 
-    const birthDate = new Date(dobVal);
-    const refDate = new Date(targetVal);
+    // Use calendar integer splitting to eliminate UTC timezone shift bugs
+    const [bY, bM, bD] = dobVal.split('-').map(Number);
+    const [rY, rM, rD] = targetVal.split('-').map(Number);
 
-    if (birthDate > refDate) {
-      if (summarySentence) summarySentence.textContent = 'Date of birth cannot be in the future of the reference date.';
+    if (bY > rY || (bY === rY && bM > rM) || (bY === rY && bM === rM && bD > rD)) {
+      if (summarySentence) {
+        summarySentence.textContent = 'Date of birth cannot be after the reference date.';
+      }
       return;
     }
 
-    let years = refDate.getFullYear() - birthDate.getFullYear();
-    let months = refDate.getMonth() - birthDate.getMonth();
-    let days = refDate.getDate() - birthDate.getDate();
+    let years = rY - bY;
+    let months = rM - bM;
+    let days = rD - bD;
 
     if (days < 0) {
       months--;
-      // Get days in previous month
-      const prevMonth = new Date(refDate.getFullYear(), refDate.getMonth(), 0);
-      days += prevMonth.getDate();
+      // Days in previous month of reference date
+      const prevMonthLastDay = new Date(rY, rM - 1, 0).getDate();
+      days += prevMonthLastDay;
     }
 
     if (months < 0) {
@@ -168,39 +194,54 @@
     if (daysRes) daysRes.textContent = days.toString();
 
     if (summarySentence) {
-      summarySentence.textContent = `You are ${years} years, ${months} months, and ${days} days old.`;
+      summarySentence.textContent = `You are ${years} years, ${months} months, and ${days} days old as on ${rD}/${rM}/${rY}.`;
     }
 
-    // Total times
-    const diffTime = Math.abs(refDate.getTime() - birthDate.getTime());
-    const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    // Precise day count using UTC timestamps to avoid daylight savings / timezone jitter
+    const birthUtc = Date.UTC(bY, bM - 1, bD);
+    const refUtc = Date.UTC(rY, rM - 1, rD);
+    const totalDays = Math.round((refUtc - birthUtc) / (1000 * 60 * 60 * 24));
     const totalWeeks = Math.floor(totalDays / 7);
     const totalMonths = years * 12 + months;
     const totalHours = totalDays * 24;
+    const totalMinutes = totalHours * 60;
 
     if (totalMonthsVal) totalMonthsVal.textContent = totalMonths.toLocaleString('en-IN');
     if (totalWeeksVal) totalWeeksVal.textContent = totalWeeks.toLocaleString('en-IN');
     if (totalDaysVal) totalDaysVal.textContent = totalDays.toLocaleString('en-IN');
     if (totalHoursVal) totalHoursVal.textContent = totalHours.toLocaleString('en-IN');
+    if (totalMinutesVal) totalMinutesVal.textContent = totalMinutes.toLocaleString('en-IN');
 
     // Next Birthday calculation
-    const currentYear = refDate.getFullYear();
-    let nextBday = new Date(currentYear, birthDate.getMonth(), birthDate.getDate());
-    if (nextBday < refDate) {
-      nextBday = new Date(currentYear + 1, birthDate.getMonth(), birthDate.getDate());
+    let nextBdayYear = rY;
+    // Check if birthday already passed in reference year
+    if (rM > bM || (rM === bM && rD > bD)) {
+      nextBdayYear = rY + 1;
     }
 
-    const bdayDiffTime = nextBday.getTime() - refDate.getTime();
-    const bdayDaysRemaining = Math.ceil(bdayDiffTime / (1000 * 60 * 60 * 24));
+    // Handle Feb 29 for non-leap years
+    let nextBdayDay = bD;
+    if (bM === 2 && bD === 29) {
+      const isLeap = (nextBdayYear % 4 === 0 && nextBdayYear % 100 !== 0) || nextBdayYear % 400 === 0;
+      if (!isLeap) nextBdayDay = 28;
+    }
+
+    const nextBdayUtc = Date.UTC(nextBdayYear, bM - 1, nextBdayDay);
+    const remainingDays = Math.round((nextBdayUtc - refUtc) / (1000 * 60 * 60 * 24));
+
+    const nextBdayDateObj = new Date(nextBdayYear, bM - 1, nextBdayDay);
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const bdayWeekday = weekdays[nextBday.getDay()];
+    const weekdayName = weekdays[nextBdayDateObj.getDay()];
 
     if (nextBdayTime) {
-      nextBdayTime.textContent = `${bdayDaysRemaining} Days left`;
+      nextBdayTime.textContent = remainingDays === 0 ? 'Today is your Birthday! 🎉' : `${remainingDays} Days remaining`;
     }
     if (nextBdayDate) {
-      const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-      nextBdayDate.textContent = `Falls on ${bdayWeekday}, ${nextBday.toLocaleDateString('en-IN', options)}`;
+      const monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      nextBdayDate.textContent = `${nextBdayDay} ${monthsArr[bM - 1]} ${nextBdayYear}`;
+    }
+    if (nextBdayWeekday) {
+      nextBdayWeekday.textContent = weekdayName;
     }
   }
 
@@ -225,6 +266,17 @@
     });
   });
 
-  // Run on initial load
+  copyAgeBtn?.addEventListener('click', () => {
+    if (!yearsRes || !monthsRes || !daysRes) return;
+    const text = `${yearsRes.textContent} Years, ${monthsRes.textContent} Months, ${daysRes.textContent} Days`;
+    navigator.clipboard.writeText(text).then(() => {
+      if (copyAgeLabel) {
+        copyAgeLabel.textContent = 'Copied! ✓';
+        setTimeout(() => { copyAgeLabel.textContent = 'Copy Age'; }, 2000);
+      }
+    });
+  });
+
+  // Calculate immediately on load
   calculateAge();
 </script>

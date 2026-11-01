@@ -108,5 +108,13 @@ import { siteConfig } from '../../config/site';
         closeIcon.classList.remove('hidden');
       }
     });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
   }
 </script>

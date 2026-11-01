@@ -2,7 +2,7 @@ export function readFileAsDataURL(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
-    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.onerror = () => reject(new Error('Failed to read file into memory'));
     reader.readAsDataURL(file);
   });
 }
@@ -12,7 +12,7 @@ export function loadImage(src: string): Promise<HTMLImageElement> {
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error('Failed to load image into memory'));
+    img.onerror = () => reject(new Error('Failed to render image in canvas'));
     img.src = src;
   });
 }
@@ -34,6 +34,12 @@ export function canvasToBlob(
   });
 }
 
+export interface CompressionOptions {
+  maxWidth?: number;
+  maxHeight?: number;
+  maintainAspectRatio?: boolean;
+}
+
 export interface CompressionResult {
   blob: Blob;
   dataUrl: string;
@@ -53,6 +59,7 @@ export async function compressImageToTargetKB(
   file: File,
   targetKB: number,
   format: 'image/jpeg' | 'image/webp' = 'image/jpeg',
+  options: CompressionOptions = {},
   onProgress?: (status: string) => void
 ): Promise<CompressionResult> {
   const targetBytes = targetKB * 1024;
@@ -61,9 +68,24 @@ export async function compressImageToTargetKB(
 
   let currentWidth = img.naturalWidth;
   let currentHeight = img.naturalHeight;
+  const aspectRatio = currentWidth / currentHeight;
+
+  // Apply initial user constraints if specified
+  if (options.maxWidth && currentWidth > options.maxWidth) {
+    currentWidth = options.maxWidth;
+    if (options.maintainAspectRatio !== false) {
+      currentHeight = Math.round(currentWidth / aspectRatio);
+    }
+  }
+  if (options.maxHeight && currentHeight > options.maxHeight) {
+    currentHeight = options.maxHeight;
+    if (options.maintainAspectRatio !== false) {
+      currentWidth = Math.round(currentHeight * aspectRatio);
+    }
+  }
+
   const canvas = document.createElement('canvas');
   let ctx = canvas.getContext('2d');
-
   if (!ctx) {
     throw new Error('Canvas 2D context is not available');
   }
@@ -74,9 +96,8 @@ export async function compressImageToTargetKB(
   let bestHeight = currentHeight;
   let reachedTarget = false;
   let scaleAttempts = 0;
-  const maxScaleAttempts = 10;
+  const maxScaleAttempts = 12;
 
-  // Progressively scale down if needed (for large 12MP-48MP smartphone photos)
   while (scaleAttempts < maxScaleAttempts) {
     canvas.width = currentWidth;
     canvas.height = currentHeight;
@@ -90,8 +111,8 @@ export async function compressImageToTargetKB(
     }
     ctx.drawImage(img, 0, 0, currentWidth, currentHeight);
 
-    // Binary search for optimal quality between 0.05 and 0.95
-    let lowQ = 0.05;
+    // Binary search for optimal quality between 0.15 and 0.95
+    let lowQ = 0.15;
     let highQ = 0.95;
     let iter = 0;
     let localBestBlob: Blob | null = null;
@@ -99,22 +120,21 @@ export async function compressImageToTargetKB(
 
     while (iter < 7) {
       const midQ = (lowQ + highQ) / 2;
-      onProgress?.(`Analyzing compression at quality ${(midQ * 100).toFixed(0)}% (${currentWidth}x${currentHeight}px)...`);
+      onProgress?.(`Testing compression at quality ${(midQ * 100).toFixed(0)}% (${currentWidth}x${currentHeight}px)...`);
       const testBlob = await canvasToBlob(canvas, format, midQ);
 
       if (testBlob.size <= targetBytes) {
         localBestBlob = testBlob;
         localBestQuality = midQ;
-        // Try higher quality to see if we can get closer to target without exceeding it
-        lowQ = midQ;
+        lowQ = midQ; // Try higher quality
       } else {
-        // Exceeded target, try lower quality
-        highQ = midQ;
+        highQ = midQ; // Exceeded target, try lower quality
       }
       iter++;
     }
 
-    if (localBestBlob && localBestBlob.size <= targetBytes) {
+    // If target achieved with acceptable quality (>= 30%), we keep this
+    if (localBestBlob && localBestBlob.size <= targetBytes && localBestQuality >= 0.3) {
       bestBlob = localBestBlob;
       bestQuality = localBestQuality;
       bestWidth = currentWidth;
@@ -123,18 +143,21 @@ export async function compressImageToTargetKB(
       break;
     }
 
-    // Even at low quality, file is larger than target; reduce dimensions by 20%
-    if (currentWidth > 120 && currentHeight > 120) {
+    // If quality would be too degraded (< 30%) or target was never reached, scale down dimensions
+    if (currentWidth > 140 && currentHeight > 140) {
       currentWidth = Math.round(currentWidth * 0.8);
       currentHeight = Math.round(currentHeight * 0.8);
       scaleAttempts++;
     } else {
-      // Smallest viable dimensions reached
-      const lowestBlob = await canvasToBlob(canvas, format, 0.08);
+      // Smallest viable dimensions reached, do one final attempt at lowest viable quality
+      const lowestBlob = await canvasToBlob(canvas, format, 0.15);
       bestBlob = lowestBlob;
-      bestQuality = 0.08;
+      bestQuality = 0.15;
       bestWidth = currentWidth;
       bestHeight = currentHeight;
+      if (lowestBlob.size <= targetBytes) {
+        reachedTarget = true;
+      }
       break;
     }
   }
@@ -146,14 +169,14 @@ export async function compressImageToTargetKB(
     bestBlob = await canvasToBlob(canvas, format, 0.2);
   }
 
-  const finalKB = Math.round((bestBlob.size / 1024) * 100) / 100;
+  const finalKB = Math.round((bestBlob.size / 1024) * 10) / 10;
   const previewDataUrl = URL.createObjectURL(bestBlob);
 
   let notes = '';
   if (reachedTarget) {
     notes = `Successfully compressed to ${finalKB} KB (Target: ≤ ${targetKB} KB) at ${bestWidth}×${bestHeight}px.`;
   } else {
-    notes = `The target of ${targetKB} KB is too small for this image without severe degradation. Best achieved size is ${finalKB} KB.`;
+    notes = `The target size of ${targetKB} KB is too small for this image without severe degradation. The best achievable size while maintaining legible visual quality is ${finalKB} KB (${bestWidth}×${bestHeight}px).`;
   }
 
   return {

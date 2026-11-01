@@ -5,28 +5,28 @@
   <!-- Upload Zone -->
   <div
     id="viewer-drop-zone"
-    class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/30 rounded-2xl p-8 text-center transition-all cursor-pointer relative"
+    class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/30 rounded-2xl p-6 sm:p-8 text-center transition-all cursor-pointer relative"
   >
     <input
       type="file"
       id="viewer-file-input"
       accept="application/pdf,.pdf"
-      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
     />
     <div class="flex flex-col items-center justify-center pointer-events-none">
-      <div class="w-14 h-14 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mb-4">
-        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mb-3 sm:mb-4">
+        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg>
       </div>
-      <p class="text-base font-semibold text-slate-800">
+      <p class="text-sm sm:text-base font-semibold text-slate-800">
         Choose a PDF to View & Inspect
       </p>
-      <p class="text-xs text-slate-500 mt-1">
-        Read, zoom, and inspect pages directly inside your browser. No third-party software needed.
+      <p class="text-xs text-slate-500 mt-1 max-w-sm">
+        Read, zoom, and inspect pages directly inside your browser. 100% private.
       </p>
-      <span class="mt-4 px-4 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg shadow-sm">
+      <span class="mt-3 sm:mt-4 px-4 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg shadow-sm">
         Select PDF File
       </span>
     </div>
@@ -39,42 +39,53 @@
     <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-xl flex flex-wrap items-center justify-between gap-3 shadow-md">
       
       <!-- Left: File Details -->
-      <div class="flex items-center gap-2 min-w-0">
+      <div class="flex items-center gap-2.5 min-w-0">
         <span class="w-7 h-7 rounded bg-rose-600 flex items-center justify-center text-xs font-bold flex-shrink-0">PDF</span>
         <div class="min-w-0">
-          <p id="viewer-filename" class="text-xs sm:text-sm font-semibold truncate max-w-[150px] sm:max-w-xs text-white"></p>
+          <p id="viewer-filename" class="text-xs sm:text-sm font-semibold truncate max-w-[130px] sm:max-w-xs text-white"></p>
           <p id="viewer-meta" class="text-[11px] text-slate-400"></p>
         </div>
       </div>
 
       <!-- Center: Page Controls -->
       <div class="flex items-center gap-1.5 sm:gap-2">
-        <button id="prev-page-btn" type="button" class="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed" title="Previous Page">
+        <button id="prev-page-btn" type="button" class="p-2 sm:p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" title="Previous Page">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         <div class="flex items-center gap-1 text-xs">
-          <span>Page</span>
-          <input id="current-page-input" type="number" min="1" class="w-12 text-center py-1 bg-slate-800 border border-slate-700 rounded text-white font-medium focus:outline-none focus:ring-1 focus:ring-brand-400" />
-          <span>of <span id="total-pages-span" class="font-bold">1</span></span>
+          <span class="hidden sm:inline">Page</span>
+          <input id="current-page-input" type="number" min="1" class="w-12 text-center py-1 bg-slate-800 border border-slate-700 rounded text-white font-medium focus:outline-none focus:ring-1 focus:ring-brand-400 text-base sm:text-xs" />
+          <span>/ <span id="total-pages-span" class="font-bold">1</span></span>
         </div>
-        <button id="next-page-btn" type="button" class="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed" title="Next Page">
+        <button id="next-page-btn" type="button" class="p-2 sm:p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" title="Next Page">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
 
-      <!-- Right: Zoom & Actions -->
-      <div class="flex items-center gap-2">
+      <!-- Right: Zoom, Fit Width & Actions -->
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
         <div class="flex items-center bg-slate-800 rounded-lg p-0.5 border border-slate-700 text-xs">
-          <button id="zoom-out-btn" type="button" class="p-1.5 hover:bg-slate-700 rounded text-slate-300" title="Zoom Out">−</button>
-          <span id="zoom-percent" class="px-2 font-mono font-medium text-slate-200">100%</span>
-          <button id="zoom-in-btn" type="button" class="p-1.5 hover:bg-slate-700 rounded text-slate-300" title="Zoom In">+</button>
+          <button id="zoom-out-btn" type="button" class="px-2 py-1 hover:bg-slate-700 rounded text-slate-300 cursor-pointer" title="Zoom Out">−</button>
+          <span id="zoom-percent" class="px-1.5 font-mono font-medium text-slate-200">100%</span>
+          <button id="zoom-in-btn" type="button" class="px-2 py-1 hover:bg-slate-700 rounded text-slate-300 cursor-pointer" title="Zoom In">+</button>
         </div>
 
-        <button id="change-pdf-btn" type="button" class="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700">
+        <button id="fit-width-btn" type="button" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 cursor-pointer" title="Fit to Screen Width">
+          Fit Width
+        </button>
+
+        <button id="download-current-btn" type="button" class="px-2.5 py-1 text-xs bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-medium cursor-pointer flex items-center gap-1" title="Download Document">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span class="hidden sm:inline">Download</span>
+        </button>
+
+        <button id="change-pdf-btn" type="button" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 cursor-pointer">
           Change
         </button>
       </div>
@@ -82,14 +93,14 @@
     </div>
 
     <!-- Canvas Render Viewport -->
-    <div class="bg-slate-100 rounded-2xl border border-slate-200 p-4 sm:p-8 overflow-auto max-h-[75vh] flex justify-center items-start shadow-inner">
-      <div id="canvas-wrapper" class="bg-white shadow-xl rounded-lg overflow-hidden transition-all duration-200">
-        <canvas id="pdf-render-canvas" class="block mx-auto"></canvas>
+    <div id="viewport-container" class="bg-slate-100 rounded-2xl border border-slate-200 p-2 sm:p-6 overflow-auto max-h-[75vh] flex justify-center items-start shadow-inner">
+      <div id="canvas-wrapper" class="bg-white shadow-xl rounded-lg overflow-hidden transition-all duration-200 max-w-full">
+        <canvas id="pdf-render-canvas" class="block mx-auto max-w-full h-auto"></canvas>
       </div>
     </div>
 
     <!-- Status Alert -->
-    <div id="viewer-status-container" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+    <div id="viewer-status-container" class="hidden p-4 rounded-xl text-xs sm:text-sm font-medium"></div>
 
   </div>
 </div>
@@ -97,9 +108,9 @@
 <script>
   import * as pdfjsLib from 'pdfjs-dist';
 
-  // Configure PDF.js worker
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
 
+  let currentFile: File | null = null;
   let pdfDoc: any = null;
   let pageNum = 1;
   let pageRendering = false;
@@ -109,6 +120,7 @@
   const dropZone = document.getElementById('viewer-drop-zone');
   const fileInput = document.getElementById('viewer-file-input') as HTMLInputElement | null;
   const container = document.getElementById('viewer-container');
+  const viewportContainer = document.getElementById('viewport-container');
   const canvas = document.getElementById('pdf-render-canvas') as HTMLCanvasElement | null;
   const ctx = canvas?.getContext('2d');
   const filenameEl = document.getElementById('viewer-filename');
@@ -119,6 +131,8 @@
   const nextBtn = document.getElementById('next-page-btn') as HTMLButtonElement | null;
   const zoomInBtn = document.getElementById('zoom-in-btn');
   const zoomOutBtn = document.getElementById('zoom-out-btn');
+  const fitWidthBtn = document.getElementById('fit-width-btn');
+  const downloadBtn = document.getElementById('download-current-btn');
   const zoomPercentEl = document.getElementById('zoom-percent');
   const changePdfBtn = document.getElementById('change-pdf-btn');
   const statusContainer = document.getElementById('viewer-status-container');
@@ -184,9 +198,21 @@
     queueRenderPage(pageNum);
   }
 
+  function fitToWidth() {
+    if (!pdfDoc || !viewportContainer) return;
+    pdfDoc.getPage(pageNum).then((page: any) => {
+      const unscaledViewport = page.getViewport({ scale: 1 });
+      const availableWidth = Math.max(300, viewportContainer.clientWidth - 48);
+      scale = Math.min(2.5, Math.max(0.4, availableWidth / unscaledViewport.width));
+      if (zoomPercentEl) zoomPercentEl.textContent = `${Math.round(scale * 100)}%`;
+      queueRenderPage(pageNum);
+    });
+  }
+
   async function loadPdf(file: File) {
     try {
-      showStatus('Loading PDF into memory...');
+      showStatus('Loading PDF into browser memory...');
+      currentFile = file;
       const arrayBuffer = await file.arrayBuffer();
 
       const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
@@ -201,10 +227,20 @@
       container?.classList.remove('hidden');
       statusContainer?.classList.add('hidden');
 
-      renderPage(pageNum);
+      // Auto fit on small screens
+      if (window.innerWidth < 640) {
+        fitToWidth();
+      } else {
+        renderPage(pageNum);
+      }
     } catch (err: any) {
       console.error(err);
-      showStatus(`Error viewing PDF: ${err.message || 'File cannot be opened'}`, true);
+      const isPassword = err?.message?.toLowerCase().includes('password') || err?.name === 'PasswordException';
+      if (isPassword) {
+        showStatus(`"${file.name}" is password-protected. Please unlock the PDF to preview it.`, true);
+      } else {
+        showStatus(`Error viewing PDF: ${err.message || 'File cannot be parsed'}`, true);
+      }
     }
   }
 
@@ -221,22 +257,37 @@
 
   zoomInBtn?.addEventListener('click', () => {
     if (scale < 3.0) {
-      scale += 0.25;
+      scale = Math.min(3.0, scale + 0.25);
       if (zoomPercentEl) zoomPercentEl.textContent = `${Math.round(scale * 100)}%`;
       queueRenderPage(pageNum);
     }
   });
 
   zoomOutBtn?.addEventListener('click', () => {
-    if (scale > 0.5) {
-      scale -= 0.25;
+    if (scale > 0.4) {
+      scale = Math.max(0.4, scale - 0.25);
       if (zoomPercentEl) zoomPercentEl.textContent = `${Math.round(scale * 100)}%`;
       queueRenderPage(pageNum);
     }
   });
 
+  fitWidthBtn?.addEventListener('click', fitToWidth);
+
+  downloadBtn?.addEventListener('click', () => {
+    if (!currentFile) return;
+    const url = URL.createObjectURL(currentFile);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = currentFile.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  });
+
   changePdfBtn?.addEventListener('click', () => {
     pdfDoc = null;
+    currentFile = null;
     dropZone?.classList.remove('hidden');
     container?.classList.add('hidden');
     statusContainer?.classList.add('hidden');
